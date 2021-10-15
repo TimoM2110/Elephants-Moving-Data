@@ -1,8 +1,11 @@
 # Elephants-Moving-Data
 A notebook for exploratory data analysis
 
-[Link to Elephants Movement Tracking Data](https://timom2110.github.io/Elephants-Moving-Data/map_chart.html)
+First, a few graphs are linked below to get an overview of the data set:
+[Overview with an ordinary map](https://timom2110.github.io/Elephants-Moving-Data/map_chart.html)
 
-[Another Link with Satellite Mapping](https://timom2110.github.io/Elephants-Moving-Data/map_chart2.html)
+[Overview with a satellite view](https://timom2110.github.io/Elephants-Moving-Data/map_chart2.html)
 
-[Yet another Link with Satellite View and Streets](https://timom2110.github.io/Elephants-Moving-Data/map_chart3.html)
+[Yet another overview with Satellite and Streets View](https://timom2110.github.io/Elephants-Moving-Data/map_chart3.html)
+
+![Image](https://github.com/TimoM2110/Elephants-Moving-Data/blob/master/map_chart.html)
