@@ -49,8 +49,8 @@ ggplot() +
   scale_x_continuous(expand = expand_scale(mult = c(.6, .6))) +
   scale_color_brewer(palette = "Dark2") +
   theme(legend.position = "none") +
-  ggtitle("Observed Argos Location Paths", 
-          subtitle = "harbor seals (n=2), Aleutian Islands, Alaska, USA")
+  ggtitle("Observed Elephant Location Paths", 
+          subtitle = "Kruger National Park, Africa")
 
 sf_locs <- sf::st_transform(sf_locs, 3857)
 
