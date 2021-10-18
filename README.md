@@ -9,6 +9,10 @@ First, a few graphs are linked below to get an overview of the data set: <br> <b
 [Yet another overview with Satellite and Streets View](https://timom2110.github.io/Elephants-Moving-Data/map_chart3.html)
 
 ---
+in case Github won't show the Jupyter Notebook (.ipynb):
+https://nbviewer.org/github/TimoM2110/Elephants-Moving-Data/blob/master/elephantsexploration.ipynb
+
+---
 
 A few plots that emerged from the exploratory data analysis (see .ipynb scripts)
 
