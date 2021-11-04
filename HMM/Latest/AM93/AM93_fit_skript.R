@@ -91,7 +91,7 @@ cl <- makeCluster(getOption("cl.cores", ncores))
 # Export objects needed in parallelised function to cluster
 clusterExport(cl, list("data", "fitHMM"))
 # Number of tries with different starting values
-niter <- 2
+niter <- 6
 # Create list of starting values
 allPar0 <- lapply(as.list(1:niter), function(x) {
   # Step length mean
