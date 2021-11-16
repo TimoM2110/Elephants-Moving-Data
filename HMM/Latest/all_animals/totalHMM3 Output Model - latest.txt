@@ -184,3 +184,10 @@ ID:AM99  0.9383284 0.9848567 0.8865051
 #############################
 > AIC(m)
 [1] 1646528
+
+> viterbi_ratio <- viterbi(m)
+> stateFreq <- table(viterbi_ratio) / length(viterbi_ratio)
+> stateFreq
+viterbi_ratio
+        1         2         3 
+0.2881873 0.3813530 0.3304597 

@@ -65,7 +65,7 @@ sigma0 <- c(8.754230e+01,1.357714e+02,4.199985e+02) #
 zeromass0 <- c(2.088501e-04,3.987702e-04,2.754461e-10) #
 stepPar0 <- c(mu0,sigma0,zeromass0)
 angleMean0 <- c(0.003592673,0.01941996,0.01499825) # angle mean
-kappa0 <- c(0.355384957,3.53831499,7.59417278) # angle concentration 0.355384957,1.53831499,3.59417278
+kappa0 <- c(0.355384957,1.53831499,3.59417278) # angle concentration 0.355384957,1.53831499,3.59417278
 anglePar0 <- c(angleMean0)
 ## call to fitting function
 stateNames <- c("Resting","Foraging", "Traveling")
@@ -73,7 +73,8 @@ m <- fitHMM(data=data, nbStates=nbStates,dist=list(step=stepDist,angle=angleDist
 m
 CIreal(m)
 
-plot(m, plotCI=TRUE, breaks = 40, plotStationary=TRUE,lwd=2)
+#m <- readRDS("totalHMM3.rds")
+plot(m, plotCI=TRUE, breaks = 40, plotStationary=TRUE,lwd=0.5)
 
 plotPR(m, ncores=7)
 AIC(m)
@@ -88,8 +89,8 @@ library(ggplot2)
 m <- readRDS("totalHMM3.rds")
 
 # calculate frequencies of states
-v <- viterbi(m)
-stateFreq <- table(v) / length(v)
+viterbi_ratio <- viterbi(m)
+stateFreq <- table(viterbi_ratio) / length(viterbi_ratio)
 
 # default plot.momentuhmm colours
 colours.states <- c("#E69F00", "#56B4E9", "#009E73")
