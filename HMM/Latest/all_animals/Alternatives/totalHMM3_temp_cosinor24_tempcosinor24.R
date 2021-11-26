@@ -1,0 +1,137 @@
+library(momentuHMM)
+setwd("C:/Users/timom")
+data <- read.table("crawl_data60.csv", header = TRUE, sep= ",")
+
+data$time <- as.POSIXct(strptime(data$time, format='%Y-%m-%d %H:%M:%S'))
+data <- data[ -c(2,3) ]
+
+data <- prepData(data,type="UTM",coordNames=c("x","y"))
+
+datas <- read.table("crawl_data6002.csv", header = TRUE, sep= ",")
+datas$time <- as.POSIXct(strptime(datas$time, format='%Y-%m-%d %H:%M:%S'))
+datas <- datas[ -c(2,3) ]
+datas <- prepData(datas,type="UTM",coordNames=c("x","y"))
+
+am105 <- data[14500:15540,] #
+am107 <- data[17544:20381,] #
+am108 <- datas[40984:42153,] #
+am110 <- data[36084:38623,] #
+am239 <- data[52625:70164,] #
+am253<- data[71517:81805,] #
+am254 <- datas[101480:106018,] #
+am255<- data[85724:91271,] #
+am306 <- read.table("C:/Users/timom/anaconda3/envs/madeleine_project/crawl_data_am306.csv", header = TRUE, sep= ",")
+am306$numer <- 1
+am306$visible <- 'True'
+am306 <- am306[, c("ID", "step", "angle", "TimeNum","locType", "numer", "time", "visible",
+                   "temp", "nu.x", "nu.y", "se.mu.x","se.nu.x","se.mu.y","se.nu.y", "speed", "x", "y")]
+am306 <- am306[3252:5027,] ###
+am307 <- data[92834:99336,] #
+am308 <- data[110639:114390,] #
+am91 <- read.table("C:/Users/timom/anaconda3/envs/madeleine_project/crawl_data_am91.csv", header = TRUE, sep= ",") ###
+am91$numer <- 1
+am91$visible <- 'True'
+am91 <- am91[, c("ID", "step", "angle", "TimeNum","locType", "numer", "time", "visible",
+                 "temp", "nu.x", "nu.y", "se.mu.x","se.nu.x","se.mu.y","se.nu.y", "speed", "x", "y")]
+am93 <- read.table("C:/Users/timom/anaconda3/envs/madeleine_project/crawl_data_am93.csv", header = TRUE, sep= ",")
+am93$numer <- 1
+am93$visible <- 'True'
+am93 <- am93[, c("ID", "step", "angle", "TimeNum","locType", "numer", "time", "visible",
+                 "temp", "nu.x", "nu.y", "se.mu.x","se.nu.x","se.mu.y","se.nu.y", "speed", "x", "y")]
+am93 <- am93[3307:11615,] ###
+am99 <- data[134933:152473,] #
+
+data <- rbind(am105,am107,am108,am110,am239,am253,am254,am255,am306,am307,am308,am91,am93,am99)
+
+library(lubridate)
+
+data$month <- month(as.POSIXlt(data$time, format="%Y/%m/%d %H:%M:%S"))
+data$hour <- hour(as.POSIXlt(data$time, format="%Y/%m/%d %H:%M:%S"))
+
+am105 <- data[1:1040,]
+plot(data,compact=T)
+
+# Indices of steps of length zero
+whichzero <- which(data$step == 0)
+# Proportion of steps of length zero in the data set
+length(whichzero)/nrow(data)
+
+nbStates <- 3
+stepDist <- "gamma" # step distribution
+angleDist <- "vm" # turning angle distribution
+data$temp[is.na(data$step)] <- 200
+data$temp[is.na(data$temp)] <- 25
+data$angle[is.na(data$angle)] <- 0
+
+any(is.na(data$temp))
+
+## initial parameters for gamma and von Mises distributions
+mu0 <- c(8.705417e+01,2.387662e+02,6.845123e+02) # 
+sigma0 <- c(8.754230e+01,1.357714e+02,4.199985e+02) # 
+zeromass0 <- c(2.088501e-04,3.987702e-04,2.754461e-10) #
+stepPar0 <- c(mu0,sigma0, zeromass0)
+angleMean0 <- c(0.003592673,0.01941996,0.01499825) # angle mean
+kappa0 <- c(0.355384957,1.53831499,3.59417278) # angle concentration 0.355384957,1.53831499,3.59417278
+anglePar0 <- c(angleMean0)
+## call to fitting function
+stateNames <- c("Resting","Foraging", "Traveling")
+formula = ~temp+cosinor(hour, 24)+ temp*cosinor(hour, 24)
+m <- fitHMM(data=data, nbStates=nbStates,dist=list(step=stepDist,angle=angleDist), Par0=list(step=stepPar0,angle=anglePar0),formula=formula, stateNames=stateNames) #
+m
+CIreal(m)
+
+#m <- readRDS("totalHMM3.rds")
+plot(m, plotCI=TRUE, breaks = 40, plotStationary=TRUE,lwd=0.5)
+
+plotPR(m, ncores=7)
+AIC(m)
+
+saveRDS(m, "totalHMM3_temp_cosinor24_tempcosinor24.rds")
+
+#####
+mod1 <- readRDS("totalHMM2_states.rds")
+plot(mod1, plotCI=TRUE, breaks = 40, plotStationary=TRUE,lwd=2)
+plotPR(mod1, ncores=7)
+mod2 <- readRDS("totalHMM4.rds")
+plot(mod2, plotCI=TRUE, breaks = 40, plotStationary=TRUE,lwd=0.5, plotTracks = F)
+aic <- numeric(3)
+aic[1] <- AIC(mod1)
+aic[2] <- AIC(mod2)
+aic[3] <- AIC(m)
+
+### BIC
+bic <- numeric(3)
+T <- dim(data)[1]
+bic[1] <- 2*mod1$mod$minimum + log(T)*length(mod1$mod$estimate)
+bic[2] <- 2*mod2$mod$minimum + log(T)*length(mod2$mod$estimate)
+bic[3] <- 2*m$mod$minimum + log(T)*length(m$mod$estimate)
+aic
+bic
+
+m <- readRDS("totalHMM3_temp+cosinor24.rds")
+
+quantile(data$temp)
+
+temp_frame = as.data.frame(t(temps));
+frame_all = data.frame(t(hours), t(temps))
+temps <- temp_frame[, 1]
+my_name_vector      = c(rep("hour", 24), "temp")
+colnames(frame_all) <- my_name_vector
+
+plotStationary(m, covs= frame_all, plotCI = T,lwd=0.5)
+
+names <- rep("temp", 131)
+
+setwd("C:/Users/timom/statistics")
+
+pdf("statdists.pdf",width=6,height=4);par(mfrow=c(1,1),mar=c(4,4,2,1))
+for (zoo in 1:411){
+  tt<-5.9+zoo*0.1
+  hour <- seq(0,23,1)
+  frame_allz = data.frame(t(hour), t(tt))
+  my_name_vector      = c(rep("hour", 24), "temp")
+  colnames(frame_allz) <- my_name_vector
+  plotStationary(m, covs= frame_allz, plotCI = T,lwd=0.5)
+}
+graphics.off()
+
