@@ -120,7 +120,7 @@ track239 <- subset(
 ) 
 track239$ID <- 5
 #track239$time <- as.numeric(track239$date - min(track239$date))/3600
-track239 <- track239[(8600:9200),]
+track239 <- track239[(13000:13500),] #8200:13500
 
 track253 <- subset(
   data,
@@ -128,7 +128,7 @@ track253 <- subset(
 ) 
 track253$ID <- 6
 #track253$time <- as.numeric(track253$date - min(track253$date))/3600
-track253 <- track253[(6800:7600),]
+track253 <- track253[(6000:8199),] #6000:8200
 
 track254 <- subset(
   data,
@@ -191,7 +191,7 @@ track99$ID <- 14
 #track99$time <- as.numeric(track99$date - min(track99$date))/3600
 track99 <- track99[(1:11199),]
 
-data <- rbind(track105,track107,track108,track110,track254,track255,track306,track307,track308,track91,track93,track99)#,track105,track107,track108,track110,track239,track253,track254,track255,track306,track307,track308,track91,track93,track99
+data <- rbind(track105,track107,track108,track110,track239,track253,track254,track255,track306,track307,track308,track91,track93,track99)#,track105,track107,track108,track110,track239,track253,track254,track255,track306,track307,track308,track91,track93,track99
 #####################################################
 #data$time <- as.numeric(data$date - min(data$date))/3600
 # Convert projected coordinates (UTM) to km
@@ -203,7 +203,7 @@ data <- rbind(track105,track107,track108,track110,track254,track255,track306,tra
 
 #data$time <- as.numeric(data$date - min(data$date))/3600
 #data$time <- as.numeric(data$date)
-data$time <- seq(1,62860)
+data$time <- seq(1,65561)
 #data <- data[order(data$time), ]
 
 data <- data   # for correct index
@@ -239,7 +239,7 @@ my_sde <- SDE$new(
   data = data,
   type = type,
   response = c("x", "y"),
-  par0 = c(7,3)
+  par0 = c(7,3)#7,3
 )
 
 # Fit model 
