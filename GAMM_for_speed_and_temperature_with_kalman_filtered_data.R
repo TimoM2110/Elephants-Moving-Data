@@ -48,8 +48,9 @@ library(lubridate)
 
 data$month <- month(as.POSIXlt(data$time, format="%Y/%m/%d %H:%M:%S"))
 data$hour <- hour(as.POSIXlt(data$time, format="%Y/%m/%d %H:%M:%S"))
+data$day <- (as.POSIXlt(data$time, format="%Y/%m/%d %H:%M:%S"))
 
-plot(data,compact=T)
+#plot(data,compact=T)
 
 # load libraries
 library(dplyr)
@@ -81,28 +82,92 @@ data$season <- ifelse(data$month > 4 & data$month < 11,data$season <- "dry", dat
 data$id = as.factor(data$id)
 data$season = as.factor(data$season)
 
+# ACF plot for speed
+#acf(data$v, main = "Speed ACF")
+
+#model <- lm(v ~ temp+season, data=data)
+
+library(car)
+
+#Durbin-Watson-Test durchführen
+durbinWatsonTest(model)
+
+data$first <- is.character(data$numer)
+
+counts <- data[, .(rowCount = .N), by = id]
+
+data$first[1] <- T #105
+data$first[1042] <- T #107
+data$first[(1041+2838+1)] <- T #108
+data$first[(1041+2838+1170+1)] <- T #110
+data$first[(1041+2838+1170+2540+1)] <- T #239
+data$first[(7590+17540)] <- T #253
+data$first[(25130+10289)] <- T #254 check
+data$first[(35419+4539)] <- T #255 check
+data$first[(39958+5548)] <- T #306 check
+data$first[(45506+1776)] <- T #307 check
+data$first[(47282+6503)] <- T #308
+data$first[(53785+3752)] <- T #91 check
+data$first[(57537+17531)] <- T #93 check
+data$first[(75068+8309)] <- T #99 check
+
+
 # run a GAMM using the mgcv package
-mod.speed = bam(v ~ s(temp, k = 4) + 
+mod.speed = bam(v ~ s(temp, k = 40, bs="cp") + 
                   season + 
                   s(id, bs = "re") + 
-                  s(hour, bs = "re"), rho=0.25, 
+                  s(hour, bs = "re"), rho=0.01, AR.start = data$first, 
                 data = data)
 
+?s
 
 summary(mod.speed)
+res = residuals.gam(mod.speed)
+acf(res, main = "bam: AR(1)")
 
-mod.speed2 = gam(v ~ s(temp, k = 6) + 
-                  season + 
-                  s(id, bs = "re") + 
-                  s(hour, bs = "re"), correlation = corAR1(form = ~ time | id),
+track <- data[which(data$id %in% c("AM105", "AM108")),]
+
+mod.speed2 = gamm(v ~ s(temp, k = 4) + 
+                    season + 
+                    s(id, bs = "re") + 
+                    s(hour, bs = "re"), correlation = corAR1(form =  ~ index | id),
                 data = data)
 
-summary(mod.speed2)
+
+#data <- na.omit(data)
+
+#dif <- diff(data$numer)
+#min(dif)
+
+data$index <- seq(from = 1, by = 1, to = 100917)
+
+res = residuals(mod.speed2)
+acf(res, main = "AR(1) / gamm")
+
+
+res = residuals.gam(mod.speed2$gam)
+acf(res, main = "ARMA(1,0) / gamm")
+
+summary.gam(mod.speed2$gam)
+
+library(brms)
+
+track <- na.omit(track)
+track <- track[1:500,]
+
+mod <- brm(bf(v ~ s(temp) + season) + acformula(~ ar(time = index, p = 24)),
+           chain=4, cores=4, iter=50, warmup = 10,
+           thin = 10, refresh = 0,
+           data=track)
+
+summary(mod)
+msms <- marginal_smooths(mod)
+plot(msms)
 
 # prepare data for plotting
 ele.speed.temp = 
   data %>%
-  mutate(v.pred = predict(mod.speed2, 
+  mutate(v.pred = predict(mod.speed, 
                           newdata = ., scale = "response", 
                           allow.new.levels = T), 
          temp = plyr::round_any(temp,2)) %>%
@@ -123,10 +188,10 @@ ele.speed.temp =
 # figure for speed and temperature
 fig_speed_temp =
   ele.speed.temp %>% 
-  filter(temp %in% 15:40) %>%
+  filter(temp %in% 15:45) %>%
   ggplot()+
   
-  geom_rangeframe(data = data_frame(x=c(15,40), y = c(0.15,1.35)),aes(x,y))+
+  geom_rangeframe(data = data_frame(x=c(15,45), y = c(0.15,1.35)),aes(x,y))+
   geom_smooth(aes(x = temp, y = pred.mean*2/1e3, 
                   col = season, fill = season, lty = season), 
               alpha = 0.2, lwd = 0.5)+
@@ -146,8 +211,9 @@ fig_speed_temp =
         legend.position = "none")+
   coord_cartesian(ylim=c(0.15,1.35))+
   scale_y_continuous(breaks = seq(.15,1.35,.15))+
+  scale_x_continuous(breaks = seq(15,45,5))+
   labs(x = "Collar temperature (°C)", y = "Speed (km/h)",
-       col = "Season", fill = "Season", title="Speed and temperature")
+       col = "Season", fill = "Season", title="Speed and temperature / k = 10")
 
 fig_speed_temp
 
