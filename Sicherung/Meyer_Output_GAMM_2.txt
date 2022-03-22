@@ -1,0 +1,25 @@
+Family: gaussian 
+Link function: identity 
+
+Formula:
+v ~ s(temp, k = 10, bs = "cp") + season + s(id, bs = "re") + 
+    s(coshour, bs = "ps") + s(sinhour, bs = "ps")
+
+Parametric coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  335.700     13.057   25.71   <2e-16 ***
+seasonwet     91.477      3.239   28.24   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Approximate significance of smooth terms:
+              edf Ref.df      F p-value    
+s(temp)     5.887  9.000  38.40  <2e-16 ***
+s(id)      12.670 13.000  81.32  <2e-16 ***
+s(coshour)  6.470  7.005 257.17  <2e-16 ***
+s(sinhour)  5.274  5.852 180.19  <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+R-sq.(adj) =  0.116   Deviance explained = 11.6%
+fREML = 7.4719e+05  Scale est. = 1.5962e+05  n = 100908

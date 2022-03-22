@@ -1,0 +1,122 @@
+# This is a script for an Ornstein-Uhlenbeck model in order to estimate the
+# velocity of the elephants depending on the temperature
+
+# install package dependencies
+#library(devtools)
+#install_github("TheoMichelot/smoothSDE")
+library(smoothSDE)
+library(lubridate)
+library(sp)
+library(sf)
+library(tidyverse)
+# set working directory
+setwd("C:/Users/timom/anaconda3/envs/madeleine_project")
+
+# read in the data
+data <- read.table(
+  "ThermochronTracking Elephants Kruger 2007.csv",
+  header = TRUE,
+  sep= ","
+)
+
+#rename some columns for readability
+names(data)[names(data) == "location.long"] <- "x"
+names(data)[names(data) == "location.lat"] <- "y"
+names(data)[names(data) == "timestamp"] <- "time"
+names(data)[names(data) == "individual.local.identifier"] <- "ID"
+names(data)[names(data) == "external.temperature"] <- "temp"
+
+# convert time to datetime
+data$time <- as.POSIXct(
+  strptime(
+    data$time,
+    format='%Y-%m-%d %H:%M:%S'
+  )
+)
+
+# Check for NAs
+indx <- apply(
+  data,
+  2,
+  function(x) any(is.na(x) | is.infinite(x))
+)
+indx
+
+# delete entries containing NAs
+data <- na.omit(data)
+
+# omit irrelevant columns
+data <- data[ -c(1, 2,7:9,11) ]
+
+######################################
+# Converting the coordinates to UTM ##
+######################################
+# make a copy of the prepared data for conversion
+datas<-data.frame(data)
+
+# project the data
+coordinates(datas) = ~x +y
+proj4string(datas) <- CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +units=m")
+datas <- spTransform(
+  datas,
+  CRS="+proj=utm +zone=36J +datum=WGS84 "
+)
+datas <- as.data.frame(coordinates(datas))
+
+# pass converted coordinates to the data frame
+data['x'] = datas['x']
+data['y'] = datas['y'] 
+
+#####################################################
+# Fitting a Continuous time correlated random walk ##
+#####################################################
+###################################################################
+################# --- FOLLOWING IS NOT WORKING --- ################
+###################################################################
+track <- data
+#track <- data[which(data$ID %in% c("AM254","AM255")),]
+names(track)[names(track) == "time"] <- "date"
+track$date <- as.POSIXlt(track$date, tz = "GMT")
+track$time <- as.numeric(track$date - min(track$date))/3600
+keep_rows <- which(
+  track$date > as.POSIXct("2008-05-01 00:00:00") &
+    track$date < as.POSIXct("2008-09-30 23:59:59")
+)
+track_1 <- track[keep_rows,]
+
+# Convert projected coordinates (UTM) to km
+track_1$x <- track_1$x/1000
+track_1$y <- track_1$y/1000
+
+# Data set including ID, time, responses (x, y), and covariate (temp)
+head(track_1)
+
+# Using the Ornstein-Uhlenbeck model (also called Continuous Time
+# Correlated Random Walk (CTCRW))
+# Model formulas for CTCRW parameters
+# 2 parameters, beta for mean reversion and sigma for variance
+formulas <- list(
+  mu = ~ 1,
+  sigma = ~ s(temp, k = 10, bs = "ts")
+)
+
+# Type of stochastic differential equation (SDE) model: continuous-time
+# correlated random walk
+type <- "BM"
+
+# Create SDE model object (inheriting from SDE object)
+my_sde <- SDE$new(
+  formulas = formulas,
+  data = track_1,
+  type = type,
+  response = c("x", "y")
+)
+
+# Fit model 
+my_sde$fit() # FAILS TO CONVERGE/ 'vmmin' not finite
+
+# Plot the model parameters (beta, sigma)
+my_sde$plot_par(
+  "temp",
+  n_post = 500
+)

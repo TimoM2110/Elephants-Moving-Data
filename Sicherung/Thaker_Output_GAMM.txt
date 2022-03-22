@@ -1,0 +1,25 @@
+Family: gaussian 
+Link function: identity 
+
+Formula:
+v ~ s(temp, k = 4) + season + woody.density + s(id, bs = "re") + 
+    s(hour, bs = "re")
+
+Parametric coefficients:
+               Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   252.55538    5.20079   48.56   <2e-16 ***
+seasonwet      16.48085    0.86423   19.07   <2e-16 ***
+woody.density  -1.60256    0.03278  -48.89   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Approximate significance of smooth terms:
+           edf Ref.df      F p-value    
+s(temp)  2.995      3 4716.1  <2e-16 ***
+s(id)   12.890     13  131.2  <2e-16 ***
+s(hour)  0.991      1  112.6  <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+R-sq.(adj) =  0.0667   Deviance explained = 6.68%
+fREML = 1.9511e+06  Scale est. = 52787     n = 284572
