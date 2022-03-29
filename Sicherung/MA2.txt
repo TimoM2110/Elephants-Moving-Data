@@ -82,6 +82,11 @@
 %Captions
 %\captionsetup{justification=raggedright,singlelinecheck=false, format=hang}
 
+\usepackage{etoolbox}
+
+
+\usepackage{verbatimbox}
+
 \begin{document} \sloppy 
 
 \pagenumbering{roman}
@@ -234,10 +239,10 @@ grunde liegenden Forschungspapiers sehr treffend.
 % % % % % % % % % % % % % % % % % % % % % % % %
 
 \section{The data}
-This chapter is intended to provide an insight into the data. In the next section, using exploratory data analysis (EDA), key aspects of the data will be presented. Based on EDA, further considerations are made in the context of the methods to be used.
+This chapter is intended to provide an insight into the data. In the following subsection, using exploratory data analysis (EDA), key aspects of the data will be presented. Based on EDA, further considerations are made in the context of the methods to be used.
 
 \subsection{Exploratory Data Analysis}
-The dataset includes 14 female elephants from 14 different herds. Using GPS collars with integrated temperature sensors, the elephants were tracked over a two-year period from 2007 to 2009 in Kruger National Park, South Africa. GPS temperature sensors were intended to measure the ambient temperature in order to examine movement patterns. 
+The dataset includes 14 female elephants from 14 different herds. Using GPS collars with integrated temperature sensors, the elephants were tracked over a two-year period from 2007 to 2009 in Kruger National Park, South Africa. GPS temperature sensors were intended to measure the ambient temperature in order to examine movement patterns. For every observation a timestamp including year, month, day, hour and minute has been tracked. 
 
 The dataset contains about 280.000 observations, although they are not uniformly distributed among all animals. Differences in the number of observations results from the fact that some animals were tracked at shorter time periods, e.g. from 2008 to 2009, and therefore have fewer observations. Figure \ref{OpID} shows the number of observations per animal. Each animal has its own ID, reaching from AM91 to AM308. As can be seen, IDs AM91 and AM99 have three times as many observations as IDs AM107 and 306. However, the absolute number of observations per animal is sufficient for the methods applied here and is therefore not a limitation.
 
@@ -277,7 +282,7 @@ When using the methods shown in \citet{thaker2019}, such as generalised additive
 % % % CONTINUOUS TIME CORRELATED RANDOM WALK  %
 % % % % % % % % % % % % % % % % % % % % % % % %
 
-\subsection{Continuous-time correlated random walk}
+\subsection{Continuous-time correlated random walk}\label{CTCRW_SEC}
 To obtain regular spaced observations, the dataset must be imputed. A flexible method to accomplish this would be a continuous-time correlated random walk (CTCRW). A considerable advantage of a CTCRW is that it allows the modeling of unevenly sampled data without subsampling or interpolation techniques. Moreover, due to an Ornstein-Uhlenbeck process, it can account for autocorrelation in the way that animals are assumed to have a certain kind of inertia, allowing for similar velocities for consecutive times. Since a correlated process does not depend only on the previous observation (which would then be called Markovian) and thus parameter estimation could be difficult, the model is formulated in a state-space framework. A state-space framework then allows the application of the Kalman filter to estimate the parameters via maximum likelihood, with predictions for unobserved location data as a byproduct \citep{Johnson2008}.
 
 To derive the CTCRW, let $\bm{\kappa}(t) = (\kappa_1(t), \kappa_2(t))^\prime$ be the coordinates (longitude and latitude) of an animal location at time $t$. Calculating the difference $\bm{d_{\Delta}(t)} = \bm{\kappa}(t+\Delta) - \bm{\kappa}(t)$ then describes the movement of an animal over $\Delta$ time units. The next step is to formulate this movement as a continuous-time process. If $\Delta \xrightarrow{} 0$ and $\bm{\kappa}(t)$ is a smooth and continuous path, then one obtains the differential equation 
@@ -286,7 +291,7 @@ d\bm{\kappa}(t) = \bm{v}(t)dt,
 \end{align}
 with $\bm{v}(t)$ representing the instantaneous velocity \citep{Johnson2008}.
 
-In order to model this instantaneous velocity in continuous-time, the Ornstein-Uhlenbeck process will be used. In particular, for each coordinate axis $c = 1, 2$, the Ornstein-Uhlenbeck process $v_c(t)$, for each time unit $\Delta$, is defined as
+In order to model this instantaneous velocity in continuous-time, the Ornstein-Uhlenbeck process will be used. In particular, for each coordinate axis $c = 1, 2$, the Ornstein-Uhlenbeck process $v_c(t)$, for each time unit $\Delta$, is defined as the autoregressive equation
 \begin{align}\label{3.0ctcrw2}
 v_c(t + \Delta) = \omega_c + e^{-\rho\Delta}(v_c(t) - \omega_c) + \zeta_c(\Delta).
 \end{align}
@@ -294,7 +299,7 @@ In \eqref{3.0ctcrw2}, $\omega_c$ is the mean velocity (drift) rate, $\rho$ descr
 \begin{align}\label{3.0ctcrw3}
 \zeta_c(\Delta)  \sim N\left( 0,\thickspace \sigma^2\frac{(1-e^{-2\rho\Delta})}{2\rho} \right),
 \end{align}
-with $\sigma$ controlling the overall variability in velocity. Equation \eqref{3.0ctcrw2} states that $v_c(t + \Delta)$ at time $t + \Delta$ is equal to the mean velocity $\omega_c$ plus an adjustment for the difference between the velocity at time $t$ and the mean velocity, plus a random variable whose variance increases with $\Delta$. Figure \ref{OU} shows one hundred simulated Ornstein-Uhlenbeck processes as an example of animal velocity. The figure illustrates the so-called mean-reverting tendency since every process reverts to its mean velocity.
+with $\sigma$ controlling the overall variability in velocity. Equation \eqref{3.0ctcrw2} states that $v_c(t + \Delta)$ at time $t + \Delta$ equals the mean velocity $\omega_c$ plus an adjustment for the difference between the velocity at time $t$ and the mean velocity, plus a random variable whose variance increases with $\Delta$, which is stated in equation \eqref{3.0ctcrw3}. Figure \ref{OU} shows one hundred simulated Ornstein-Uhlenbeck processes as an example of animal velocity. The figure illustrates the so-called mean-reverting tendency since every process reverts to its mean velocity.
 
 \begin{figure}[htb]
 \begin{center}
@@ -309,7 +314,7 @@ To obtain the location at time $t$ in the continuous-time framework, the bivaria
 \begin{align}\label{3.0ctcrw4}
 \bm{\kappa}(t) = \bm{\kappa}(0) + \int_{0}^{t} \bm{v}(u) \,du.
 \end{align}
-Thus, the combination of equations \eqref{3.0ctcrw2} and \eqref{3.0ctcrw4} provides the CTCRW model.
+Thus, the combination of equations \eqref{3.0ctcrw2} and \eqref{3.0ctcrw4} provides the CTCRW model. Basically, equation \eqref{3.0ctcrw2} is an Ornstein-Uhlenbeck process that is supposed to capture autocorrelation in movement speed and direction, whereas the location process defined in \eqref{3.0ctcrw4} is just the integral of \eqref{3.0ctcrw2}.
 
 However, as mentioned earlier, since the location process relies on consecutive, correlated velocities (i.e., the process is not Markovian), estimating the parameters tends to be difficult. Thus, the CTCRW will be set into a state-space framework \citep{Johnson2008}. The general framework of a Gaussian linear state-space model for a univariate observation comprises of two equations, namely the observation equation and the state equation:
 \begin{align}\label{3.0ctcrwssm1}
@@ -358,7 +363,7 @@ all components of a basic state-space formulation are specified. In particular, 
 
 This reformulation of the CTCRW allows the use of a Kalman filter to estimate the movement parameters $\hat{\theta} = (\hat{\rho}_1, \hat{\rho}_2, \hat{\sigma}_1, \hat{\sigma}_2)^\prime$ via maximum likelihood estimation. As mentioned earlier, the byproduct of estimation using a Kalman filter are (partly) unobserved, equally spaced locations $\bm{\hat{\kappa}}(t)$ (and velocities $\bm{\hat{v}}(t)$) \citep{Johnson2008}. 
 
-Using the CTCRW, the dataset at hand has been imputed. The selected time interval is one hour, as this ensures sufficient granularity and at the same time a good prediction quality of the CTCRW. Figure \ref{PathsCTCRW} graphically represents the imputed hourly paths of all 14 animals. The black dots represent the observed locations and the colored paths correspond to the predicted movement path obtained by the CTCRW. Based on the regular movement path, the variables 'speed', 'step length' and 'turning angle' were computed. The CTCRW was coded in the statistical software R using the functions $\mathtt{crwFit}$ and $\mathtt{crwPredict}$ from the $\mathtt{crawl}$ package (see \cite{johnson2018package}). The computation of the step length and the turning angle was accomplished using the function $\mathtt{prepData}$ via the package $\mathtt{moveHMM}$ (see \cite{michelot2016movehmm}).The computation time took only a few minutes on a 4.9 GHz Intel Core i7 9700k.
+Using the CTCRW, the dataset at hand has been imputed. The selected time interval is one hour, as this ensures sufficient granularity and at the same time a good prediction quality of the CTCRW. Figure \ref{PathsCTCRW} graphically represents the imputed hourly paths of all 14 animals. The black dots represent the observed locations and the colored paths correspond to the predicted movement path obtained by the CTCRW. Based on the regular movement path, the variables 'speed', 'step length' and 'turning angle' were computed. The CTCRW was coded in the statistical software R using the functions $\mathtt{crwFit}$ and $\mathtt{crwPredict}$ from the $\mathtt{crawl}$ package (see \cite{johnson2018package}). The computation of the step length and the turning angle was accomplished using the function $\mathtt{prepData}$ via the package $\mathtt{moveHMM}$ (see \cite{michelot2016movehmm}).The computation time took only a few minutes on a 4.9 GHz Intel Core i7 9700k and 16GB DDR4 RAM.
 
 \begin{figure}[htb]
 \begin{center}
@@ -382,9 +387,9 @@ Source: Own representation}
 
 The diagram shows that there are time intervals with a seemingly constant step length over weeks or even months. The (almost) constant step length results from the fact that the CTCRW can not satisfactorily model hourly time intervals because the temporal discrepancy between two consecutive observations in time is too large and results in infinitesimal changes in the hourly step length. As mentioned, this is the case for just a few animals. Instead of completely ignoring the animal's movement path, a sequence is used where there are no weeks or months between two consecutive observations. As an example, the time series of 'AM107' was truncated to August 2007 to February 2008.
 
-The imputation reveals another important aspect of the data, which is autocorrelation in the variables step length and speed. Figure \ref{MODEL_ACF} shows the ACF of the animals speed and step length. Each lag in the ACF corresponds to one hour in the observations. In both ACF-Plots, a 24-hour cyclical pattern can be seen. This aspect should be considered when modeling the animal tracking data.
+The imputation reveals another important aspect of the data, which is autocorrelation in the variables 'step length' and 'speed'. Figure \ref{MODEL_ACF} shows the ACF of the animals speed and step length. Each lag in the ACF corresponds to one hour in the observations. In both ACF-Plots, a 24-hour cyclical pattern can be seen. This aspect should be considered when modeling the animal tracking data.
 
-A CTCRW thus provides a new dataset with additional, useful information and movement paths of all 14 animals, which forms the basis for the methods that will be applied. In particular, the variables 'speed', 'step length' and 'turning angle' can now be modelled using methods that require equally spaced data.
+A CTCRW thus provides a new dataset with additional, useful information and movement paths of all 14 animals, which forms the basis for the methods that will be applied. In particular, the variables 'speed', 'step length' and 'turning angle' can now be modelled using methods that require equally spaced data in order to make statistical inference about the movement pattern of elephants.
 
 \begin{figure}[H]
 \begin{center}
@@ -409,10 +414,10 @@ This chapter is intended to provide a theoretical foundation for the concepts th
 % % % % % % % % % % % % % % % % % % % % % % % %
 
 
-\subsection{Mixed Models and Generalised Additive Models}
+\subsection{Mixed Models and Generalised Additive Models}\label{GAMz_theory}
 With the CTCRW model from the previous section, the data are now available at regular intervals expanding the possibilities of methods to be used. Over the past three decades, numerous extensions of the standard linear regression model have been developed. In the work of \citet{thaker2019}, linear mixed models (LMMs), GAMs, and generalised additive mixed models (GAMMs) were used. This section focuses on a discussion about the 'mixed' part of these model formulations as well as GAMs.
 \minisec{Mixed Models}
-Mixed models are an extension of the linear model
+Mixed models are, in their simplest form, an extension of the linear model
 \begin{align}\label{3.0mm1}
 \bm{y} = \bm{X}\bm{\xi} + \bm{\varepsilon},\thickspace\thickspace\thickspace\thickspace\bm{\varepsilon} \in \text{N}(\bm{0}, \textbf{I}\sigma^2) 
 \end{align}
@@ -420,26 +425,34 @@ to
 \begin{align}\label{3.0mm2}
 \bm{y} = \bm{X}\bm{\xi} + \bm{Z}\bm{b} + \bm{\varepsilon},\thickspace\thickspace\thickspace\thickspace\bm{b} \in \text{N}(\bm{0}, \bm{\Psi}),\thickspace\thickspace\thickspace\thickspace \bm{\varepsilon} \in \text{N}(\bm{0}, \bm{\Lambda}\sigma^2),
 \end{align}
-with $\bm{b}$ as a random vector containing so-called random effects with mean zero and covariance matrix $\bm{\Psi}$ \citep{Wood2017}. Random effects can model heterogeneity in the data, particularly if the data set has a hierarchical structure and many observations are available for several observational units (different animals for example). For example, if one animal has traveled a bigger distance in a month than others, this does not mean that it will consistently travel farther than other animals. That would rather be a random effect than a particular subject's effect. The first terms of \eqref{3.0mm1} and \eqref{3.0mm2} simply represent the regressor matrix and the corresponding coefficients $\bm{\xi}$. The matrix $\bm{Z}$ is a simple model matrix for the random effects. In particular, $\bm{Z}$ contains fixed coefficients that describe how $\bm{y}$ depends on the random effects. Usually, $\bm{Z}$ is a subset of $\bm{X}$ because it does not make sense to assume a random deviation for every covariate effect in most applications. Moreover, the matrix $\bm{\Lambda}$ is a positive definite matrix that can be used to model autocorrelation in the residuals. Consequently the elements of the response vector, $\bm{y}$, may no longer be assumed to be independent \citep{Wood2017}. However, for most regression models used in the literature, $\bm{\Lambda}$ corresponds to the identity matrix $\textbf{I}$.
+with $\bm{b}$ as a vector containing so-called random effects with mean zero and covariance matrix $\bm{\Psi}$ \citep{Wood2017}. Random effects can model heterogeneity in the data, particularly if the data set has a hierarchical structure and many observations are available for several observational units (different animals for example). For example, if one animal has traveled a bigger distance in a month than others, this does not mean that it will consistently travel farther than other animals. That would rather be a random effect than a particular subject's effect. The first terms of \eqref{3.0mm1} and \eqref{3.0mm2} simply represent the regressor matrix and the corresponding coefficients $\bm{\xi}$. The matrix $\bm{Z}$ is a simple model matrix for the random effects. In particular, $\bm{Z}$ contains fixed coefficients that describe how $\bm{y}$ depends on the random effects. Usually, $\bm{Z}$ is a subset of $\bm{X}$ because it does not make sense to assume a random deviation for every covariate effect in most applications. Moreover, the matrix $\bm{\Lambda}$ is a positive definite matrix that can be used to model autocorrelation in the residuals. Consequently the elements of the response vector, $\bm{y}$, may no longer be assumed to be independent \citep{Wood2017}. However, for most regression models used in the literature, $\bm{\Lambda}$ corresponds to the identity matrix $\textbf{I}$. 
 \minisec{Generalised Additive Models}
-GAMs are a generalisation of additive models. The linear predictor of a GAM contains one or more known smoothing functions for the expected value of the response, while the response variable itself may follow any exponential family distribution: 
+GAMs are a generalisation of additive models. The linear predictor of a GAM contains one or more smoothing functions for the expected value of the response, while the response variable itself may follow any exponential family distribution: 
 \begin{align}\label{3.0gam1}
 h(\mathbb{E}(y_i)) = \bm{X}_i^*\bm{\xi} + g_1(x_{1i}) + g_2(x_{2i}) + g_3(x_{3i}) + \cdots.
 \end{align}
-In equation \eqref{3.0gam1}, $\bm{X}_i^*$ is the $i$-th row of a model matrix for any strictly parametric model component, with parameter vector $\bm{\xi}$. The expression $g_j(x_j)$ is a smoothing function of some covariate $x_j$. The response variable $y$ follows any exponential distribution, and $h$ is a known, monotonic, twice differentiable link function \citep{Wood2017}. The concept of link functions is also known from generalised linear models. \footnote{For a detailed discussion of link functions, see \citet{McCulloch2008}.}
+In equation \eqref{3.0gam1}, $\bm{X}_i^*$ is the $i$-th row of a model matrix that corresponds to any strictly parametric model component, with parameter vector $\bm{\xi}$. The expression $g_j(x_j)$ is a smoothing function of some covariate $x_j$. The response variable $y$ follows any exponential family distribution, and $h$ is a known, monotonic, twice differentiable link function (\citet{Wood2017}, \citet{hastie1990generalized}). The concept of link functions is also known from generalised linear models. \footnote{For a detailed discussion of link functions, see \citet{McCulloch2008}.}
 
 According to \citet{Wood2017}, the smoothing function $g_j(\cdot)$ can be written as a linear combination of $d_j$ basis functions ${{\psi_{jk}}}$ with parameters $\beta_{jk}$ with
 \begin{align}\label{3.gam2}
     g_j(x) = \sum_{k = 1}^{d_j} \beta_{jk}{\psi_{jk}}(x),\thickspace\thickspace\thickspace\thickspace j = 1, \mathellipsis, J.
 \end{align}
-This formulation allows, for example, P-splines or thin plate regression splines.
+Equation \eqref{3.gam2} states that $g_j(x)$ is an element of the defined basis. The basis functions themselves are supposed to represent unknown functions. Consequently, it makes sense to choose those basis functions, that are suitable for approximating known functions. An appropriate option are splines, for example (cyclic) cubic regression splines, P-splines and thin plate regression splines could be used. In fact, most smoothing functions are spline based.
 
-For model fitting, the parameters theta and beta must be estimated. The estimation process is called penalised likelihood maximisation because ordinary likelihood maximisation is prone to overfitting. The penalties are defined so that $g_j$ is not overly wiggly, which is intended to account for the bias-variance trade-off. \footnote{The estimation methods are discussed in more detail in \citet{Wood2017}.} 
-To give an example for a basic P-spline, the objective function then has the form
+For model fitting, the parameters xi and beta must be estimated, however, for convenience, it will be assumed that there is no parametric model component and thus, xi is neglected in the following. The estimation process is called penalised likelihood maximisation because ordinary likelihood maximisation is prone to overfitting. The penalties are defined so that $g_j$ is not overly wiggly, which is intended to account for the bias-variance trade-off.\footnote{The estimation methods are discussed in more detail in \citet{Wood2017}.} 
+To give an example of a spline based smoother, P-splines are used. In case there only is one smoothing function, the objective function
 \begin{align}\label{3.gam3}
-    \Vert\bm{y} - \bm{X\beta}\Vert^2 + \lambda \int_{0}^{1} [g^{\prime\prime}(x)]^2 \,dx,
+    \Vert\bm{y} - \bm{X\beta}\Vert^2 + \lambda \int_{0}^{1} [g^{\prime\prime}(x)]^2 \,dx
 \end{align}
-where the first term represents the sum of squares, and the second term is a measure for the overall curvature, which is weighted by a smoothing parameter $\lambda$ \citep{Wood2017}. It basically means that $\lambda$ controls the trade-off between under- and overfitting. For $\lambda \xrightarrow{} \infty$, the curvature of the smoothing function $g$ will be as low as possible- resulting in a straight line. On the other hand, $\lambda = 0$ means that the curvature will not be penalised at all. The objective function \eqref{3.gam3} then needs to be minimised w.r.t. $\bm{\beta}$. Figure \ref{GAM} graphically represents how P-splines work. An amount of $d$ basis functions will be weighted by the estimated parameters $\bm{\beta}$ and then form a regression function. 
+has to be minimised, where the first term represents the sum of squared residuals, and the second term is a measure for the overall curvature, which is weighted by a smoothing parameter $\lambda$ \citep{Wood2017}. It basically means that $\lambda$ controls the trade-off between under- and overfitting. For $\lambda \xrightarrow{} \infty$, the curvature of the smoothing function $g$ will be as low as possible- resulting in a straight line. On the other hand, $\lambda = 0$ means that the curvature will not be penalised at all. Since $g(x)$ is linear in the parameters, $\beta_{k}$, the penalisation component can be written as 
+\begin{align}\label{3.gam3_sonder}
+    \int_{0}^{1} [g^{\prime\prime}(x)]^2 \,dx = \bm{\beta^TS\beta},
+\end{align}
+where $\bm{S}$ is a matrix of known coefficients, turning \eqref{3.gam3} into
+\begin{align}\label{3.gam3_updated}
+    \Vert\bm{y} - \bm{X\beta}\Vert^2 + \lambda \bm{\beta^TS\beta}.
+\end{align}
+The objective function \eqref{3.gam3} then needs to be minimised w.r.t. $\bm{\beta}$, given $\lambda$. In practice, this is often achieved by using penalised iterative re-weighted least squares (PIRLS). The penalisation parameter $\lambda$ can be estimated by cross validation or maximum likelihood estimation. In favor of computational efficiency, generalised cross validation (GCV) as well as the so called restricted maximum likelihood estimation (REML) are often used in practice to estimate $\lambda$ (\citet{wood2004stable}). REML is used instead of ordinary maximum likelihood estimation, because ordinary maximum likelihood estimation underestimates variance components in this context (see \citet{Wood2017}).\footnote{For large sample sizes, the bias of the variance component gets smaller. However, when working with high dimensional data, the variance estimators can be seriously biased.} Figure \ref{GAM} graphically represents how P-splines work. An amount of $d$ basis functions will be weighted by the estimated parameters $\bm{\beta}$ and then form a regression function. 
 
 \begin{figure}[htb]
 \begin{center}
@@ -449,6 +462,8 @@ Source: Own representation based on Langrock (2015).}
 \label{GAM}
 \end{center}
 \end{figure}
+
+Turning to model selection, AIC is a popular choice. In the context of GAM(M)s, this criterion requires some further attention. There are two main approaches for the AIC: The marginal AIC and the conditional AIC. Basically they differ in the way they are treating smooths. In order to obtain the marginal AIC, the marginal likelihood of the model is used. Moreover, smooths are treated as random effects and will not count for the number of parameters used. As being mentioned, the marginal likelihood tends to underestimate variance components. However, replacing ordinary likelihood estimation by REML does not solve the issue, because the restricted likelihood of a model is only comparable to those models with the same fixed effects structure and hence cannot be compared in the sense of smooths (since the smooths are treated as random effects). Consequently, it cannot be evaluated, if a smooth should be added to the model or not. In contrast, the conditional AIC is based on the likelihood of all coefficients and uses the effective degrees of freedom (edf). Moreover, smooths are treated as fixed effects. As \citet{greven2010behaviour} have shown, the conditional version of the AIC tends to select models that are rather complex, especially when the model contains random effects. Thus, \citet{wood2016smoothing} proposed a correction to the edf to obtain a corrected version of the AIC. In the rest of this work, the corrected version of the AIC will be used for GAM(M)s.
 
 All in all, GAMs provide a very accessible framework to model all kinds of relationships due to flexible smoothing functions. However, when modeling the observations in a time series context and assuming the observations are not independent of each other, the implementation of autocorrelations can be very time-consuming and computationally demanding. Thus, a popular method of modeling animal tracking data will be discussed in the next section: HMMs.
 
@@ -612,7 +627,7 @@ The parameter vector $\bm{\theta}_t$ itself depends on $J$ covariates $x_{1t},\m
 \begin{align}\label{3.sdebasic3}
     h(\theta_t) = \beta_0 + g_1(x_{1t}) + \cdots, + g_J(x_{Jt}),
 \end{align}
-with a link function $h$ and $\beta_0$ as an intercept parameter. The functions $g_j(\cdot)$ are not further specified as they could be linear or nonlinear effects of a covariate as well as random effects or smooth functions \citep{Michelot2021}. In case the functions $g_j(\cdot)$ are smoothing functions, the definition of smoothing functions in \eqref{3.gam2} can be applied. Equations \eqref{3.sdebasic2}, \eqref{3.sdebasic3}, and in combination with \eqref{3.gam2}, form a model which is called varying-coefficient stochastic differential equation (see \citet{hastie1993}).
+with a link function $h$ and $\beta_0$ as an intercept parameter. The functions $g_j(\cdot)$ are not further specified as they could be linear or nonlinear effects of a covariate as well as random effects or smooth functions \citep{Michelot2021}. In case the functions $g_j(\cdot)$ are smoothing functions, the definition of smoothing functions in \eqref{3.gam2} can be applied. Equations \eqref{3.sdebasic2}, \eqref{3.sdebasic3}, and in combination with \eqref{3.gam2}, form a model which is called varying-coefficient stochastic differential equation, which itself is based on varying-coefficient models described by \citet{hastie1993} in the context of GAMs.
 \minisec{Likelihood}
 
 In order to fit this model formulation to data, the likelihood must be computed. In particular, the aim is to estimate the relationship between the time-varying parameter vector $\bm{\theta}_t$, which determines the drift $\mu$, and the diffusion $\sigma$ of the stochastic process $Y_t$, as can be seen in equation \eqref{3.sdebasic2}.
@@ -645,13 +660,13 @@ In equation \eqref{3.ou1}, $\varsigma$ can be viewed as a parameter that reverts
 \begin{align}\label{3.euler-maruyama2}
     p(Y_{t + \Delta} = y_{t + \Delta} \mid Y_t = y_t) = \phi(y_{t+\Delta};\thickspace \varsigma + e^{-r_t\Delta}(y_t - \varsigma), \frac{s_t^2}{2r_t}(1-e^{-2r_t\Delta}),
 \end{align}
-which can then again be substituted into equation \eqref{3.sdebasic5} in order to get the approximate likelihood for the time-varying Ornstein-Uhlenbeck process \citep{Michelot2021}. When fixing $\varsigma$ to zero, the time-varying Ornstein-Uhlenbeck process can be used to model the velocity of an animal, as will be shown.
+which can then again be substituted into equation \eqref{3.sdebasic5} in order to get the approximate likelihood for the time-varying Ornstein-Uhlenbeck process \citep{Michelot2021}. Additionally, using the Euler-Maruyama discretization, one can note the analogy to equation \eqref{3.0ctcrw2} defining an Ornstein-Uhlenbeck process in the context of a CTCRW. When fixing $\varsigma$ to zero, the time-varying Ornstein-Uhlenbeck process can be used to model the velocity of an animal, as will be shown.
 
 Turning back to the general likelihood as given in equation \eqref{3.sdebasic5}, penalising the smoothing terms leads to the penalised log-likelihood 
 \begin{align}\label{3.sdebasic6p}
     l_p(\bm{\xi}, \bm{\beta}, \bm{\lambda} \mid  y_1,\mathellipsis, y_n) = \text{log}(L(\bm{\xi}, \bm{\beta} \mid  y_1,\mathellipsis, y_n)) - \sum_j\lambda_j\bm{\beta}_j^T\bm{S}_j\bm{\beta}_j.
 \end{align}
-The last term $\sum_j\lambda_j\bm{\beta}_j^T\bm{S}_j\bm{\beta}_j$ in equation \eqref{3.sdebasic6p} is the penalisation of the smoothing splines to account for the bias-variance trade-off in the relationship between the parameter vector $\bm{\theta}_t$ and the covariates in the model. In particular, $\lambda_j$ is a penalisation parameter for the $j$-th smooth term in $\bm{\theta}_t$. The matrix $\bm{S}_j$ is a matrix of known covariates in the model, and $\bm{\beta}_j$ is the vector of the basis coefficients as stated in equation \eqref{3.gam2}. Thus, $\bm{\beta}_j^T\bm{S}_j\bm{\beta}_j$ is a measure for the roughness (wiggliness) of the $j$-th smoothing term. When the likelihood given in equation \eqref{3.sdebasic6p} has been maximised, the fitted model must be checked and validated in order to select the best model among a number of potential candidates \citep{Michelot2021}. Figure \ref{CTCRW_RHO_SIGMA} provides an example of parameter estimation of a time-varying CTCRW, where $\rho$ and $\sigma$ have been estimated. Both parameters depend on the covariate 'temp'. The red lines indicate smoothing splines. 
+As seen in section \ref{GAMz_theory}, the last term $\sum_j\lambda_j\bm{\beta}_j^T\bm{S}_j\bm{\beta}_j$ in equation \eqref{3.sdebasic6p} is the penalisation of the smoothing splines to account for the bias-variance trade-off in the relationship between the parameter vector $\bm{\theta}_t$ and the covariates in the model. In particular, $\lambda_j$ is a penalisation parameter for the $j$-th smooth term in $\bm{\theta}_t$. The matrix $\bm{S}_j$ is a matrix of known covariates in the model, and $\bm{\beta}_j$ is the vector of the basis coefficients as stated in equation \eqref{3.gam2}. Thus, $\bm{\beta}_j^T\bm{S}_j\bm{\beta}_j$ is a measure for the roughness (wiggliness) of the $j$-th smoothing term. When the likelihood given in equation \eqref{3.sdebasic6p} has been maximised, the fitted model must be checked and validated in order to select the best model among a number of potential candidates \citep{Michelot2021}. Figure \ref{CTCRW_RHO_SIGMA} provides an example of parameter estimation of a time-varying CTCRW, where $\rho$ and $\sigma$ have been estimated. Both parameters depend on the covariate 'temp'. The red lines indicate smoothing splines. 
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=1\textwidth]{BETA_SIGMA_EST.pdf}
@@ -668,26 +683,30 @@ At this point, all basics for the further procedure in this work have been intro
 % % % % % % % % % % % % % % % % % % % % % % % %
 
 \section{Results}
-This chapter provides the results of the methods described in the previous chapter. Again this chapter is divided into three logical blocks. The results of the GAMM are described first, followed by those of the HMM and finally the outcome of the SDEs. All computations were performed on a 4.9 GHz Intel Core i7 9700k using the statistical software R.
+This chapter provides the results of the methods described in the previous chapter. Again, this chapter is divided into three logical blocks. The results of the GAMMs are described first, followed by those of the HMMs and finally the outcome of the SDEs. All computations were performed on a 4.9 GHz Intel Core i7 9700k and 16GB DDR4 RAM using the statistical software R.
 
-\subsection{GAMM}\label{GAMMz}
-The first method applied to the data is a GAMM in order to have a direct comparison to the GAMM by \citet{thaker2019} and to the irregular dataset. The GAMM by \cite{thaker2019} and its model formulation can be seen in the appendix. The GAMM in this work models the relationship between speed of movement (in km/h) and collar temperature. Additionally, season was included as a categorical fixed effect as well as the animal ID and hour (time of day) as random effects. The season is divided into two categories: dry season (May to October) and wet season (November to April). Additionally, autocorrelation in the residuals is modeled via an AR(1) process. In contrast to the GAMM by \cite{thaker2019}, woody density was not included, since this information is not available, which is the only difference to the model formulation.
+% % % % % % % % % % % % % % % % % % % % % % % %
+% % % GAMMs % % % % % % % % % % % % % % % % % %
+% % % % % % % % % % % % % % % % % % % % % % % %
 
-The choice of the best model was determined by the choice of the penalisation spline parameter $k$. Table \ref{tab:choiceofk} shows several possible choices for $k$. According to AIC, BIC and the adjusted $R^2$, a choice of $k = 10$ leads to the best fitted model. However, a choice of $k = 15$ does not seem to be any worse. The model itself was built using the function $\mathtt{bam}$ from the package $\mathtt{mgcv}$ written by \citet{wood2015package}. 
+\subsection{GAMMs}\label{GAMMz}
+The first method applied to the data is a GAMM in order to have a direct comparison to the GAMM by \citet{thaker2019}. The GAMM output by \cite{thaker2019} and its model formulation can be seen in Appendix \ref{AnhangA}. The GAMM in this work models the relationship between speed of movement (in km/h) and collar temperature. Speed of movement corresponds to the variable 'speed', whereas the collar temperature corresponds to the covariate 'temp' (or 'temperature', respectively). Additionally, 'season' was included as a categorical fixed effect as well as the animal ID and hour (time of day) as random effects. The season is divided into two categories: dry season (May to October) and wet season (November to April). Moreover, autocorrelation in the residuals is modeled via an AR(1) process. In contrast to the GAMM by \cite{thaker2019}, woody density was not included, since this information is not available. Apart from using an imputed dataset and including autocorrelation, this is the only difference in the model formulation. Thus, the first GAMM in this work can be compared to the GAMM by \citet{thaker2019} in order to determine the impact of an imputed dataset and including autocorrelation.
+
+Because this is a comparison of basically the same model, the choice of the best model candidate was limited to the choice of the spline basis parameter $k$, which equals the number of basis functions for a certain smoothing function $g$. If the number of basis functions is too small, the model will most likely oversmooth and tend to not capture most patterns. Table \ref{tab:choiceofk} shows several possible choices for $k$. According to AIC and the adjusted $R^2$, a choice of $k = 10$ leads to the best fitted model. However, a choice of $k = 15$ is not performing any worse. The model itself was built using the function $\mathtt{bam}$ from the package $\mathtt{mgcv}$ written by \citet{wood2015package}. The model was fitted using PIRLS, whereas the estimation of the smoothing parameter was done via REML. Note further, that the AIC is computed using the conditional likelihood of the model (consequently the AIC is the conditional AIC) and the correction to the edf proposed by \citet{wood2016smoothing} was taken into account.
 
 \begin{table}[htb]
 \setlength{\tabcolsep}{36pt}
   \centering
   \caption{Model selection - Choice of k}
     \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}
-                   llll
+                   lll
                             }
     \toprule
-    Choice of $k$ & AIC & BIC & adj. $R^2$\\ 
+    Choice of $k$ & AIC & adj. $R^2$\\ 
     \midrule
- $k = 5$ & 1499149 & 1499344 & 0.0677 \\ 
- \boldmath{$k = 10$} & \textbf{1499061} & \textbf{1499291} & \textbf{0.0687} \\
- $k = 15$ & 1499064 & 1499309 & 0.0687 \\
+ $k = 5$ & 1499149 & 0.0677 \\ 
+ \boldmath{$k = 10$} & \textbf{1499061} & \textbf{0.0687} \\
+ $k = 15$ & 1499064 & 0.0687 \\
  \bottomrule
     \end{tabular*}%
   \label{tab:choiceofk}%
@@ -696,7 +715,7 @@ The choice of the best model was determined by the choice of the penalisation sp
   \end{tablenotes}
 \end{table}%
 
-Figure \ref{GAM_fitted} illustrates the fitted GAMM. The mean speed was calculated for each degree Celsius and classified by season, with triangles representing the wet season and circles the dry season. The blue line represents a fitted temperature spline for the wet season, whereas the red dashed line represents a fitted spline for the dry season. It can be seen that elephants moved faster in the wet season than in the dry season, which is consistent to the GAMM by \citet{thaker2019}. The output summary of the model can be found in the Appendix.
+Figure \ref{GAM_fitted} illustrates the fitted GAMM. The mean speed by temperature was calculated for each degree Celsius and classified by season, with triangles representing the wet season and circles the dry season. The blue line represents a fitted temperature spline for the wet season, whereas the red dashed line represents a fitted spline for the dry season. It can be seen that elephants moved faster in the wet season than in the dry season, which is consistent to the GAMM by \citet{thaker2019}. The output summary of the model can be found in Appendix \ref{AnhangA}.
 
 \begin{figure}[htb]
 \begin{center}
@@ -706,7 +725,7 @@ Figure \ref{GAM_fitted} illustrates the fitted GAMM. The mean speed was calculat
 \end{center}
 \end{figure}
 
-However, Figure \ref{GAM_fitted} indicates a bigger predicted difference between the mean speed by season, which can be seen from the vertical distance between the splines. Also, the confidence intervals for the mean speed by temperature and season, as well as the splines by season are higher. In fact, there are two reasons for the differences: The imputed dataset and the autocorrelation in the residuals. Considering the first reason, Table \ref{tab:diffgam} represents the differences in the mean speed by season. While the mean movement speed in the wet season is faster, it is slower in the dry season compared to the mean speed computed by \citet{thaker2019}. The standard deviation of the mean speed in this work is about the same for the wet season and significantly lower in the dry season.
+However, Figure \ref{GAM_fitted} indicates a bigger difference between the mean speed by season than indicated by the GAMM by \citet{thaker2019}, which can be seen from the vertical distance between the splines. Also, the confidence intervals for the mean speed by temperature for both seasons, as well as for the splines by season are higher. In fact, there are three reasons for the differences: The imputed dataset, the autocorrelation in the residuals and omitting the covariate 'woody density'. Considering the first reason, Table \ref{tab:diffgam} represents the differences in the mean speed by season. While the mean movement speed in the wet season is faster, it is slower in the dry season compared to the mean speed computed by \citet{thaker2019}. The standard deviation of the mean speed in this work is about the same for the wet season and significantly lower in the dry season.
 
 \begin{table}[htb]
   \centering
@@ -735,16 +754,16 @@ Difference & 0.05 & -0.06 & / & 0.01 & -0.09 & / \\
     \bottomrule
   \end{tabular*}
   \begin{tablenotes}[flushleft]\small
-  \note   Wet and Dry correspond to the possible categories of the variable 'season'. Values are in km/h.
+  \note   Wet and Dry correspond to the possible categories of the covariate 'season'. Values are in km/h.
   \source   Own representation
   \end{tablenotes}
 \end{table}
 
-The reason for the difference in the mean speed results from the imputed dataset used in this work. \citet{thaker2019} did not account for the irregularity when computing the mean speed. The imputed dataset in this work does account for irregularity and hence shows a different mean speed because the calculated speed is less biased by the distance traveled. Additionally, this also influences the confidence intervals in the mean speed by temperature showed in Figure \ref{GAM_fitted}.
+The reason for the difference in the mean speed itself results from the imputed dataset used in this work. \citet{thaker2019} did not account for the irregularity when computing the mean speed. The imputed dataset in this work does account for irregularity and hence shows a different mean speed because the calculated speed is less biased by the distance traveled. Additionally, this also influences the confidence intervals in the mean speed by temperature showed in Figure \ref{GAM_fitted}.
 
-Considering the GAMM splines in Figure \ref{GAM_fitted}, there also are larger confidence intervals than indicated in the model by \citet{thaker2019}. The reason for a larger confidence interval (besides the mentioned speed differences in the datasets) is due to the fact that autocorrelation in the residuals is taken into account in the model of this work. If the residuals are assumed to be uncorrelated when they are actually correlated, the standard errors often are underestimated and the confidence interval would be smaller. 
+Considering the GAMM splines in Figure \ref{GAM_fitted}, there also are larger confidence intervals than indicated in the model by \citet{thaker2019}. The reason for a larger confidence interval (besides the mentioned speed differences in the datasets) is due to the fact that autocorrelation is taken into account in the model of this work. If the residuals are assumed to be uncorrelated when they are actually correlated, the standard errors often are underestimated and the confidence interval would be smaller (see \citet{Wood2017}, Ch. 7). 
 
-Modeling autocorrelation in the residuals is another aspect to note. Figure \ref{GAM_ACF} shows the autocorrelation function of the residuals of the fitted GAMM with a pattern that repeats itself every 24 hours. The pattern indicates that there still is an effect not covered in the GAMM. Since this seems to be a daily pattern, an AR(24) process might solve this issue. The function $\mathtt{bam}$ can model autocorrelation via an AR(1) process, however, it cannot model the general AR(p) case. 
+Autocorrelation itself is another aspect to note. Figure \ref{GAM_ACF} shows the autocorrelation function (ACF) of the residuals of the fitted GAMM with a pattern that repeats itself every 24 hours. The pattern indicates that there still is an effect not covered in the GAMM. Since this seems to be a daily pattern, an AR(24) process might solve this issue. The function $\mathtt{bam}$ can model autocorrelation via an AR(1) process, however, it cannot model the general AR(p) case. 
 \begin{figure}[htb]
 \begin{center}
 \includegraphics[width=1\textwidth]{GAM_ACF.pdf}
@@ -752,51 +771,103 @@ Modeling autocorrelation in the residuals is another aspect to note. Figure \ref
 \label{GAM_ACF}
 \end{center}
 \end{figure}
-There are functions in R that are theoretically capable of modeling the AR(p) case\footnote{For example, the function $\mathtt{brm}$ from the package $\mathtt{brms}$ and the function $\mathtt{gamm}$ from the package $\mathtt{mgcv}$ are valuable alternatives.} but an AR(24) process is computationally very demanding and most computers do not have enough RAM to compute the autocorrelation matrices needed. However, comparing the residual ACF to the speed ACF shown in Figure \ref{MODEL_ACF}, a reduction of the autocorrelation can be observed. Nonetheless, there still is some room for improvement. 
+There are functions in R that are theoretically capable of modeling the AR(p) case\footnote{For example, the function $\mathtt{brm}$ from the package $\mathtt{brms}$ and the function $\mathtt{gamm}$ from the package $\mathtt{mgcv}$ are valuable alternatives.}, but an AR(24) process is computationally very demanding and most computers do not have enough RAM to compute the autocorrelation matrices needed. However, comparing the residual ACF to the speed ACF shown in Figure \ref{MODEL_ACF}, a reduction of the autocorrelation can be observed. Nonetheless, there still is some room for improvement. Concerning the 'woody density', the effect of omitting this covariate cannot be measured, since the data are not publicly available. 
 
-Up to this point, the two GAMMs were compared to determine the impact of the imputed data set and the effect of additionally adding autocorrelation to the model. However, as can be seen in the model formulation, \cite{thaker2019} included the variable 'hour' as a random effect in the GAMM in order to model a daily pattern. Since there can still be seen a 24-hour cycle in the ACF-Plot represented in Figure \ref{GAM_ACF}, it makes sense to reconsider the implementation of such a daily pattern. This within-day variation can be well modelled using trigonometric functions. To achieve this, a certain type of a so called cosinor function will be applied (see \cite{cornelissen2014cosinor}). In particular, the variable 'hour' will be replaced by two variables called 'coshour' and 'sinhour' and both are treated as a fixed effect. The variable 'coshour' is defined by
-\begin{align}\label{4.gamm1}
-    \text{cos1} = \cos\left({\frac{2\pi\cdot\text{hour}}{24}}\right),
-\end{align}
-whereas the variable 'sinhour' is defined by
-\begin{align}\label{4.gamm2}
-    \text{sin1} = \sin\left({\frac{2\pi\cdot\text{hour}}{24}}\right).
-\end{align}
+Up to this point, the two GAMMs were compared to determine the impact of the imputed dataset and the effect of additionally adding autocorrelation to the model. However, as can be seen in the model formulation, \cite{thaker2019} included the covariate 'hour' as a random effect in the GAMM in order to model an hourly effect. Since there can still be seen a 24-hour cycle in the ACF-Plot represented in Figure \ref{GAM_ACF}, it makes sense to reconsider the implementation of such a daily pattern. In particular, \citet{thaker2019} used the covariate 'hour' as a random effect. However, a cyclic cubic regression spline (or a cyclic penalised regression spline, respectively) to model the effect of a daily pattern might be advantageous in model fitting (see \cite{Wood2017}) and is used in the following. Another issue is the assumed distribution. \citet{thaker2019} assumed that the response variable 'speed' is normally distributed. However, since the variable 'speed' will not take on negative values at all, a Gamma distribution is appropriate. Therefore, in the following, two GAMMs with the two different distribution assumptions will be fitted.
 
-The resulting GAMM is represented in Figure \ref{GAM_COSINOR}. The output summary can be found in the Appendix. Comparing this GAMM to the GAMM by \cite{thaker2019}, the adjusted $R^2$ is significantly higher (0.116 vs 0.0667). According to the GAMM splines, the fit looks better than the previous GAMMs. The effect is mainly the same; when it gets hotter, the elephants tend to increase their movement speed up to 40° Celsius. At 40° Celsius and hotter temperatures, their movement speed slightly decreases.
-\begin{figure}[htb]
+For model selection, Table \ref{tab:aicgam} shows multiple model variations of a GAMMs that assume a normal distributed response variable or a Gamma distributed response variable, respectively. In fact, the full models both consist of covariates 'temperature' and 'hour' modelled as splines, while 'hour' is a cyclic cubic regression spline. Covariate 'season' is a categorical fixed effect, and 'ID' is a random effect. Moreover, the autocorrelation structure is, as before, included in the models. The GAMM seen in Figure \ref{GAM_fitted} results in a conditional AIC of $1499061$, whereas the full models seen in Table \ref{tab:aicgam} yield a conditional AIC of $1494092$ and $1374824$, respectively, whereas both are lower. That means, instead of formulating time of day as a random effect, it is advantageous to use a cyclic regression spline to represent a daily pattern in the speed distribution. Moreover, assuming a Gamma distributed response variable further reduces the AIC. Omitting the covariates 'season', 'temperature', 'id' and 'hour' results in a lower AIC. The AR(1) process is also essential, as without it a higher AIC results.
+
+\begin{table}[htb]
+  \centering
+  \caption{GAMM (gaussian) - Model Selection by AIC}\label{tab:aicgam}
+  \setlength\tabcolsep{0pt}
+  \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}
+                        l
+                   *{5}{S[table-format= 2.3]}
+                   *{2}{S[table-format= 5.3]}
+                            }
+    \toprule
+    &   \multicolumn{5}{c}{Covariates/Structure omitted}   &   \multicolumn{2}{c}{AIC}   \\
+    \cmidrule(r){2-6}
+    \cmidrule(l){7-8}
+&   {\thead[b]{temperature}}
+        &   {\thead[b]{season}}
+        &   {\thead[b]{ID}}
+                &   {\thead[b]{time of day}}
+                    &   {\thead[b]{AR(1)}}
+                    &   {\thead[b]{Gaussian}}
+                    &   {\thead[b]{Gamma}}\\
+    \midrule
+\textbf{Full Model}    &  &  &  &  &  & \textbf{1494092} & \textbf{1374824}          \\
+\text{Candidate 2} & \text{omitted}  &  &  &  &  &  \text{1494435} &  \text{1375054}        \\
+\text{Candidate 3} &  & \text{omitted} &  &  &  &  \text{1494792} &  \text{1375666}        \\
+\text{Candidate 4} &  &  & \text{omitted}  &  &  &  \text{1495114} &  \text{1376071}         \\
+\text{Candidate 5} &  &  &  & \text{omitted}&  &  \text{1499142} &  \text{1386532}         \\
+\text{Candidate 6} &  &  &  &  & \text{omitted}  &  \text{1500972} &  \text{1381317}         \\
+    \bottomrule
+  \end{tabular*}
+  \begin{tablenotes}[flushleft]\small
+  \note   For the calculation of the conditional AIC, the correction to the edf proposed by \citet{wood2016smoothing} was taken into account
+  \source   Own representation
+  \end{tablenotes}
+\end{table}
+
+The resulting GAMM are represented in Figure \ref{GAMMAS_COMPARED_TEMP}. The output summaries can be found in Appendix \ref{AnhangA}. Comparing these GAMMs to the GAMM by \cite{thaker2019}, the adjusted $R^2$ is significantly higher (0.119 for the gaussian, 0.125 for the gamma GAMM vs 0.067 for the one by \citet{thaker2019}). According to the GAMM splines, the fit looks better than the previous GAMMs. Furthermore, the Gamma distributed GAMM has slighty improved smoothing splines. The effect is mainly the same; when it gets hotter, the elephants tend to increase their movement speed up to 40° Celsius. At 40° Celsius and hotter temperatures however, their movement speed slightly decreases.\footnote{As an alternative to specifying multiple GAMMs and evaluate an appropriate choice of $k$ by AIC and the adjusted $R^2$, in Appendix \ref{AnhangC} a more sophisticated method is shown.}
+
+\begin{figure}[H]
 \begin{center}
-\includegraphics[width=1\textwidth]{GAM_final_COSINOR.pdf}
-\caption[GAMM using trigonometric functions]{GAMM using trigonometric functions\\ Source: Own representation}
-\label{GAM_COSINOR}
+\includegraphics[width=1\textwidth]{GAMMAS_COMPARED_TEMP.pdf}
+\caption[GAMMs using cyclic cubic regression splines]{GAMMs using cyclic cubic regression splines\\ Source: Own representation}
+\label{GAMMAS_COMPARED_TEMP}
 \end{center}
 \end{figure}
 
-Considering the ACF-Plot represented in Figure \ref{GAM_ACF_COSINOR}, there is even less autocorrelation left in the residuals indicating, that the two added variables 'coshour' and 'sinhour' better explain the cyclical pattern than the variable 'hour' itself.
+Considering the ACF-Plots represented in Figure \ref{ACF_PLOTS_GAMMS_COMPARED}, there is even less autocorrelation left in the residuals indicating, that the cyclic implementation of the covariate 'hour' better explains the cyclical pattern than 'hour' implemented as a random effect. Moreover, comparing both GAMMs in Figure \ref{ACF_PLOTS_GAMMS_COMPARED}, the autocorrelation left in the residuals clearly decreased for the Gamma distributed GAMM.
 \begin{figure}[htb]
 \begin{center}
-\includegraphics[width=1\textwidth]{GAM_ACF_COSINOR.pdf}
-\caption[GAMM ACF using trigonometric functions]{GAMM ACF using trigonometric functions\\ Source: Own representation}
-\label{GAM_ACF_COSINOR}
+\includegraphics[width=1\textwidth]{ACF_PLOTS_GAMMS_COMPARED.pdf}
+\caption[GAMM ACF-Plots using cyclic cubic regression splines]{GAMM ACF-Plots using cyclic cubic regression splines\\ Source: Own representation}
+\label{ACF_PLOTS_GAMMS_COMPARED}
 \end{center}
 \end{figure}
 
-Another aspect that might could help to further reduce the autocorrelation pattern still present in the ACF would be to include the covariates 'time of day' (or 'hour', respectively) and 'temperature' in the CTCRW that is used to impute the dataset. Nevertheless, the functions $\mathtt{crwFit}$ and $\mathtt{crwPredict}$ will not impute any missing covariate values. Since the covariate values are missing, they must be imputed outside of the package $\mathtt{crawl}$. However, this procedure is beyond the scope of this work and it is questionable whether it makes sense to impute missing covariate data (whereas, as already mentioned, there is also an errors-in-variables problem) over several days, weeks or even months, as this would correspond to guesswork at best.
+Another aspect that might could help to further reduce the autocorrelation pattern still present in the ACFs would be to include the covariates 'time of day' (or 'hour', respectively) and 'temperature' in the CTCRW that is used to impute the dataset. Nevertheless, the functions $\mathtt{crwFit}$ and $\mathtt{crwPredict}$ will not impute any missing covariate values. Since the covariate values are missing, they must be imputed outside of the package $\mathtt{crawl}$. However, this procedure is beyond the scope of this work and it is questionable whether it makes sense to impute missing covariate data over several days, weeks or even months, as this would correspond to guesswork at best (besides that, as already mentioned, there is also an errors-in-variables problem).
 
-Put together, there are two aspects to note for the GAMM. The first aspect concerns the imputation of the dataset itself. Since there is a notable difference between the results of the fitted GAMM by \citet{thaker2019} and the GAMM in this work it remains unclear which of the two datasets leads to better results in the sense of the real data-generating process modeled via GAMMs. The imputed datset improves some irregularities, however, when the temporal distance between two consecutive observations becomes too large, it fails to model an appropriate path for this particular time interval and will bias the calculated speed. To overcome this issue, SDEs are used to avoid the need to impute missing data.
+Figure \ref{QQ_PLOT_COMPARISON} shows the normal Quantile-Quantile-Plots (QQ-Plots) for the fitted GAMMs. The function for generating the QQ-Plot is called $\mathtt{qq\_plot}$ from the package $\mathtt{gratia}$ written by \citet{simpson2018r}. For a normal QQ-Plot, the deviance residuals are standardized and sorted. If the residuals were normally distributed, they would form a straight line, interfered by some random noise (see \cite{Wood2017}). This reference case is indicated by the red line. As can be seen from the deviance of the residuals, the overall fit of the GAMM is still not satisfying and improvable. However, there is a significant improvement when assuming a Gamma distributed response variable.
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=1\textwidth]{QQ_PLOT_COMPARISON.pdf}
+\caption[GAMM normal QQ-Plots]{GAMM normal QQ-Plots\\ Source: Own representation}
+\label{QQ_PLOT_COMPARISON}
+\end{center}
+\end{figure}
+Figure \ref{RES_COMPARISON_GAMM} represents another view of the deviance residuals. As can be seen, the residuals for the Gamma distributed GAMM are much less skewed than the residuals for the normal distributed GAMM and in fact do not indicate a severely bad fit.
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=1\textwidth]{RES_COMPARISON_GAMM.pdf}
+\caption[GAMM - Residuals]{GAMM - Residuals\\ Source: Own representation}
+\label{RES_COMPARISON_GAMM}
+\end{center}
+\end{figure}
 
-The second aspect concerns the autocorrelation in the residuals. ACF-Plots might help to chose an appropriate correlation structure to be used in a GAMM, however, HMMs offer a more natural alternative to deal with autocorrelation due to their properties. Regarding the implementation of trigonometric functions, this procedure seems to improve the model quality and could also be used in HMMs. 
+Put together, there are three aspects to note for the GAMM. The first aspect concerns the imputation of the dataset itself. Since there is a notable difference between the results of the fitted GAMM by \citet{thaker2019} and the GAMM in this work it remains unclear which of the two datasets leads to better results in the sense of the real data-generating process modeled via GAMMs. The imputed datset improves some irregularities, however, when the temporal distance between two consecutive observations becomes too large, it fails to model an appropriate path for this particular time interval and will bias the calculated speed. To overcome this issue, SDEs can be used as an alternative approach, to avoid the need to impute missing data.
+
+The second aspect concerns the autocorrelation. ACF-Plots might help to chose an appropriate correlation structure to be used in a GAMM, however, HMMs offer a more natural alternative to deal with autocorrelation due to their properties. Regarding the implementation of cyclic functions to model a daily pattern, this procedure seems to improve the model quality and could also be used in HMMs. 
+
+The last aspect concerns the overall model formulation. GAM(M)s are a very flexible and powerful tool, as they are relatively simple to interpret and the regularisation helps to avoid overfitting (\citet{larsen2015gam}). Moreover, there is no need to specify any parametric distribution for the covariate effects. However, this simultaneously implies that more caution is required when setting up a model. Starting with an appropriate distribution of the response variable, thoughtfully select splines (basis dimension, formulation as a cyclic spline etc.), check for autocorrelation and more.
 
 \subsection{HMM}
-HMMs offer a more natural way to deal with autocorrelation since they are a flexible tool to handle time series data. As already mentioned, the fitted HMMs are extensions of the basic HMM framework. Since the dataset contains step lengths (as a substitute for speed due to equidistant time intervals) and turning angles, the HMMs can be used to model multivariate time series that will be driven by the same underlying state process. The first component series, step lengths, are assumed to follow a Gamma distribution with mean $\mu$ and variance $\sigma^2$. The second series component, turning angles, are assumed to follow a von Mises distribution with mean $\mu$ and concentration parameter $\tau$. The model formulation thus is given by
+HMMs offer a more natural way to deal with autocorrelation since they are a flexible tool to handle time series data. A key aspect concerning GAMMs that has not yet been considered, is that ecological systems are subject of certain changes among latent system states through time. The animals of these ecological systems can be driven by these state dynamics and hence affect their behaviour. HMMs are able to accommodate complex structures that account for certain changes between latent system states and thus offer an appropriate choice for modeling animal tracking data (\citet{mcclintock2020uncovering}, \citet{ephraim2002hidden}, \citet{Zucchini2016}).
+
+As already mentioned, the fitted HMMs are extensions of the basic HMM framework. Since the dataset contains step lengths (as a substitute for speed due to equidistant time intervals) and turning angles, the HMMs can be used to model multivariate time series that will be driven by the same underlying state process. The first component series, step lengths, are assumed to follow a Gamma distribution with mean $\mu$ and variance $\sigma^2$. The second series component, turning angles, are assumed to follow a von Mises distribution with mean $\mu$ and concentration parameter $\tau$. The model formulation thus is given by
 \begin{align}\label{4.2hmm1}
 Y_{t1} \mid C_t = & j \sim \Gamma(\mu_j^{\text{step}}, \sigma_j^{\text{step}}), \nonumber \\ & Y_{t2} \mid C_t = j \sim \text{von Mises}(\mu_j^{\text{turn}}, \tau_j^{\text{turn}}),\thickspace\thickspace\thickspace\thickspace Y_{t1} \perp Y_{t2} \mid C_j.
 \end{align}
 Equation \eqref{4.2hmm1} describes a model that assumes contemporaneous conditional independence, meaning that the state-dependent distribution $p_j(y)$ is just the product of the corresponding marginal probabilities. However, the Markov chain still induces serial dependence and cross-dependence in the component series $Y_{t1}, Y_{t2}$ meaning that contemporaneous conditional independence does neither imply serial nor mutual independence in the component series (see \cite{Zucchini2016}). Nonetheless, contemporaneous conditional independence makes it easier to find suitable distributions because one can select classes of univariate distributions instead of having to find multivariate distributions.
 
-Additionally, the HMMs are modeled with covariates in the state process, meaning that the transition probabilities are expressed as a function of covariates. In all HMMs fitted in this work, the transition probabilities are affected by the covariates 'collar temperature', 'hour' and their interaction term to examine how the animals respond to these environmental factors (i.e. how state switching depends on these external factors). As already mentioned in section \ref{GAMMz}, the variable 'hour' is added against the background that there is a cyclical pattern in the step length and speed ACF as can be seen in Figure \ref{MODEL_ACF}. 
+Additionally, the HMMs are modeled with covariates in the state process, meaning that the transition probabilities are expressed as a function of covariates. In all HMMs fitted in this work, the transition probabilities are affected by the covariates 'collar temperature', cosinor('hour') and their interaction term to examine how the animals respond to these environmental factors (i.e. how state switching depends on these external factors). As already mentioned in section \ref{GAMMz}, there is a within-day variation, as can be seen in Figure \ref{MODEL_ACF}. This within-day variation can also be well modelled using trigonometric functions instead of a cyclic regression spline. To achieve this, a certain type of a so called cosinor function will be applied (see \cite{cornelissen2014cosinor}).
 
-When it comes to model fitting, the first question that arises with HMMs is how many states should be chosen. In this work, three HMMs were fitted with two, three and four states. The transition probabilities of all three HMMs depend on the covariates 'collar temperature', 'hour' and their interaction term. All HMMs in this work have been computed using the package $\mathtt{momentuHMM}$ by McClintock and Michelot (see \cite{mcclintock2018momentuhmm}). Table \ref{tab:choiceofstates} shows the AIC and BIC of the corresponding number of states chosen. As can be seen, both AIC and BIC tend to select the three-state HMM. This is also in common with most biologists opinions who suggest that there should be three states, namely 'resting', 'foraging' and 'traveling.
+When it comes to model fitting, the first question that arises with HMMs is how many states should be chosen. In this work, three HMMs were fitted with two, three and four states. The transition probabilities of all three HMMs depend on the covariates 'collar temperature', cosinor('hour') and their interaction term. All HMMs in this work have been computed using the package $\mathtt{momentuHMM}$ by McClintock and Michelot (see \cite{mcclintock2018momentuhmm}). Table \ref{tab:choiceofstates} shows the AIC and BIC of the corresponding number of states chosen. As can be seen, both AIC and BIC tend to select the three-state HMM. This is also in common with most biologists opinions who suggest that there should be three states, which could be 'Resting', 'Foraging' and 'Traveling' (see \citet{langrock2014modelling}, \citet{patterson2008state}).
 
 \begin{table}[htb]
 \setlength{\tabcolsep}{36pt}
@@ -819,7 +890,7 @@ When it comes to model fitting, the first question that arises with HMMs is how 
   \end{tablenotes}
 \end{table}%
 
-The next aspect is whether the transition probabilities should be affected by 'collar temperature' and 'hour' or just one of the two covariates and if there should be any interaction term. In Table \ref{tab:choiceoftransition}, four three-state HMMs with different functions for the transition probabilities are shown. 
+The next aspect is whether the transition probabilities should be affected by 'collar temperature' and cosinor('hour') or just one of the two covariates and if there should be any interaction term. In Table \ref{tab:choiceoftransition}, four three-state HMMs with different functions for the transition probabilities are shown. 
 \begin{table}[htb]
 \setlength{\tabcolsep}{32pt}
   \centering
@@ -830,10 +901,10 @@ The next aspect is whether the transition probabilities should be affected by 'c
     \toprule
     Covariates in transition probabilities & AIC & BIC \\ 
     \midrule
- 'hour' & 1641452 & 1641757 \\
+ cosinor('hour') & 1641452 & 1641757 \\
  'temp' & 1646528 & 1646775 \\
- 'temp' + 'hour' & 1643667 & 1644029 \\
- \textbf{'temp' + 'hour' + interaction} & \textbf{1640022} & \textbf{1640498} \\
+ 'temp' + cosinor('hour') & 1643667 & 1644029 \\
+ \textbf{'temp' + cosinor('hour') + interaction} & \textbf{1640022} & \textbf{1640498} \\
  \bottomrule
     \end{tabular*}%
   \label{tab:choiceoftransition}%
@@ -841,9 +912,9 @@ The next aspect is whether the transition probabilities should be affected by 'c
   \source   Own representation
   \end{tablenotes}
 \end{table}%
-According to AIC and BIC, the model with both covariates including an interaction term fits the data best. It is worth noting that the model with both covariates but without any interaction term fits worse than the model including 'hour' only, as it seems to be overly complex.
+According to AIC and BIC, the model with both covariates including an interaction term fits the data best. It is worth noting that the model with both covariates but without any interaction term fits worse than the model including cosinor('hour') only, as it seems to be overly complex.
 
-As a model checking step, it must be evaluated how well the model explains the data. Figure \ref{HMM_densities} represents the state-dependent Gamma densities for the step lengths in metres for all animals. The orange line corresponds to the 'Resting' state and indicates that, given the animals are in the resting state, the expected step length per hour is about 70 metres. Likewise, the blue and green lines represent the 'Foraging' and the 'Traveling' state. The expected step length per hour in the foraging state is 236 metres and 694 metres in the traveling state respectively. The black dotted line shows the overall density. As the grey bars represent the observed step lengths of the animals, it can be seen that the total density fits the data quite well.
+As a model checking step, it must be evaluated how well the model explains the data. Figure \ref{HMM_densities} represents the state-dependent Gamma densities for the step lengths in metres for all animals. The orange line corresponds to the 'Resting' state and indicates that, given the animals are in the resting state, the expected step length per hour is about 70 metres. Likewise, the blue and green lines represent the 'Foraging' and the 'Traveling' state. The expected step length per hour in the foraging state is 236 metres and 694 metres in the traveling state respectively. The black dotted line shows the overall density. As the grey bars represent the observed step lengths of the animals, it can be seen that the total density fits the data quite well. The model output for the HMM can be seen in Appendix \ref{AnhangB}.
 \begin{figure}[htb]
 \begin{center}
 \includegraphics[width=1\textwidth]{HMM_densities.pdf}
@@ -865,13 +936,22 @@ Regarding both covariates, they most likely are positively correlated. However, 
 \begin{figure}[htb]
 \begin{center}
 \includegraphics[width=1\textwidth]{HMM_Stationary_state_probabilities_temp.pdf}
-\caption[HMM - Stationary State probabilities]{HMM - Stationary State probabilities\\ Source: Own representation}
+\caption[HMM - Stationary State probabilities by hour]{HMM - Stationary State probabilities by hour\\ Source: Own representation}
 \label{HMM_state_transitions}
 \end{center}
 \end{figure}
-The confidence intervals are not large and thus a positive correlation of both covariates does not seem to be an issue here. Additionally, a quite clear pattern emerges. In the morning, the animals travel longer distances, forage in the evening and tend to rest at night. Likewise, the state probabilities can be shown by temperature for a fixed hour as well as different fixed temperatures for the daily pattern, which can be seen in the Appendix.
+The confidence intervals are not large and thus a positive correlation of both covariates does not seem to be an issue here. Additionally, a quite clear pattern emerges. In the morning, the animals travel farther distances, forage in the evening and tend to rest at night.
 
-As for the model checking, Figure \ref{HMM_qqacf} graphically shows the corresponding QQ-Plots as well as the ACF-Plots for the step lengths and the turning angle, respectively. The first row represents the output for the step lengths and the second row the output for the turning angles. As can be seen from the QQ-Plot, the pseudo-residuals tend to be standard normally distributed. There seems to be a minor lack of fit in the outer areas, but overall it appears to be a good fit. The ACF-Plot for the turning angles does not show any autocorrelation, however, there still is some pattern left in the ACF for the step lengths. Although the autocorrelation left in the residuals is much smaller compared to the autocorrelation in the step length ACF seen in Figure \ref{MODEL_ACF}. Moreover, comparing the ACF for the best fitted GAMM seen in Figure \ref{GAM_ACF_COSINOR} and the step lengths ACF for the HMM, the HMM can better handle the autocorrelation as is, as expected, less autocorrelation left in the ACF.
+Likewise, the state probabilities can be shown by temperature, as can be seen in Figure \ref{HMM_TEMP_STATE_PROBS}. Again, the dimension for the covariate 'hour' is held fixed. The Plot shows that the animals most likely are in the 'Foraging' or 'Traveling' state at noon at thus, travel rather farther distances. In Appendix \ref{AnhangB}, a reference to an animated version of the stationary state probabilities can be found.
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=1\textwidth]{HMM_TEMP_STATE_PROBS.pdf}
+\caption[HMM - Stationary State probabilities by temperature]{HMM - Stationary State probabilities by temperature\\ Source: Own representation}
+\label{HMM_TEMP_STATE_PROBS}
+\end{center}
+\end{figure}
+
+For a further step in model checking, Figure \ref{HMM_qqacf} graphically shows the corresponding QQ-Plots as well as the ACF-Plots for the step lengths and the turning angle, respectively. The first row represents the output for the step lengths and the second row the output for the turning angles. As can be seen from the QQ-Plot, the pseudo-residuals tend to be standard normally distributed. There seems to be a minor lack of fit in the outer areas, but overall it appears to be a good fit. Moreover, comparing the QQ-Plot with the QQ-Plot of the fitted GAMM in Figure \ref{QQ_PLOT_COMPARISON}, a major improvement can be seen. The ACF-Plot for the turning angles does not show any autocorrelation, however, there still is some pattern left in the ACF for the step lengths. Although the autocorrelation left in the residuals is much smaller compared to the autocorrelation in the step length ACF seen in Figure \ref{MODEL_ACF}. Moreover, comparing the ACF for the best fitted GAMMs seen in Figure \ref{ACF_PLOTS_GAMMS_COMPARED} and the step lengths ACF for the HMM, the HMM can also handle the autocorrelation in a decent way as there is not much autocorrelation left in the residuals.
 \begin{figure}[htb]
 \begin{center}
 \includegraphics[width=1\textwidth]{HMM_2cov_with_interaction_term.pdf}
@@ -880,10 +960,45 @@ As for the model checking, Figure \ref{HMM_qqacf} graphically shows the correspo
 \end{center}
 \end{figure}
 
-All in all, the HMM offers a broad variety of output and could even be tuned further. For example, random effects for the animals could be implemented and more covariates (if accessable) could be added to the transition probabilities function. The cyclical pattern has been explained much better by the HMM than the GAMM, even though there is still some room for improvement. Both methods, HMMs and GAMMs have in common, that they heavily rely on equidistant observations. As mentioned in section \ref{GAMMz}, there still is some chance of the CTCRW not to catch every trend in the original dataset and thus might bias the imputed dataset. 
+All in all, the HMM offers a broad variety of output and could even be tuned further. For example, random effects for the animals could be implemented and more covariates (if accessable) could be added to the transition probabilities function. The cyclical pattern has been explained even better by the HMM than the GAMM. Although there is still some room for improvement, the general fit of the HMM is better than the fit of the GAMM. Nonetheless, both methods, HMMs and GAMMs have in common, that they heavily rely on equidistant observations. As mentioned in section \ref{GAMMz}, there still is some chance of the CTCRW not to catch every trend in the original dataset and thus might bias the imputed dataset. 
 
 \subsection{SDE}
-sparta
+One approach that does not require the imputation of data is the time-varying SDE method. As already mentioned, $\mu$ and $\sigma$ determine the type of SDE. The CTCRW is not only suitable for imputing movement paths, but also offers an option in this context. Thus, a velocity Ornstein-Uhlenbeck model is used. In the models shown here, $\mu$ and $\sigma$ only depend on one time-varying parameter, i.e. $\mu(Y_t, \bm{\theta}_t) = \mu(Y_t, \theta_t^{(1)})$ and $\sigma(Y_t, \bm{\theta}_t) = \sigma(Y_t, \theta_t^{(2)})$, where $\bm{\theta}_t = (\theta_t^{(1)}, \theta_t^{(2)})$ (see equation \eqref{3.sdebasic2} for reference). To be consistent with the CTCRW in section \ref{CTCRW_SEC}, $\rho = \theta_t^{(1)}$ and $\sigma = \theta_t^{(2)}$.
+
+As previous results show, the animals movement paths are affected by temperature and also show a cyclical pattern. Thus, the parameters $\rho$ and $\sigma$ both depend on the covariate 'temperature', using thin-plate regression splines. The time-varying SDEs have been fitted using the $\mathtt{smoothSDE}$ package by \cite{michelot2021package}. However, it was not possible to fit a joint model for all individuals, meaning that the model failed to fit shared parameters $\rho$ and $\sigma$ for all 14 elephants. Hence, adding the covariate 'hour' does not make any sense either. The failure could have several reasons. One reason might be, that the elephants have too different movement patterns. Another, related reason could be a too divergent reaction to temperature.
+
+When no model fits all elephants at once, it makes sense to fit a model for every 14 animals separately. Nevertheless, it is not possible to fit a model with the complete movement path of each animal. In particular, there are only piecewise sequences that could be fitted using the covariate 'temperature'. As an example, this is shown in the following for the elephant with ID 'AM254'. The sequence is limited to May 2008 up to October 2008 and thus corresponds to the dry season. 
+
+Figure \ref{SDE Parameters for AM254} shows the fitted parameters $\rho$ and $\sigma$. The red lines indicate 100 posterior draws. Following the idea of \citet{nychka1988bayesian}, these posterior draws create a confidence interval for the fitted parameter spline (black line). As can be seen, $\rho$ increases when temperature increases. The same holds true for $\sigma$. 
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=1\textwidth]{AM254_PARAMETERS_SDE.pdf}
+\caption[SDE Parameters for AM254 by temperature]{SDE Parameters for AM254 by temperature\\ Source: Own representation}
+\label{SDE Parameters for AM254}
+\end{center}
+\end{figure}
+
+Moreover, Figure \ref{Fitted_SDE_AM254} represents the relationship between speed and temperature. Comparing the result of this SDE to the GAMM in Figure \ref{GAMMAS_COMPARED_TEMP}, the result is very similar. The hotter it gets, the faster the elephant is moving. However, as it gets too hot, the elephant decreases its movement speed. 
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=1\textwidth]{AM254_TEMP_SDE.pdf}
+\caption[Fitted SDE AM254 by temperature]{Fitted SDE AM254 by temperature\\ Source: Own representation}
+\label{Fitted_SDE_AM254}
+\end{center}
+\end{figure}
+
+Nonetheless, the overall result is not satisfying because the model cannot explain the whole movement path of the animal using the covariate 'temperature'. Thus, as a next step, the covariate 'hour' is used to capture the daily pattern of the animals. Again, the model fails to explain all 14 elephants with shared parameters. However, it was possible to fit a model for each animal. As an example, Figure \ref{AM239_AM253_text} shows the relation between speed and time of day for the animals 'AM239' and 'AM253'. The daily movement pattern is very similar to the movement pattern shown in the HMM, as can be seen in Figure \ref{HMM_state_transitions}. The animals tend to be faster (and hence travel bigger distances) in the early morning and at noon. All 14 fitted models for the time-varying SDEs by time of day can be seen in Appendix \ref{AnhangD}.
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=1\textwidth]{AM239_AM253.pdf}
+\caption[AM239 and AM253 SDE Output by time of day]{AM239 and AM253 SDE Output by time of day\\ Source: Own representation}
+\label{AM239_AM253_text}
+\end{center}
+\end{figure}
+
+Turning to model selection, theoretically there were three candidates: a time-varying SDE model with parameters $\rho$ and $\sigma$ depending on both, time of day and temperature, only on temperature, or only on time of day. Effectively, there is only one candidate remaining, which is the parameters $\rho$ and $\sigma$ to depend on time of day only, because it is the only model that could be fitted (which actually is not even one single model either). 
+
+For model checking, it still is an open question on finding good, general methods for model checking in this context. 
 
 \clearpage
 % % % % % % % % % % % % % % % % % % % % % % % %
@@ -899,35 +1014,114 @@ so
 % % % % % % % % % % % % % % % % % % % % % % % %
 \clearpage
 
+\bibliography{library.bib}
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \appendix
 
 \section{GAMM Output}\label{AnhangA}
-GAMM Output by \cite{thaker2019}:
+\makeatletter
+\patchcmd{\verbatim@input}{\@verbatim}{\normalsize\@verbatim}{}{}
+GAMM (Family = gaussian) Output by \cite{thaker2019}:
 \verbatiminput{Thaker_Output_GAMM.txt}
 \clearpage
-\noindent GAMM Output by Meyer using temp, season, hour and ID:
+\noindent GAMM (Family = gaussian) Output (Meyer), hour modeled as random effect:
 \verbatiminput{Meyer_Output_GAMM_1.txt}
 \clearpage
-\noindent GAMM Output by Meyer using temp, season, coshour, sinhour and ID:
+\noindent GAMM (Family = gaussian) Output (Meyer), hour modeled as a cyclic effect:
 \verbatiminput{Meyer_Output_GAMM_2.txt}
+\clearpage
+\noindent GAMM (Family = gamma) Output (Meyer), hour modeled as a cyclic effect:
+\verbatiminput{Meyer_OUTPUT_GAMM_GAMMA.txt}
 
 \clearpage
 
-\section{some appendix2}\label{AnhangB}
-Z
+\section{HMM Output and animated state probabilities}\label{AnhangB}
+\makeatletter
+\patchcmd{\verbatim@input}{\@verbatim}{\scriptsize\@verbatim}{}{}
+\makeatother
+
+\minisec{HMM Output}
+\verbatiminput{Meyer_Output_HMM.txt} 
+$\text{ }$ \\
+\minisec{Animated versions of the stationary state probabilities}
+$\text{ }$ \\
+Stationary state probabilities by hour: \\
+\url{https://timom2110.github.io/Elephants-Moving-Data/hour_gif.html} \\
+\\
+Stationary state probabilities by temperature: \\
+\url{https://timom2110.github.io/Elephants-Moving-Data/temperature_gif.html}
+
 
 \clearpage
 
 \section{some appendix3}\label{AnhangC}
 
+\clearpage
 
+\section{SDE Output}\label{AnhangD}
+All time-varying SDE models. Parameters $\rho$ and $\sigma$ depending on covariate 'hour', fitted as a cyclic spline.
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=1\textwidth]{AM105_AM107.pdf}
+\caption*{AM105 and AM107 SDE Output by 'hour'\\ Source: Own representation}
+\label{AM105_AM107}
+\end{center}
+\end{figure}
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=1\textwidth]{AM108_AM110.pdf}
+\caption*{AM108 and AM110 SDE Output by 'hour'\\ Source: Own representation}
+\label{AM108_AM110}
+\end{center}
+\end{figure}
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=1\textwidth]{AM239_AM253.pdf}
+\caption*{AM239 and AM253 SDE Output by 'hour'\\ Source: Own representation}
+\label{AM239_AM253}
+\end{center}
+\end{figure}
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=1\textwidth]{AM254_AM255.pdf}
+\caption*{AM254 and AM255 SDE Output by 'hour'\\ Source: Own representation}
+\label{AM254_AM255}
+\end{center}
+\end{figure}
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=1\textwidth]{AM306_AM307.pdf}
+\caption*{AM306 and AM307 SDE Output by 'hour'\\ Source: Own representation}
+\label{AM306_AM307}
+\end{center}
+\end{figure}
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=1\textwidth]{AM308_AM91.pdf}
+\caption*{AM308 and AM91 SDE Output by 'hour'\\ Source: Own representation}
+\label{AM308_AM91}
+\end{center}
+\end{figure}
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=1\textwidth]{AM93_AM99.pdf}
+\caption*{AM93 and AM99 SDE Output by 'hour'\\ Source: Own representation}
+\label{AM93_AM99}
+\end{center}
+\end{figure}
 % % % % % % % % % % % % % % % % % % % % % % % % 
 
 \clearpage
 
-\bibliography{library.bib}
 
-\clearpage
 
 % % % % % % % % % % % % % % % % % % % % % % % % 
 
