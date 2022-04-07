@@ -1,7 +1,36 @@
 <HTML>
 <HEAD> <TITLE>Animated stationary state probabilities by hour. Separated by season.</TITLE> </HEAD>
 <BODY>
-    <img src="gif_hmm3_wet_season_temp_6ms.gif" width="50" height="50" />
-    <img src="gif_hmm3_dry_season_temp_6ms.gif" width="50" height="50">
+    <div id="loading">
+        <img id="gif_hmm3_wet_season_temp_6ms.gif" src="gif_hmm3_dry_season_temp_6ms.gif" alt="Loading..." />
+        <img id="gif_hmm3_wet_season_temp_6ms.gif" src="gif_hmm3_dry_season_temp_6ms.gif" alt="Loading..." >
+    </div>
+<style>    
+#loading {
+  position: fixed;
+  display: block;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  text-align: center;
+  opacity: 0.7;
+  background-color: #fff;
+  z-index: 99;
+}
+
+#loading-image {
+  position: absolute;
+  top: 100px;
+  left: 240px;
+  z-index: 100;
+}
+</style>    
+    
 </BODY>
+<script>
+  $(window).load(function() {
+    $('#loading').hide();
+  });
+</script>
 </HTML>
