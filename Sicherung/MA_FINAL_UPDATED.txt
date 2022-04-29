@@ -1,0 +1,1512 @@
+\documentclass[12pt,paper=A4,titlepage,bibliography=totoc,numbers=noenddot]{report}
+
+\makeatletter
+\DeclareOldFontCommand{\rm}{\normalfont\rmfamily}{\mathrm}
+\DeclareOldFontCommand{\sf}{\normalfont\sffamily}{\mathsf}
+\DeclareOldFontCommand{\tt}{\normalfont\ttfamily}{\mathtt}
+\DeclareOldFontCommand{\bf}{\normalfont\bfseries}{\mathbf}
+\DeclareOldFontCommand{\it}{\normalfont\itshape}{\mathit}
+\DeclareOldFontCommand{\sl}{\normalfont\slshape}{\@nomath\sl}
+\DeclareOldFontCommand{\sc}{\normalfont\scshape}{\@nomath\sc}
+\makeatother
+
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+%\usepackage[ngerman]{babel}
+\usepackage{booktabs} 
+\usepackage[format=plain,justification=centering]{caption}
+% \usepackage{dcolumn}
+\usepackage{enumitem}
+\usepackage{exscale}
+\usepackage{flafter}
+\usepackage[T1]{fontenc} 
+\usepackage[left=3.5cm,right=2.5cm,top=3cm,bottom=3cm]{geometry}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref} \urlstyle{same}
+\usepackage{icomma}
+%\usepackage[ansinew]{inputenc}
+\usepackage[utf8]{inputenc}
+\usepackage{float}
+\usepackage{gensymb}
+\usepackage{bm}
+\usepackage{pdfpages}
+\usepackage{natbib}
+
+\usepackage[scaled]{helvet}
+\usepackage{hyperref}
+
+
+\usepackage{afterpage}
+
+\usepackage{verbatim}
+
+%table
+\usepackage{geometry}
+\usepackage{siunitx}
+\usepackage{booktabs, makecell}
+\usepackage[referable]{threeparttablex}
+
+% \usepackage{longtable}
+\usepackage{mathtools} \mathtoolsset{showmanualtags}
+\usepackage{apalike}
+\usepackage{nccmath}
+% \usepackage{rotating}
+\usepackage{setspace} \onehalfspacing
+% \usepackage[notref,notcite]{showkeys}
+% \usepackage{tabularx}
+\usepackage{textcomp}
+% \usepackage[normalem]{ulem}
+% \usepackage{xcolor}
+\usepackage{xfrac}
+\usepackage{xspace}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+\usepackage{chngcntr}
+\numberwithin{equation}{chapter}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage[headsepline]{scrlayer-scrpage}
+%\automark{section}
+%\automark*{subsection}
+%\clearpairofpagestyles
+%\ohead{\headmark}
+%\rofoot{\pagemark}
+
+\usepackage[bottom,hang,flushmargin]{footmisc}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage{acronym}
+
+%\DeclareAcronym{eu}{
+%  short=EU,
+%  long=European Union,}
+
+\usepackage{tocloft}
+\setlength{\cftchapnumwidth}{2em}
+\cftsetindents{section}{2em}{2.4em}
+\cftsetindents{subsection}{4.4em}{3.2em}
+ 
+\usepackage{fancyhdr}
+
+\makeatletter
+
+\def\@makechapterhead#1{%
+  \vspace*{10\p@}%
+%  {\parindent \z@ \centering \reset@font
+  {\parindent \z@ \reset@font        
+		\par\nobreak
+        \vspace*{2\p@}%
+        {\Huge \bfseries \thechapter\quad #1\par\nobreak}
+        \par\nobreak
+        \vspace*{2\p@}%
+    \vskip 40\p@
+    %\vskip 100\p@
+  }}
+\def\@makeschapterhead#1{%
+  \vspace*{10\p@}%
+  {\parindent \z@ \reset@font
+        \par\nobreak
+        \vspace*{2\p@}%
+        {\Huge \bfseries #1\par\nobreak}
+        \par\nobreak
+        \vspace*{2\p@}%
+    \vskip 40\p@
+  }}
+\makeatother
+
+
+\pagestyle{fancy}
+
+
+\renewcommand{\chaptermark}[1]{ \markboth{#1}{} }
+\fancyhead{} % clear all fields
+\fancyfoot{}
+
+\DeclareMathOperator*{\argmax}{\arg\!\max}
+
+%\bibliographystyle{harvard}  
+\bibliographystyle{apalike}
+
+
+\AtBeginDocument{\addtocontents{lof}{\protect\thispagestyle{plain}}}
+
+% Palatino
+\usepackage{mathpazo} 
+\usepackage[scale=1.0425]{tgpagella}
+\usepackage[scale=.95]{tgheros}
+\usepackage{tgcursor}
+
+% Datum
+\usepackage[ngerman]{datetime}
+
+\newdateformat{myformat}{\THEDAY{ten }\monthnamengerman[\THEMONTH], \THEYEAR}
+
+% Formatierung der Fußnoten
+%\makeatletter \renewcommand*{\@fnsymbol}[1]{\ensuremath{\ifcase#1 \or * \or ** \or *** \or %\dagger \or \ddagger \or \dagger\dagger \or \ddagger\ddagger \fi}}\makeatother
+%\deffootnote{1.5em}{1em}{\makebox[1.5em][l]{\textsuperscript{\thefootnotemark}}}
+
+%R
+\newcommand{\pkg}[1]{{\normalfont\fontseries{b}\selectfont #1}}
+\let\proglang=\textsf
+\let\code=\texttt
+
+%Formatierung des Anhangs
+\newcommand*\appendixmore{
+  \clearpage
+  \addsec{\text{Appendix}}
+  \renewcommand{\thesection}{\text{A}\arabic{section}}%
+}
+%Captions
+%\captionsetup{justification=raggedright,singlelinecheck=false, format=hang}
+
+\usepackage{etoolbox}
+
+\fancyhead[RO]{\textit{\thechapter \quad \leftmark}}
+\fancyfoot[C]{\thepage}
+
+\usepackage{verbatimbox}
+
+%\BeforeStartingTOC[toc]{\pagestyle{plain}}
+%\AfterStartingTOC[toc]{\clearpage}
+
+\begin{document} \setlength{\emergencystretch}{3em} 
+
+\pagenumbering{roman}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% % % % % % % % % % % % % % % % % % % % % % % % 
+% Title page!!!!!
+\newgeometry{margin=0.5in}
+\begin{center}
+\thispagestyle{empty}
+
+
+\Huge{Universit\"at Bielefeld} \\
+
+
+\vspace{.5cm}
+\Large{Fakult\"at f\"ur Wirtschaftswissenschaften} 
+
+\vspace{1cm}
+
+\large{{\textbf{Masterarbeit} }} 
+\vspace{0.2cm}
+
+\normalsize{im Studiengang Wirtschaftswissenschaften}
+
+\vspace{1cm}
+
+\normalsize{zum Thema:} 
+\large
+
+\vspace{0.25cm}
+{\textbf{Statistical modeling of tracking data \text{\normalfont--} \\ an empirical comparison of methods}}
+
+
+
+
+\vspace{1cm}
+\normalsize
+vorgelegt von \\
+\vspace{0.25cm}
+\large
+{\textbf{Timo Meyer}}\\
+\vspace{0.5cm}
+\normalsize
+\begin{tabular}{ll}
+Matrikel-Nr:  & 2729188\\
+Anschrift:  & Nagelsholz 11, 32139 Spenge
+\end{tabular}
+\vspace{1.5cm}
+
+\normalsize{ausgef\"uhrt zum Zwecke der Erlangung des akademischen Grades Master der Wirtschaftswissenschaften (M.Sc.)}  
+
+\vspace{1cm}
+\normalsize
+\begin{tabular}{ll} 
+1. Pr\"ufer/in  & Prof. Dr. Roland Langrock \\ & (Lehrstuhl Statistik und Datenanalyse)\\
+2. Pr\"ufer/in  & Prof. Dr. Dietmar Bauer \\ & (Lehrstuhl \"Okonometrie)
+\end{tabular}
+
+
+
+\vspace{2cm}
+Bielefeld, im Mai 2022 
+\end{center}
+\restoregeometry
+\newpage
+\begingroup
+\begin{center}
+\section*{Abstract}
+
+\thispagestyle{empty}
+\end{center}
+\noindent
+Investigating the movement behaviour of wild animals driven by physiological requirements and environmental factors is of growing interest to the ecological community. Due to modern GPS technology and increasing computing capacities, various statistical methods allow researchers to extensively infer mechanisms, patterns and latent state dynamics in animal movement. By using recently described time-varying stochastic differential equations, hidden Markov models, and generalised additive mixed models, savanna elephants' irregular spaced movement data will be analysed to empirically compare and evaluate the properties and suitability of these methods for tracking data. So far, the data of the savanna elephants have been analysed- neglecting the irregularity. Therefore, the data will be imputed using continuous-time correlated random walks, prior to the analysis. The present study shows that elephants' movement is highly influenced by temperature. Moreover, it also indicates that time of day is a significant behavioural factor and reveals a cyclic 24-hour movement pattern. Whereas generalised additive mixed models are rather an additional tool, hidden Markov models can categorise the cyclical movement pattern and response to temperature into three different ecological states: resting, foraging, and traveling. Although the three latent states are merely proxies for their true ecological state dynamics, these reveal different activity patterns and provide additional information about elephants' assumed shuttling behaviour, making hidden Markov models a favourable choice in movement ecology. Although there have been computational issues concerning the maximisation of the log-likelihood, time-varying stochastic differential equations uncover the influence of temperature and time of day in a more mechanistic sense. A combination of time-varying stochastic differential equations and hidden Markov models might advance inference of ecological state dynamics in a more technical manner.
+
+\vspace{2 cm}
+\endgroup
+\begin{centering}
+\section*{Acknowledgements}
+
+\thispagestyle{empty}
+\begin{center}
+    To my family, and Madeleine.
+\end{center}
+
+\end{centering}
+\clearpage
+ 
+% % % % % % % % % % % % % % % % % % % % % % % % 
+\setcounter{page}{1}
+\thispagestyle{empty}
+\tableofcontents 
+\thispagestyle{plain}
+\clearpage
+\thispagestyle{plain}
+
+\begingroup
+\pagestyle{plain}
+\listoffigures\addcontentsline{toc}{chapter}{List of Figures}
+\clearpage
+\listoftables \addcontentsline{toc}{chapter}{List of Tables}
+\chapter*{Nomenclature} \addcontentsline{toc}{chapter}{Nomenclature}
+{\large \textbf{Latin}}
+
+\begin{enumerate}[label=Abschnitt \theenumi:, leftmargin=*, align=left]
+\setlength{\labelsep}{5pt}
+\setlength\itemsep{-3.7pt}
+\item[$a$] state vector in state space models
+\item[$b$] random effects vector
+\item[$d_{\Delta}(t)$] movement of an animal over $\Delta$ time units
+\item[$G$] transformation matrix
+\item[$g(\cdot)$] smoothing function
+\item[$H$] variance matrix of measurement error in state space models
+\item[$h$] known, monotonic, twice differentiable link function
+\item[$I$] identity matrix
+\item[$L$] likelihood
+\item[$l$] log-likelihood
+\item[$m$] number of states in a Markov chain
+\item[$O$] O notation, upper bound on the growth rate of a function
+\item[$P$] matrix of (state-dependent) probability functions
+\item[$p$] probability mass or probability density function
+\item[$Q$] variance covariance matrix for error vector $\Omega$
+\item[$q$] location quality covariate (e.g. ARGOS location data)
+\item[$r$] drift parameter
+\item[$s$] variability in velocity
+\item[$U$] (quadratic) unity matrix
+\item[$u$] probability of being in a certain state
+\item[$V(\cdot)$] variance function
+\item[$v(t)$] instantaneous velocity
+\item[$W$] matrix containing weights $w_{ii}$
+\item[$X, x$] regressor
+\item[$Y, y$] response variable
+\item[$Z$] model matrix for random effects
+\item[$z$] pseudodata
+\item[] 
+\item[{\large \textbf{Greek}}]
+\end{enumerate}
+
+\begin{enumerate}[label=Abschnitt \theenumi:, leftmargin=*, align=left]
+\setlength{\labelsep}{5pt}
+\setlength\itemsep{-3.7pt}
+\item[$\alpha$] forward probabilities
+\item[$\beta$] coefficients for basis function
+\item[$\Gamma$] transition probability matrix
+\item[$\gamma$] transition probabilities
+\item[$\delta$] stationary distribution
+\item[$\varepsilon$] measurement error
+\item[$\zeta$] normal distributed random variable, second component of $\Omega$
+\item[$\eta$] predictor
+\item[$\theta$] time-varying parameter
+\item[$\vartheta$] normal distributed error vector, first component of $\Omega$
+\item[$\iota$] influence term
+\item[$\kappa$] coordinates in discrete-time, location process in continuous-time
+\item[$\Lambda$] positive definite matrix to model correlation structures
+\item[$\lambda$] smoothing parameter
+\item[$\mu(\cdot)$] expected value; drift function of a stochastic differential equation
+\item[$\nu$] estimated velocity
+\item[$\xi$] coefficients for fixed effects
+\item[$\rho$] (autocorrelation) parameter for stochastic differential equations
+\item[$\varrho$] concentration parameter in a von Mises distribution
+\item[$\sigma(\cdot)$] diffusion function in stochastic differential equations
+\item[$\tau$] effective degrees of freedom
+\item[$\phi(\cdot)$] probability density function of a normal distribution
+\item[$\varphi$] backward probabilities
+\item[$\Psi$] variance covariance matrix for random effects
+\item[$\psi$] basis functions for smoothing function $g(\cdot)$
+\item[$\Omega$] normal distributed error vector
+\item[$\omega$] mean velocity in a velocity process
+\end{enumerate}
+
+\chapter*{Acronyms} \addcontentsline{toc}{chapter}{Acronyms}
+
+\begin{enumerate}[label=Abschnitt \theenumi:, leftmargin=*, align=left]
+\setlength{\labelsep}{5pt}
+\setlength\itemsep{-3.5pt}
+\item[ACF] autocorrelation function
+\item[AIC] Akaike's information criterion
+\item[BIC] Bayesian information criterion
+\item[CTCRW] continuous-time correlated random walk
+\item[EDA] exploratory data analysis
+\item[EDF] effective degrees of freedom
+\item[EM] expectation-maximisation
+\item[GAM] generalised additive model
+\item[GAMM] generalised additive mixed model
+\item[GCV] generalised cross validation
+\item[HMM] hidden Markov model
+\item[LMM] linear mixed model
+\item[MCMC] Markov chain Monte Carlo
+\item[PIRLS] penalised iterative re-weighted least squares
+\item[PDF] probability density function
+\item[QQ-plot] quantile-quantile-plot
+\item[REML] restricted maximum likelihood estimation
+\item[SDE] stochastic differential equation
+\item[SSM] state-space model
+\end{enumerate} 
+\endgroup
+
+
+
+\pagestyle{fancy}
+% % % % % % % % % % % % % % % % % % % % % % % %
+% % % INTRODUCTION% % % % % % % % % % % % % % % 
+% % % % % % % % % % % % % % % % % % % % % % % %
+\chapter{Introduction}
+\pagenumbering{arabic} \setcounter{page}{1}
+
+Investigating the movement behaviour of wild animals driven by physiological requirements and environmental factors is of growing interest to the ecological community. Increasing capabilities of GPS technology sensors provide movement data over more extended time periods and at a higher frequency (e.g. half-hourly data for several months or years). A recent study by \cite{thaker2019} analysed the movement behaviour of 14 female savanna elephants (\textit{Loxodonta africana}) from different herds, tracked via GPS with implemented temperature sensors, over a two-year period from 2007 to 2009 in Kruger National Park, South Africa. Using regression methods, such as linear mixed models (LMMs) and generalised additive mixed models (GAMMs), they found that elephants move faster at hotter temperatures, especially in the wet season. Moreover, the individuals showed a periodic shuttling pattern towards water sources \citep{thaker2019}. 
+
+However, it is not clear if regression methods are an appropriate choice in analysing tracking data. In particular, \cite{thaker2019} neglected the fact that the dataset is irregularly spaced. Since a relationship between the scale-dependent variable speed and environmental covariates was assumed, the irregular time intervals will most likely cause problems in statistical inference. Moreover, tracking data are highly correlated, which has not been considered in model formulation yet. Thus, the results might be biased and need to be reconsidered to gain further insights into the dynamics and drives of the movement behaviour of savanna elephants. 
+
+Given this circumstance, three different statistical methods will be compared in order to investigate the relationship between animal movement and their environment: GAMMs, hidden Markov models (HMMs) and a recently described extension to stochastic differential equations (SDEs). Due to high complexity and dynamic interdependencies, movement data is challenging to analyse and hence the aim is to find out which of the three methods is the most effective approach for this type of data. Prior to analysing the animal movement, the irregular spaced dataset will be imputed using continuous-time correlated random walks (CTCRWs). The three methods will then be empirically compared based on suitability, comprehensibility, computational efficiency and output.
+
+Methodologically, \cite{thaker2019} analysed the behaviour of the respective elephants in the context of physiological requirements and revealed a shuttling pattern of the individuals towards water sources. Furthermore, concerning local and regional rainfall patterns, \cite{birkett2012animal} analysed seasonal shifts in the movement behaviour of the 14 tracked elephants using piece-wise linear regression models (PRMs) and generalised linear models (GLMs). However, they also did not account for autocorrelation. Due to the irregular spaced observation times, they only used certain sequences of the movement paths, whereas \cite{thaker2019} even fitted models with irregular data. 
+
+In contrast, different approaches than regression models gained popularity within the rapidly growing field of movement ecology. Derived from the nature of tracking data, most methods are time series tools. An overview of critical methods can be found in \cite{patterson2017statistical}; however, it is impossible to discuss the wide variety of methods to analyse tracking data. Thus, the most common approaches will be briefly presented.
+
+A prevalent approach is the Lévy walk proposed by \cite{viswanathan1999optimizing}. However, it is too simplistic to model critical key patterns of interest in the data because it does not account for autocorrelation. Therefore, \cite{jonsen2003meta} proposed state–space models (SSMs) to analyse movement data. SSMs are doubly stochastic processes capturing movement dynamics using continuous-valued, unobserved states and can account for uncertainty in the location. HMMs can be used as a special case of SSMs with finite states, if the location error can be neglected. For example, \cite{patterson2009classifying} linked the movement behaviour of animals to certain activity modes using HMMs, whereas \cite{deruiter2017multivariate} investigated blue whale activity during sonar exposure. Besides the state-space approach, correlated random walks and SDEs gained popularity, as they can handle irregular spaced data. \cite{morales2004extracting} described a method to use mixtures of correlated random walks to further investigate movement behaviour. Moreover, \cite{blackwell1997random} uses random diffusion models for the movement of animals switching between behavioural states. There are numerous extensions and applications in movement ecology based on these methods. As a more recent approach, \cite{Michelot2021} described time-varying SDEs, where the parameters are functions of covariates and modelled via regression splines. 
+
+Due to this vast amount of methods, the three key concepts will be empirically compared; GAMMs, HMMs and (time-varying) SDEs. In the following, the movement behaviour of the savanna elephants' data will be investigated in chapter \ref{data}. Moreover, using CTCRWs, the data will be imputed to properly fit those methods to the data, requiring equally spaced observations. The theoretical concepts of the methods will then be described in chapter \ref{methods}. In chapter \ref{results}, the methods will be applied to the data. Conclusively in chapter \ref{discussion}, the results will be discussed, whereas the methods will be compared in order to draw conclusions about what approach should be used when dealing with movement data.
+
+\clearpage
+% % % % % % % % % % % % % % % % % % % % % % % %
+% % % LITERATURE OVERVIEW % % % % % % % % % % %
+% % % % % % % % % % % % % % % % % % % % % % % %
+
+\chapter{The Data}\label{data}
+This chapter is intended to provide an insight into the savanna elephants' data. In the following section, using exploratory data analysis (EDA), key aspects of the data will be presented. Then, based on EDA, further considerations are made in the context of the methods to be used.
+
+\section{Exploratory Data Analysis}
+The dataset includes 14 female elephants from 14 different herds. The elephants were tracked over a two-year period from 2007 to 2009, in Kruger National Park, South Africa \citep{datasetcite}, by using GPS collars with integrated temperature sensors. GPS temperature sensors were intended to measure the ambient temperature to examine movement patterns. In addition, a timestamp including year, month, day, hour, and minute has been tracked for every observation.
+
+The dataset contains about 280.000 observations, although they are not uniformly distributed among all animals. Differences in the number of observations result from the fact that some animals were tracked in shorter time periods, e.g. from 2008 to 2009, and therefore have fewer observations. Figure \ref{OpID} shows the number of observations per animal. Each animal has its own ID, reaching from AM91 to AM308. As can be seen, IDs AM91 and AM99 have three times as many observations as IDs AM107 and 306. However, the absolute number of observations per animal is sufficient for the methods applied here and, thus, is not a limitation.
+
+Another reason for varying observations per ID is justified in irregularly spaced observations. Most time intervals between two consecutive observations are about half an hour. However, the gap between two observations can be much larger. Even weeks or months can lie in between two consecutive observations. Figure \ref{Irr} represents a distribution of different time intervals in minutes. About 6.000 consecutive observations result in time intervals longer than 150 minutes.
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=15cm]{Obs_per_ID.pdf}
+\caption[Observations per animal]{Observations per animal.\\
+Source: own representation.}
+\label{OpID}
+\end{center}
+\end{figure}
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=15cm]{TIME_INTERVALS.pdf}
+\caption[Time intervals between two consecutive observations]{Time intervals between two consecutive observations.\\
+Source: own representation.}
+\label{Irr}
+\end{center}
+\end{figure}
+
+This is, in fact, a drawback in the work of \citet{thaker2019} since they did not account for this irregular spacing when calculating the speed of the animals, which depends on two consecutive observations. Ignoring this issue leads to biased results when modelling the speed of the animals using models that require equally spaced observations. The bias is illustrated in Figure \ref{Irr2}. Starting from time $t$, the animal travels the distance marked in blue until time $t+1$. The red dotted line indicates the distance between the two consecutive observations. As can be seen, the indicated distance is much smaller than the travelled distance. Speed is calculated as distance divided by time. If the time interval between two observations increases, the calculated speed decreases. As a result, the dependent variable, speed, is biased. 
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=1\textwidth]{Irregular2.pdf}
+\caption[Actual distance traveled vs. calculated distance traveled]{Actual distance traveled vs. calculated distance traveled.\\
+Source: own representation.}
+\label{Irr2}
+\end{center}
+\end{figure}
+
+When using the methods shown in \citet{thaker2019}, such as generalised additive models (GAMs), GAMMs, or LMMs and ignoring the irregularity in the data, this will result in biased estimators because these methods require equally spaced observations. The next section introduces a method to address this bias.
+
+% % % % % % % % % % % % % % % % % % % % % % % %
+% % % CONTINUOUS TIME CORRELATED RANDOM WALK  %
+% % % % % % % % % % % % % % % % % % % % % % % %
+
+\section{Continuous-Time Correlated Random Walk}\label{CTCRW_SEC}
+The dataset must be imputed to obtain regularly spaced observations. A flexible method to accomplish this would be a continuous-time correlated random walk (CTCRW). A considerable advantage of a CTCRW is that it allows the modelling of unevenly sampled data without subsampling or interpolation techniques. Moreover, an Ornstein-Uhlenbeck process\footnote{which is why the CTCRW is sometimes called velocity Ornstein-Uhlenbeck model} can account for autocorrelation in that animals are assumed to have a certain kind of inertia, allowing for similar velocities for consecutive times. This is a fundamental feature because, statistically, most tracking data are highly spatially and temporally correlated, which must be considered in model formulation \citep{patterson2017statistical}. Since a correlated process does not depend only on the previous observation (which would then be called Markovian) and thus parameter estimation could be difficult, the model is formulated in a state-space framework. A state-space framework then allows the application of the Kalman filter to estimate the parameters via maximum likelihood, with predictions for unobserved location data as a byproduct \citep{Johnson2008}.
+
+To derive the CTCRW, let $\bm{\kappa}(t) = (\kappa_1(t), \kappa_2(t))^\prime$ be the coordinates (longitude and latitude) of an animal location at time $t$. Calculating the difference $\bm{d_{\Delta}(t)} = \bm{\kappa}(t+\Delta) - \bm{\kappa}(t)$ then describes the movement of an animal over $\Delta$ time units. The next step is to formulate this movement as a continuous-time process. If $\Delta \xrightarrow{} 0$ and $\bm{\kappa}(t)$ is a smooth and continuous path, then one obtains the differential equation 
+\begin{align}\label{3.0ctcrw1}
+d\bm{\kappa}(t) = \bm{v}(t)dt,
+\end{align}
+with $\bm{v}(t)$ representing the instantaneous velocity \citep{Johnson2008}.
+
+In order to model this instantaneous velocity in continuous-time, an Ornstein-Uhlenbeck process will be used. In particular, for each coordinate axis $c = 1, 2$, the instantaneous velocity, $v_c(t)$, for each time unit $\Delta$, is defined as the autoregressive equation
+\begin{align}\label{3.0ctcrw2}
+v_c(t + \Delta) = \omega_c + e^{-\rho\Delta}(v_c(t) - \omega_c) + \zeta_c(\Delta).
+\end{align}
+In \eqref{3.0ctcrw2}, $\omega_c$ is the mean velocity (drift) rate, $\rho$ describes an autocorrelation parameter, and $\zeta_c(\Delta)$ represents a normal random variable with distribution 
+\begin{align}\label{3.0ctcrw3}
+\zeta_c(\Delta)  \sim N\left( 0,\thickspace s^2\frac{(1-e^{-2\rho\Delta})}{2\rho} \right),
+\end{align}
+with $s$ controlling the overall variability in velocity.\footnote{A strict derivation of the velocity process can be found in \citet{Johnson2008}. In this work, Equation \eqref{3.0ctcrw2} already shows the derived velocity process.} Equation \eqref{3.0ctcrw2} states that $v_c(t + \Delta)$ at time $t + \Delta$ equals the mean velocity $\omega_c$, an adjustment for the difference between the velocity at time $t$ and the mean velocity, plus a random variable whose variance increases with $\Delta$, which is stated in Equation \eqref{3.0ctcrw3}. The derived process can be used to model the velocity of a moving animal. Figure \ref{OU} shows one hundred simulated Ornstein-Uhlenbeck processes as an example of animal velocity. The Figure illustrates the so-called mean-reverting tendency because every process reverts to its mean velocity. However, most of the time, the centre of attraction, $\omega_c$, will be set to zero to indicate that there is no systematic bias in the velocity \citep{Michelot2021}.
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=1\textwidth]{OU.pdf}
+\caption[Ornstein-Uhlenbeck process - simulated velocity]{Ornstein-Uhlenbeck process - simulated velocity.\\
+Source: own representation.}
+\label{OU}
+\end{center}
+\end{figure}
+
+The bivariate velocity process $\bm{v}(t)$ must be integrated up to time $t$ and added to the initial location $\bm{\kappa}(0)$, defining the continuous-time location process to obtain the location at time $t$ in the continuous-time framework:
+\begin{align}\label{3.0ctcrw4}
+\bm{\kappa}(t) = \bm{\kappa}(0) + \int_{0}^{t} \bm{v}(u) \,du.
+\end{align}
+Thus, the combination of Equations \eqref{3.0ctcrw2} and \eqref{3.0ctcrw4} provides the CTCRW model. In principal, Equation \eqref{3.0ctcrw2} is an Ornstein-Uhlenbeck process that is supposed to capture autocorrelation in movement speed and direction, whereas the location process defined in \eqref{3.0ctcrw4} is just the integral of \eqref{3.0ctcrw2}.
+
+However, as mentioned earlier, since the location process relies on consecutive, correlated velocities (i.e., the process is not Markovian), estimating the parameters tends to be challenging. Therefore, the CTCRW will be set into a state-space framework \citep{Johnson2008}. The general framework of a Gaussian linear state-space model for a univariate observation comprises two equations, the observation equation and the state equation:
+\begin{align}\label{3.0ctcrwssm1}
+y_{i} = \bm{G}_i^\prime\bm{a}_i + \varepsilon_i
+\\ 
+\label{3.0ctcrwssm2} 
+\bm{a}_{i+1} = \bm{K}_i\bm{a}_i + \bm{\Omega}_i.
+\end{align}
+In Equation \eqref{3.0ctcrwssm1}, $\bm{a}_i$ describes the current state vector, $\varepsilon_i$ is a normal measurement error with variance $H_i$, $\bm{G}_i$ is an appropriately sized transformation matrix for the state vector, and $y_i$ is an observation at time $i$. In Equation \eqref{3.0ctcrwssm2}, $\bm{K}_i$ also is an appropriately sized transformation matrix for the state vector. Additionally, $\bm{\Omega}_i$ represents normal error vectors with variance-covariance matrix $\bm{Q}_i$ \citep{Johnson2008}.
+
+In the following, the CTCRW is reformulated into Equations \eqref{3.0ctcrwssm1} and \eqref{3.0ctcrwssm2} to obtain a state-space model version. Assuming that the locations $\bm{y}_i = (y_{1i}, y_{2i})^\prime$ are observed at times $t_1, \mathellipsis, t_n$ and, conditioning on the true location $\bm{\kappa}(t) = (\kappa_1(t), \kappa_2(t))^\prime$, this will yield the observation equation for animal movement:
+\begin{align}\label{3.0ctcrw5}
+y_{ci} = \kappa_{ci} + \varepsilon_{ci},\thickspace\thickspace\thickspace\thickspace\varepsilon \sim N(0, \thickspace H_{ci}).
+\end{align}
+The variance $H_{ci}$ of the error term $\varepsilon_{ci}$ in Equation \eqref{3.0ctcrw5} could depend on external location quality covariates (for GPS data, the measurement error is often sufficiently small to be ignored).
+
+The true location equation (corresponding to the state-space model's state equation) is somewhat more difficult to formulate since $\bm{\kappa}(t)$ is not Markovian. However, regarding the velocity process described in \eqref{3.0ctcrw2} and the formulation of the location process given in Equation \eqref{3.0ctcrw4}, the state $\bm{a}_i$ can be obtained by bundling the velocity process to the location process into a single state vector since the velocity process itself is Markovian \citep{Johnson2008}. Therefore, this yields the state equation 
+\begin{align}\label{3.0ctcrw6}
+\kappa_{c,i+1} = \kappa_{ci} + v_{ci}\left(\frac{1-e^{-\rho\Delta_i}}{\rho}\right) + \vartheta_{ci}.
+\end{align}
+As before, $\Delta_i$ is the difference between two consecutive times, and $\vartheta_{ci}$ represents normal error vectors (this is the first entry of $\bm{\Omega}_i$ in the general formulation) with variance
+\begin{align}\label{3.0ctcrw7}
+\text{Var}(\vartheta_{ci}) = \frac{s^2}{\rho^2}\left(\Delta_i - \frac{2}{\rho}(1- e^{-\rho\Delta_i})+ \frac{1}{2\rho}(1- e^{-2\rho\Delta_i})\right).
+\end{align}
+Furthermore, with covariance 
+\begin{align}\label{3.0ctcrw8}
+\text{Cov}(\zeta_{ci}, \vartheta_{ci}) = \frac{s^2}{2\rho^2}\left(1 - 2e^{-\rho\Delta_i} + e^{-2\rho\Delta_i}\right)
+\end{align}
+between $\zeta_{ci}$ and $\vartheta_{ci}$ (consequently, $\zeta_{ci}$ is the second entry of $\bm{\Omega}_i$ in the general formulation), the variance-covariance matrix of $\bm{\Omega}_{ci}$ can be specified as 
+\begin{align}\label{3.0ctcrw9}
+\bm{Q}_{ci} = \begin{pmatrix}
+   \text{Var}(\vartheta_{ci}) & \text{Cov}(\zeta_{ci}, \vartheta_{ci}) \\
+   \text{Cov}(\zeta_{ci}, \vartheta_{ci}) & \text{Var}(\zeta_{ci})
+   \end{pmatrix}.
+\end{align}
+As a last step, defining $\bm{G}_i = (1\thickspace 0)^\prime$, $\bm{a}_i = (\kappa_{ci}\thickspace v_{ci})^\prime$, $\bm{\Omega}_{ci} = (\vartheta_{ci}\thickspace \zeta_{ci})^\prime$ and $H_{ci} = H(q_i)$, where $q_i$ is a known location quality covariate, and in combination with the matrix
+\begin{align}\label{3.0ctcrw10}
+\bm{K}_{i} = \begin{pmatrix}
+   1 & (1- e^{-\rho\Delta_i})/\rho \\
+   0 & e^{-\rho\Delta_i}
+   \end{pmatrix},
+\end{align}
+all components of a basic state-space formulation are specified. In particular, with Equations \eqref{3.0ctcrw2}, \eqref{3.0ctcrw5}, and \eqref{3.0ctcrw6}, one obtains a CTCRW model in a state-space framework \citep{Johnson2008}. 
+
+This reformulation of the CTCRW allows the use of a Kalman filter to estimate the movement parameters $\hat{\theta} = (\hat{\rho}_1, \hat{\rho}_2, \hat{s}_1, \hat{s}_2)^\prime$ via maximum likelihood. As mentioned earlier, the byproducts of estimation using a Kalman filter are (partly) unobserved, equally spaced locations $\bm{\hat{\kappa}}(t)$ (and velocities $\bm{\hat{v}}(t)$) \citep{Johnson2008}.
+
+Using the CTCRW, the dataset at hand has been imputed. The selected time interval is one hour, as this ensures sufficient granularity and, at the same time, a reasonable prediction quality of the CTCRW. Figure \ref{PathsCTCRW} graphically represents the concept of imputed hourly paths exemplified by individual AM105. The black dots represent the observed locations, and the blue coloured path corresponds to the predicted movement path, which is obtained by the CTCRW. For further modelling, the variables 'speed', 'step length' and 'turning angle' can be computed based on the regular movement path. The CTCRW was implemented with the statistical software R using the functions $\mathtt{crwFit}$ and $\mathtt{crwPredict}$ from the $\mathtt{crawl}$ package \citep{johnson2018package}. The step length and turning angle computations were accomplished using the function $\mathtt{prepData}$ via the package $\mathtt{moveHMM}$ \citep{michelot2016movehmm}. Step lengths are defined as the distance between two consecutive observations, whereas turning angles correspond to the direction changes between two consecutive observations \citep{patterson2017statistical}. The computation time took only a few minutes on a 4.9 GHz Intel Core i7 9700k and 16GB DDR4 RAM.
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=9cm]{AM105_LONG_LAT_IMPUTED-komprimiert.pdf}
+\caption[AM105 imputed path]{AM105 imputed path.\\
+Source: own representation.}
+\label{PathsCTCRW}
+\end{center}
+\end{figure}
+
+However, as mentioned before, there are also time intervals of several months between two consecutive observations. This temporal discrepancy could not be modelled satisfactorily by a CTCRW. Temporal discrepancies that are too extensive to model do not affect all time series, but only a few animals. Animal AM107 exemplifies this. Figure \ref{AM107CTCRW} represents a plot of the imputed step lengths of AM107 depending on the tracking time.
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=1\textwidth]{AM107_FAIL.pdf}
+\caption[AM107 modelled step lengths using CTCRW]{AM107 modelled step lengths using CTCRW.\\
+Source: own representation.}
+\label{AM107CTCRW}
+\end{center}
+\end{figure}
+
+The diagram shows time intervals with a seemingly constant step length over weeks or even months. The (almost) constant step length results from the fact that the CTCRW can not model hourly time intervals satisfactorily because the temporal discrepancy between two consecutive observations in time is too large and results in infinitesimal changes in the hourly step length. As mentioned, this is the case for just a few animals. Therefore, instead of completely ignoring the animals' movement paths, sequences are used where there are no weeks or months between two consecutive observations. For example, the time series of AM107 was truncated to August 2007 to February 2008.
+
+A CTCRW thus provides a new dataset with additional, useful information and movement paths of all 14 animals, forming the basis for the methods that will be applied. In particular, the variables 'speed', 'step length' and 'turning angle' can now be modelled using methods that require equally spaced data in to make statistical inferences about the movement pattern of elephants. In particular, the goal is to further investigate the thesis by \cite{thaker2019} that elephants show a shuttling behaviour between water sources and analyse the movement pattern of the individuals affected by environmental factors and physical requirements. Moreover, this can be considered a case study to compare appropriate methods to analyse tracking data empirically. In the following, the theoretical background of the methods that will be used will be introduced.
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % % METHODS  % % % % % % % % %
+% % % % % % % % % % % % % % % % % % % % % % % % 
+
+\chapter{Methods}\label{methods}
+This chapter is intended to introduce the methods that will be applied in the next chapter. In particular, based on mixed models and an additive extension of the family of generalised linear models, called generalised additive models, generalised additive mixed models are described. The last two sections of this chapter introduce two concepts considered flexible tools for handling data collected over time: hidden Markov models and stochastic differential equations. Hidden Markov models will be covered first. Then, stochastic differential equations are slightly extended to a time-varying version of ordinary stochastic differential equations.
+
+
+% % % % % % % % % % % % % % % % % % % % % % % %
+% % % Mixed Models and GAMs % % % % % % % % % %
+% % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\section{Generalised Additive Mixed Models}\label{GAMz_theory}
+With the CTCRW model from the previous section, the data are now available at regular intervals expanding the possibilities of methods to be used. Over the past three decades, numerous extensions of the standard linear regression model have been developed. In the work of \citet{thaker2019}, LMMs, GAMs, and GAMMs were used. This section discusses mixed models as one component of GAMMs in general and GAMs as the basis model component. The two approaches will then be combined to formulate a GAMM.
+
+\subsection*{Mixed Models}
+In their simplest form, mixed models are an extension of the linear model
+\begin{align}\label{3.0mm1}
+\bm{y} = \bm{X}\bm{\xi} + \bm{\varepsilon},\thickspace\thickspace\thickspace\thickspace\bm{\varepsilon} \in \text{N}(\bm{0}, \textbf{I}\sigma^2) 
+\end{align}
+to
+\begin{align}\label{3.0mm2}
+\bm{y} = \bm{X}\bm{\xi} + \bm{Z}\bm{b} + \bm{\varepsilon},\thickspace\thickspace\thickspace\thickspace\bm{b} \in \text{N}(\bm{0}, \bm{\Psi}),\thickspace\thickspace\thickspace\thickspace \bm{\varepsilon} \in \text{N}(\bm{0}, \bm{\Lambda}\sigma^2),
+\end{align}
+with $\bm{b}$ as a vector containing so-called random effects with mean zero and covariance matrix $\bm{\Psi}$ \citep[chap.~2]{Wood2017}. Random effects can model heterogeneity in the data, particularly if the data set has a hierarchical structure and many observations are available for several observational units (e.g., different animals). For instance, if one animal has traveled a greater distance in a month than others, this does not mean that it will consistently travel farther than other animals. That would rather be a random effect than a particular subject's effect. The first terms in \eqref{3.0mm1} and \eqref{3.0mm2} represent the regressor matrix and the corresponding coefficients $\bm{\xi}$. The matrix $\bm{Z}$ is a simple model matrix for the random effects. In particular, $\bm{Z}$ contains fixed coefficients that describe how $\bm{y}$ depends on the random effects. Usually, $\bm{Z}$ is a subset of $\bm{X}$ because it does not make sense to assume a random deviation for every covariate effect in most applications. Moreover, the matrix $\bm{\Lambda}$ is a positive definite matrix that can be used to model autocorrelation. Consequently, the elements of the response vector $\bm{y}$ may no longer be assumed to be independent \citep[chap.~2]{Wood2017}. However, for most regression models used in the literature, $\bm{\Lambda}$ corresponds to the identity matrix $\textbf{I}$. 
+
+\subsection*{Generalised Additive Models}
+
+GAMs are a generalisation of additive models. The linear predictor of a GAM contains one or more smoothing functions for the expected value of the response, while the response variable itself may follow any exponential family distribution: 
+\begin{align}\label{3.0gam1}
+h(\mathbb{E}(y_i)) = \bm{X}_i\bm{\xi} + g_1(x_{1i}) + g_2(x_{2i}) + g_3(x_{3i}) + \cdots.
+\end{align}
+In Equation \eqref{3.0gam1}, $\bm{X}_i$ is the $i$-th row of a model matrix corresponding to any strictly parametric model component, with parameter vector $\bm{\xi}$. The expression $g_j(x_j)$ is a smoothing function of some covariate $x_j$. The response variable $y$ follows any exponential family distribution and $h$ is a known, monotonic, twice differentiable link function (\citealt[chap.~2]{Wood2017}; \citealt[chap.~6]{hastie1990generalized}). The concept of link functions is also known from generalised linear models. \footnote{For a detailed discussion of link functions, see \citet[chap.~5]{McCulloch2008}.}
+
+According to \citet[chap.~4]{Wood2017}, the smoothing function $g_j(\cdot)$ can be represented as a linear combination of $d_j$ (known) basis functions ${{\psi_{jk}}}$ with parameters $\beta_{jk}$ with
+\begin{align}\label{3.gam2}
+    g_j(x) = \sum_{k = 1}^{d_j} \beta_{jk}{\psi_{jk}}(x),\thickspace\thickspace\thickspace\thickspace j = 1, \mathellipsis, J.
+\end{align}
+Equation \eqref{3.gam2} states that $g_j(x)$ is an element of the defined basis. The basis functions themselves are supposed to represent unknown functions. Consequently, choosing those basis functions suitable for approximating known functions makes sense. Splines are an appropriate option for smoothing functions; for example, cubic regression splines, P-splines, and thin plate regression splines could be used. In fact, most smoothing functions are spline-based. Nonetheless, it would not be appropriate to model variables like 'time of day' using ordinary splines because the fitted smooth would change discontinuously at the end of the day. Hence, splines can be modified to cyclic versions where, for any smoothing spline $\bar{g}_j(x)$, the spline function must be continuous up to the second derivative, whereas the derivatives of the endpoints must match, and $\beta_{j1} = \beta_{jd_j}$. The cyclic version of a spline ensures that it has the same value at its upper and lower boundaries \citep[chap.~6]{Wood2017}.
+
+For model fitting, the parameters $\bm{\xi}$ and $\beta_{jk}$ must be estimated. For convenience, it will be assumed that vector $\bm{\beta}$ contains $\bm{\xi}$, and the individual smooth term coefficient vectors $\bm{\beta}_{j}$ are stacked on end. The estimation process is called penalised likelihood maximisation because ordinary likelihood maximisation is prone to overfitting. The penalties are defined so that $g_j$ is not overly wiggly, intended to account for the bias-variance trade-off.\footnote{The estimation methods are discussed in more detail in \citet[chap.~6]{Wood2017}.} 
+To give an example of a spline-based smoother, and consistent to \eqref{3.gam2}, penalised regression splines are used. The objective function
+\begin{align}\label{3.gam3}
+    \Vert\bm{y} - \bm{X\beta}\Vert^2 + \sum_{j = 1}^{J} \lambda_j \int_{0}^{1} [g_j^{\prime\prime}(x)]^2 \,dx
+\end{align}
+has to be minimised, where the first term represents the sum of squared residuals, and the second term measures the overall curvature of the smoothers, weighted by a smoothing parameter $\lambda_j$ \citep[chap.~5]{Wood2017} and represents the penalisation. It basically means that $\lambda_j$ controls the trade-off between under- and overfitting for every smoothing function $g_j(x)$. For $\lambda_j \xrightarrow{} \infty$, the curvature of the smoothing function $g_j(x)$ will be as low as possible, resulting in a straight line. Vice versa, $\lambda_j = 0$ means that the curvature will not be penalised at all. Since $g_j(x)$ is linear in the parameters, $\beta_{jk}$, and $g_j^{\prime\prime}(x) = \sum_{k = 1}^{d_j}\beta_{jk}{\psi_{jk}^{\prime\prime}}(x)$, the penalisation component can be written as a quadratic form
+\begin{align}\label{3.gam3_sonder}
+    \int_{0}^{1} [g_j^{\prime\prime}(x)]^2 \,dx = \bm{\beta}^T\bm{S}_j\bm{\beta},
+\end{align}
+where $\bm{S}_j$ is a positive definite matrix depending only on the basis functions, turning \eqref{3.gam3} into
+\begin{align}\label{3.gam3_updated}
+    \Vert\bm{y} - \bm{X\beta}\Vert^2 + \sum_{j = 1}^{J} \lambda_j \bm{\beta}^T\bm{S}_j\bm{\beta}.
+\end{align}
+The objective function \eqref{3.gam3_updated} then must be minimised w.r.t. $\bm{\beta}$, given $\lambda$. In practice, this is often achieved by using penalised iterative re-weighted least squares (PIRLS) (\citealt{green1984iteratively}; \citealt[chap.~6]{Wood2017}). 
+
+PIRLS consists of the following three steps:
+\begin{enumerate}
+  \item Initialise the estimates of the expected value of the exponential family distribution, $\mu_i$, with $\hat{\mu}_i = y_i$, and the predictor with $\hat{\eta}_i = h(\hat{\mu}_i)$. The following two steps will then be iterated until convergence.
+  \item Based on the estimates of the previous step, compute pseudodata $z_i = h^{\prime}(\hat{\mu}_i)(y_i-\hat{\mu}_i)/\iota(\hat{\mu}_i)+\hat{\eta}_i$ and iterative weights $w_i = \iota(\hat{\mu}_i)/\{h^{\prime}(\hat{\mu}_i)^2V(\hat{\mu}_i)\}$.
+  \item For fixed $\lambda$, find $\hat{\bm{\beta}}$ to minimise the weighted least squares objective
+  \begin{align}\label{3.gam3_PIRLS}
+    \Vert\bm{z} - \bm{X\beta}\Vert_W^2 + \sum_{j = 1}^{J} \lambda_j \bm{\beta}^T\bm{S}_j\bm{\beta}
+\end{align}
+  to update $\hat{\bm{\eta}} = \bm{X}\hat{\bm{\beta}}$ and $\hat{\mu}_i = h^{-1}(\hat{\eta}_i)$.
+\end{enumerate}
+\noindent $V(\hat{\mu}_i)$ denotes the variance function determined by the exponential family distribution, while the influence term, $\iota(\hat{\mu}_i)$, is defined as $\iota(\hat{\mu}_i) = [1+(y_i-\mu_i)\{V^{\prime}(\mu_i)/V(\mu_i)+ h^{\prime\prime}(\mu_i)/h^{\prime}(\mu_i)\}]$ \citep[chap.~6]{Wood2017}.
+
+A measure for the flexibility of the model is represented by degrees of freedom. However, the parameters are fit in a restricted fashion controlled by $\lambda$. Consequently, ordinary degrees of freedom would be misleading and thus, effective degrees of freedom (EDF) are computed. Using the last iteration of PIRLS and defining $\bm{F} = (\bm{X}^T\bm{WX+S}_{\lambda})^{-1}\bm{X}^T\bm{WX}$ with $\bm{W} = \text{diag}(w_i)$ and $\bm{S}_{\lambda} = \sum_{j=1}^J\lambda_j\bm{S}_j$, the EDF can be calculated as
+\begin{align}\label{3.gam3_EDF}
+    \tau = \text{tr}(\bm{F}).
+\end{align}
+\noindent The matrix $\bm{F}$ can be interpreted as mapping the non-penalised coefficient estimates to the penalised coefficient estimates. Hence, $\text{tr}(\bm{F})$ is basically the average shrinkage undergone by the coefficients, multiplied by the number of coefficients (\citealt[chap.~5]{hastie2009elements}; \citealt[chap.~6]{Wood2017}). To obtain the EDF of a specific smoothing spline $g_j(x)$, the values $F_{ii}$ corresponding to the parameters $\bm{\beta}_j$ must be added up.
+
+The penalisation parameter $\lambda$ can be estimated by cross validation or maximum likelihood estimation. In favour of computational efficiency, generalised cross validation (GCV), as well as the so-called restricted maximum likelihood estimation (REML), are often used to estimate $\lambda$ \citep{wood2004stable}. REML is used instead of ordinary maximum likelihood estimation because ordinary maximum likelihood estimation underestimates variance components in this context\footnote{For large sample sizes, the bias of the variance component gets smaller. Nonetheless, when working with high dimensional data, the variance estimators can be seriously biased.} \citep[chap.~6]{Wood2017}, however, GCV and REML will not be discussed, because it would go beyond the scope of this work. Figure \ref{GAM} graphically represents how splines work. An amount of $d_j$ basis functions will be weighted by their estimated respective parameters $\bm{\beta}_j$. The weighted values of the basis functions are then added up and thus, form a regression spline. 
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=1\textwidth]{SPLINE_EXAMPLE.pdf}
+\caption[P-spline fitted regression function]{P-spline fitted regression function.\\
+Source: own representation based on code by R. Langrock.}
+\label{GAM}
+\end{center}
+\end{figure}
+
+\subsection*{Generalised Additive Mixed Models}
+
+Now that GAMs and mixed models are introduced, the transition from GAMs to GAMMs is straightforward. Combining mixed models and GAMs results in a GAMM. A GAMM, thus, has the form
+\begin{align}\label{3.0gamm1}
+h(\mathbb{E}(y_i)) = \bm{X}_i\bm{\xi} + g_1(x_{1i}) + g_2(x_{2i}) + g_3(x_{3i}) + \cdots + \bm{Z}_i\bm{b},\thickspace\thickspace\thickspace\thickspace\bm{b} \in \text{N}(\bm{0}, \bm{\Psi}).
+\end{align}
+Consistent with \eqref{3.0gam1}, $\bm{X}_i$ again is the $i$-th row of a fixed-effects model matrix, with parameter vector $\bm{\xi}$. Moreover, $g_j(x_j)$ is a smoothing function of some covariate $x_j$. As described in \eqref{3.0mm2}, $\bm{Z}_i$ and $\bm{b}$ is the $i$-th row of a random-effects model matrix and a vector
+of random effects coefficients with positive definite coefficient matrix $\bm{\Psi}$, respectively. As specified in \eqref{3.0gam1}, $y$ follows any exponential family distribution, and $h$ is a known, monotonic, twice differentiable link function. Moreover, consistent with \eqref{3.0mm2}, an error term $\bm{\varepsilon}$ with $i$-th element $\varepsilon_i$ can be incorporated with covariance matrix $\bm{\Lambda}$ to model correlation structures, which is an advantage compared to GAMs \citep{wood2006low}. From a Bayesian perspective, there is a duality between smoothing functions and random effects. It follows that simple Gaussian random effects can also be estimated as if they were smoothing terms in the model, or vice versa, smoothing functions, and GAMs can be estimated using mixed models estimation methods, which would be REML (\citealt{wahba1983bayesian, silverman1985some}; \citealt[chap.~2, 6]{Wood2017}). Alternatively, PIRLS can be used to estimate $\bm{\beta}$, and REML to obtain $\lambda$, as described for GAMs.
+
+Turning to model selection, Akaike's information criterion (AIC) is a popular choice. In the context of GA(M)Ms, AIC requires some further attention because this part of model selection is distinct from (smoothing) parameter estimation. There are two main approaches for AIC: Marginal AIC and conditional AIC. Basically, they differ in the way they treat smooths. To obtain the marginal AIC, the model's (frequentist) marginal likelihood is used. Furthermore, smooths are treated as random effects and will not count for the number of parameters used. As mentioned, the frequentist marginal likelihood tends to underestimate variance components. However, replacing the ordinary likelihood estimation with REML does not solve the issue because the restricted likelihood of a model is only comparable to those models with the same fixed effects structure and hence cannot be compared in the sense of smooths (since the smooths are treated as random effects). Consequently, it cannot be evaluated if a smooth should be added to the model or not. In contrast, the conditional AIC is based on the (conditional) likelihood of all coefficients and uses EDF in place of the number of model parameters. In particular, smooths are treated as fixed effects \citep[chap.~6]{Wood2017}. As \citet{greven2010behaviour} have shown, the conditional version of AIC tends to select rather complex models, specifically when the model contains random effects. Thus, \citet{wood2016smoothing} proposed a correction to the EDF to obtain a corrected version of AIC, accounting for smoothing parameter estimation uncertainty. In the remaining work, the corrected version of AIC will be used for GAM(M)s.
+
+All in all, GAM(M)s provide a very accessible framework to model all kinds of relationships due to flexible smoothing functions. However, when modelling the observations in a time series context and assuming the observations are not independent of each other, the implementation of autocorrelations can be very time-consuming and computationally demanding. Moreover, in movement ecology, there are many approaches to interpreting the movement characteristics of animals by movement modes (see \citet{patterson2009classifying}, for example). Thus, a popular method of modelling animal tracking data will be discussed in the next section: HMMs.
+
+% % % % % % % % % % % % % % % % % % % % % % % %
+% % % HIDDEN MARKOV MODELS  % % % % % % % % % %
+% % % % % % % % % % % % % % % % % % % % % % % %
+
+\section{Hidden Markov Models}\label{HMM_BASICS}
+This section deals with hidden Markov models. Once the dataset has been imputed, HMMs are flexible tools for dealing with time series data, particularly for discrete-valued series. The main reason is that HMMs provide a convenient way to relax the assumption that the observed data are independent (as will be seen, they are conditionally independent) without being overly complex. HMMs can be conceptually divided into two blocks: the first block is a set of distributions that depend on the second block, an unobserved Markov chain consisting of different states. Then, depending on the active state, a particular distribution is chosen. That is, the state-dependent distribution then generates an observation $Y_t$ for each $t = 1,\mathellipsis, T$. This section has been divided into three logical subsections to make it more concise and clear.
+\subsection*{Markov Chains}
+
+Since the second block, the so-called Markov chain, is essential for understanding an HMM, a brief introduction is given. In general, a Markov chain is a sequence of discrete random variables $\{C_t : t \in \mathbb{N}\}$ if it satisfies the Markov property:
+\begin{align}\label{3.0mc}
+\Pr(C_{t+1} \mid C_t,\mathellipsis, C_1) = \Pr(C_{t+1} \mid C_t).
+\end{align}
+This property induces a certain dependency structure. Given the past $C_{t-1},\mathellipsis, C_1$ of the process, the future value $C_{t+1}$ only depends on $C_t$. Another major aspect of Markov chains is that they can take on $m$ different values (states) in any countable set $S$ with transition probabilities
+\begin{align}\label{3.0mc1}
+\gamma_{ij}(t, s) = \Pr(C_{s+t} = j \mid C_s = i).
+\end{align}
+Equation \eqref{3.0mc1} states that the probability of being in state $j$ at time $s + t$, given the chain is in state $i$ at time $s$, is denoted by $\gamma_{ij}(t, s)$. If the transition probability does not depend on $s$, the Markov chain is considered homogeneous \citep[chap.~1]{Zucchini2016}. This will be denoted by $\gamma_{ij}(t)$ and shall be assumed in this work unless there is an explicit indication of the contrary. The row stochastic matrix $\bm{\Gamma}(1)$, which will be abbreviated as $\bm{\Gamma}$, contains the one-step transition probabilities and is given by
+\begin{align}
+    \bm{\Gamma} = \begin{pmatrix}
+   \gamma_{11} & \cdots & \gamma_{1m} \\
+   \vdots & \ddots & \vdots \\
+   \gamma_{m1} & \cdots & \gamma_{mm}
+   \end{pmatrix}. 
+\end{align} 
+Figure \ref{M_St} provides a graphical representation of a basic three-state Markov process. The arrows indicate the probabilities of switching from state $i$ to state $j$. The matrix $\bm{\Gamma}(1)$ contains all one-step transition probabilities.
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=1\textwidth]{MARKOV_STATES.pdf}
+\caption[3-state Markov process]{3-state Markov process.\\
+Source: own representation based on \citet[chap.~2]{Zucchini2016}.}
+\label{M_St}
+\end{center}
+\end{figure}
+
+In most cases, one is interested in the long-term behaviour of the Markov chain and whether there exists a limiting distribution of the chain. Such a limiting distribution is closely related to the existence of a so-called stationary distribution.
+A Markov chain is said to have a stationary distribution $\bm{\delta}$, where $\bm{\delta}$ is a row vector with entries $\delta_j$, if
+\begin{align}\label{3.pr1}
+    & \delta_j \geq 0,\thickspace\thickspace\thickspace\thickspace\forall j \\
+    &\bm{\delta}\bm{\Gamma} = \bm{\delta} \label{3.pr2}\\
+    &\bm{\delta}\mathbf{1}^{\prime} = 1. \label{3.pr3}
+\end{align}
+Equation \eqref{3.pr2} indicates the stationarity, while \eqref{3.pr1} and \eqref{3.pr3} specify that $\bm{\delta}$ is a probability distribution since the entries add up to $1$ and are non-negative. If one additionally assumes that the Markov chain is irreducible and aperiodic, it follows that a unique limiting distribution exists, which is the stationarity distribution \citep[chap.~2]{Zucchini2016}. The vector $\bm{\delta}$ is a stationary distribution if, and only if 
+\begin{align}\label{3.024mc}
+    \bm{\delta}(\bm{I}_m - \bm{\Gamma} + \bm{U}) = \mathbf{1},
+\end{align}
+where $\bm{I}_m$ is the $m \times m$ identity matrix, and $\bm{U}$ is the $m \times m$ matrix of ones. Thus, Equation \eqref{3.024mc} can be used to compute the stationary distribution if the assumptions hold \citep[chap.~2]{Zucchini2016}. For the tracking data, it can be assumed that the underlying process is in its stationary distribution since the elephants existed before they were tracked, and thus the process has been running for some time. Consequently, $\bm{\delta}$ then gives the probabilities of encountering the process in any of the $m$ states.
+
+The properties of Markov chains form the core of the model structure of HMMs. The purpose of Markov chains in this context is that they can conveniently relax the independence assumption of the observations. In particular, they allow the observations to be independent conditional on the state being active, as shall be seen in the mathematical definition of HMMs.
+\subsection*{Model Formulation}
+
+Formally HMMs consist of an unobserved parameter process $\{C_t : t \in \mathbb{N}\}$ and an observed state-dependent process $\{Y_t : t \in \mathbb{N}\}$ with state-dependent distributions. 
+In particular, the underlying parameter process is a Markov chain and consists of $m$ states. Most HMMs satisfy the Markov property given in Equation \eqref{3.0mc}. This allows for serial dependence in the observations, such that a simple HMM can be characterised by
+\begin{align}\label{3.000}
+\Pr(C_t \mid \mathbf{C}^{(t-1)}) = \Pr(C_t \mid C_{t-1}),\thickspace\thickspace\thickspace\thickspace t = 2, 3,\mathellipsis
+\end{align}
+\begin{align}\label{3.01}
+\Pr(Y_t \mid \mathbf{Y}^{(t-1)}, \mathbf{C}^{(t)}) = \Pr(Y_t \mid C_t),\thickspace\thickspace\thickspace\thickspace t \in \mathbb{N}.
+\end{align}
+The above Equations \eqref{3.000} and \eqref{3.01} show that conditioning on the history of the Markov chain $\mathbf{C}^{(t-1)}$, $C_{t}$ only depends on $C_{t-1}$. Moreover, the Markov property implies that $\{C_t : t \in \mathbb{N}\}$ is fully characterised by the stationary distribution $\bm{\delta}$ and the transition probability matrix $\bm{\Gamma}$. The same principle applies to the state-dependent process, namely that the distribution of $Y_t$ depends only on $C_t$ and neither on a previous state $\mathbf{C}^{(t-1)}$ nor on the history of observations $\mathbf{Y}^{(t-1)}$. Thus, Equation \eqref{3.01} defines the said conditional independence assumption. In particular, Equation \eqref{3.01} implies that $\{Y_t : t \in \mathbb{N}\}$ is fully characterised by the state-dependent distributions \citep[chap.~2]{Zucchini2016}. Figure \ref{HMM_BASIC} illustrates the structure of a basic HMM. The unobserved parameter process $C_{t}$ and the state-dependent process $Y_{t}$ are shown.
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=1\textwidth]{HMM_BASIC_HMM.pdf}
+\caption[Basic HMM structure]{Basic HMM structure.\\
+Source: own representation based on \citet[chap.~2]{Zucchini2016}.}
+\label{HMM_BASIC}
+\end{center}
+\end{figure}
+
+The state-dependent distributions in the case of discrete observations can be written as \begin{align}\label{3.02}
+p_i(y) = \Pr(Y_t = y \mid C_t = i).
+\end{align}
+Equation \eqref{3.02} indicates that $p_i$ is the probability mass function of $Y_t$ when the Markov chain is in state $i$ at time $t$ \citep[chap.~2]{Zucchini2016}. It is worth noting that the state-dependent distributions are usually chosen as a class of parametric distributions. However, sometimes it may be challenging to decide which parametric distribution to use. An alternative is to estimate a non-parametric state-dependent distribution, for example, by using P-splines, as shown in \citet{Langrock2015}. Figure \ref{HMM_CHOICE} shows the process that generates the observations in a two-state HMM. Each state corresponds to a state-dependent distribution, and the active distribution then generates the observation.
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=1\textwidth]{HMM_STATE_CHOICE.pdf}
+\caption[2-state HMM process]{2-state HMM process.\\
+Source: own representation based on \citet[chap.~2]{Zucchini2016}.}
+\label{HMM_CHOICE}
+\end{center}
+\end{figure}
+
+With the state-dependent distributions, one can obtain the marginal distribution of $Y_t$. By defining $u_i(t) = \Pr(C_t = i)$ for $t = 1,\mathellipsis, T$ it follows that
+\begin{align}\label{3.03}
+    \Pr(Y_t = y)  & =  \sum_{i=1}^{m}\Pr(C_t = i)\Pr(Y_t = y \mid C_t = i) \\
+    & = \sum_{i=1}^{m}u_i(t)p_i(y), \label{3.0301}
+\end{align}
+or, in matrix notation:
+\begin{align}\label{3.04}
+    \Pr(Y_t = y)  & =  (u_1(t),\mathellipsis, u_m(t))\begin{pmatrix}
+   p_1(y) & & 0 \\
+   & \ddots & \\
+   0 & & p_m(y)
+   \end{pmatrix}
+   \begin{pmatrix}
+   1 \\
+   \vdots \\
+   1
+   \end{pmatrix}\\
+    & = \mathbf{u}(t)\mathbf{P}(y)\mathbf{1}^{\prime}, \label{3.05}
+\end{align}
+where $\mathbf{P}(y)$ is a diagonal matrix of all state-dependent distributions \citep[chap.~2]{Zucchini2016}. Equations \eqref{3.0301} and \eqref{3.05} show that the marginal distribution of an HMM is simply a mixture distribution. If the underlying Markov chain is stationary with stationary distribution $\bm{\delta}$, Equation \eqref{3.05} even reduces to
+\begin{align}\label{3.zsmf}
+    \Pr(Y_t = y) = \bm{\delta}\mathbf{P}(y)\mathbf{1}^{\prime}.
+\end{align}
+The discussed framework above forms the basis for all HMMs. Thus, an HMM is a dependent mixture model where a Markov chain selects the state-dependent distributions, in its simplest form. On this basis, there are numerous extensions of HMMs.\footnote{And in fact, an HMM itself is a special case of SSMs. SSMs are also doubly stochastic processes, with the state process being continuous-valued, whereas HMMs take on a finite number of discrete states.} Some common examples are multivariate time series (assuming longitudinal and contemporaneous conditional independence), integration of covariates and seasonality, random effects, and higher-order Markov chains. As will be seen, some of these are used in later sections; particularly, the multivariate case and the integration of covariates and seasonality. First, however, before an HMM can be fitted to data, the likelihood must be calculated.
+\subsection*{Likelihood}
+
+The likelihood can be used to estimate the parameters linked to an HMM (e.g. the parameters of the assumed state-dependent distributions and transition probabilities). However, before the likelihood can be maximised, it must be calculated.
+The likelihood $L_T$ of an HMM for consecutive observations $y_1,\mathellipsis, y_T$ is given by the general formula
+\begin{align}\label{3.lklhd}
+    L_T = \bm{\delta}\mathbf{P}(y_1)\bm{\Gamma}\mathbf{P}(y_2)\cdots\bm{\Gamma}\mathbf{P}(y_T)\mathbf{1}^{\prime}.
+\end{align}
+Equation \eqref{3.lklhd} shows that the initial distribution $\bm{\delta}$ of the Markov chain is multiplied by the diagonal matrix of the state-dependent distributions evaluated at $y_1$ and so on \citep[chap.~3]{Zucchini2016}. 
+
+It has been (and still is) claimed in several statements in the literature that direct maximisation of the likelihood expressed in \eqref{3.lklhd} is not feasible because $m^T$ summands need to be computed \citep{albert1991two, morales2004extracting}. In terms of complexity, this leads to $O(Tm^T)$ operations and motivates complex estimation techniques such as the expectation-maximisation (EM) algorithm or Markov chain Monte Carlo (MCMC)-based methods. However, from more general discussions, it is well-known that recursive schemes can be used to compute the likelihood in a computationally much more efficient way. The likelihood described in Equation \eqref{3.lklhd} clearly shows such a recursive scheme. In fact, defining a vector $\bm{\alpha}_t$ for $t = 1,\mathellipsis, T$ leads to the so-called forward probabilities:
+\begin{align}\label{3.fwds}
+    \bm{\alpha}_t = \bm{\delta}\mathbf{P}(y_1)\bm{\Gamma}\mathbf{P}(y_2)\cdots\bm{\Gamma}\mathbf{P}(y_t) = \bm{\delta}\mathbf{P}(y_1) \prod_{s = 2}^{t} \bm{\Gamma}\mathbf{P}(y_s).
+\end{align}
+The forward probabilities defined in \eqref{3.fwds} contain information on the likelihood up to time $t$. In particular, the likelihood $L_T$ can be computed using the forward algorithm:
+\begin{align}\label{3.fwdalg1}
+    & \bm{\alpha}_1 =  \bm{\delta}\mathbf{P}(y_1); \\
+    & \bm{\alpha}_t = \bm{\alpha}_{t-1}\bm{\Gamma}\mathbf{P}(y_t)\thickspace\thickspace\thickspace\thickspace \text{for }t = 2, 3,\mathellipsis, T; \label{3.fwdalg2}\\
+    & L_T =\bm{\alpha}_T\mathbf{1}^{\prime}. \label{3.fwdalg3}
+\end{align}
+Using Equations \eqref{3.fwdalg1}, \eqref{3.fwdalg2}, and \eqref{3.fwdalg3}, $\bm{\alpha}_1$ can be computed first, then $\bm{\alpha}_2$ based on $\bm{\alpha}_1$ and so on. As expressed in \eqref{3.fwdalg3}, with $\bm{\alpha}_T = (\alpha_T(1),\mathellipsis, \alpha_T(m))$ the likelihood then is $\sum_{j = 1}^{m} \alpha_T(j) = L_T$ \citep[chap.~3]{Zucchini2016}.
+
+By taking advantage of the forward algorithm, the number of operations involved is of order $Tm^2$ ($O(Tm^2)$, and just a fractal of $O(Tm^T)$). Thus, it can easily be maximised numerically in order to tailor an HMM to the data. The purpose of presenting the computation of the likelihood is to show that HMMs do not require substantially higher computational effort than the other methods discussed in this text. However, there are some issues to consider when performing direct numerical maximisation, such as numerical underflow and constrained parameters, but this is beyond the scope of this thesis \citep[see][chap.~3]{Zucchini2016}. 
+
+Considering again the forward probabilities $\bm{\alpha}_t$, they indeed can be identified as probabilities. The $j$-th component $\alpha_t(j)$ of $\bm{\alpha}_t$ is the joint probability $\Pr(Y_1 = y_1, Y_2 = y_2, \mathellipsis, Y_t = y_t, C_t = j)$. Analogously, the conditional probability $\Pr(Y_{t+1} = y_{t+1}, Y_{t+2} = y_{t+2}, \mathellipsis, Y_{T} = y_{t} \mid C_t = j)$ can be defined using so-called backward probabilities. In particular, the vector of backward probabilities,  $\varphi_t(j)$, is defined by 
+\begin{align}\label{3.bwds}
+    \bm{\varphi}_t^{\prime} = \bm{\Gamma}\mathbf{P}(y_{t+1})\bm{\Gamma}\mathbf{P}(y_{t+2})\cdots\bm{\Gamma}\mathbf{P}(y_T)\mathbf{1}^{\prime} = \left(\prod_{s = t+1}^{T} \bm{\Gamma}\mathbf{P}(y_s)\right)\mathbf{1}^{\prime},\thickspace\thickspace\thickspace\thickspace t = 1, 2,\mathellipsis, T,
+\end{align}
+\noindent whereas the $j$-th component of $\bm{\varphi}_t$ corresponds to the conditional probability $\Pr(Y_{t+1} = y_{t+1}, Y_{t+2} = y_{t+2}, \mathellipsis, Y_{T} = y_{t} \mid C_t = j)$ \citep[chap.~4]{Zucchini2016}. The forward and backward probabilities are helpful for the derivation of the most likely state of the Markov chain at time $t \in \{1, \mathellipsis, T\}$, which are state probabilities. The conditional distribution of $C_t$ given the observations can be obtained, for $j = 1, 2, \mathellipsis, m$ as 
+\begin{align*}
+    &\Pr(C_t = j \mid \mathbf{Y}^{(T)} = \mathbf{y}^{(T)}) =  \frac{\Pr(C_t = j, \mathbf{Y}^{(T)} = \mathbf{y}^{(T)})}{\Pr(\mathbf{Y}^{(T)} = \mathbf{y}^{(T)})} \\
+    & = \frac{\Pr(\mathbf{Y}^{(T)} = \mathbf{y}^{(T)} \mid C_t = j)\Pr(C_t = j)}{\Pr(\mathbf{Y}^{(T)} = \mathbf{y}^{(T)})} \\
+    & = \frac{\Pr(\mathbf{Y}^{(t)} = \mathbf{y}^{(t)} \mid C_t = j)\Pr(C_t = j)\Pr(\mathbf{Y}_{t+1}^{(T)} = \mathbf{y}_{t+1}^{(T)} \mid C_t = j)}{\Pr(\mathbf{Y}^{(T)} = \mathbf{y}^{(T)})} \\
+    & = \frac{\alpha_t(j)\varphi_t(j)}{L_T} \numberthis \label{3.stateprobs},
+\end{align*}
+\noindent with $\mathbf{Y}_{t+1}^{(T)}$ denoting the history of $\mathbf{Y}$ from $t+1$ up to $T$. Consequently, given the observations $\mathbf{y}^{(T)}$, the (discrete) probability distribution of $C_t$ for $t = 1, \mathellipsis, T$ can be determined using the forward and backward probabilities \citep[chap.~5]{Zucchini2016}.
+
+As mentioned at the beginning of this section, HMMs provide a flexible tool for time series analysis, especially in the discrete-time context. However, the HMMs described above, as well as GAMs and GAMMs, can only handle datasets with regularly spaced observation times. Since the given dataset has irregularly spaced observation times, the data need to be imputed before the mentioned concepts can be tailored to them. Given this circumstance, an alternative approach uses SDEs, as will be shown in the following section.
+
+% % % % % % % % % % % % % % % % % % % % % % % %
+% % % STOCHASTIC DIFFERENTIAL EQUATIONS % % % %
+% % % % % % % % % % % % % % % % % % % % % % % %
+
+\section{Stochastic Differential Equations}\label{SDE_SEC}
+
+In addition to the HMM framework, SDEs are also a popular choice for modelling data collected over time. An essential aspect of this is that SDEs do not depend on regular-spaced observation times, are relatively simple, and have parameters that are easy to interpret. Consequently, no imputation is needed. However, SDEs are formulated in continuous-time, whereas HMMs are based on a discrete-time framework. Because SDEs are considered not flexible enough to model animal movements, this method will be extended in the following. 
+
+Formally the most common SDE is stated as
+\begin{align}\label{3.sdebasic1}
+    dY_t = \mu(Y_t, t)dt + \sigma(Y_t, t)dW_t,\thickspace\thickspace\thickspace\thickspace Y_0 = y_0,
+\end{align}
+with $W_t$ being a Wiener process\footnote{See \citet{karatzas2012brownian} for an in-depth discussion of Wiener processes.} and $y_0$ as the initial condition of the stochastic process $Y_t$. Equation \eqref{3.sdebasic1} represents the evolution of a process $Y_t$ with $\mu$ as the expected change in the process for an infinitesimal time interval. The function $\sigma$, frequently referred to as diffusion, is a measure for the variability \citep{Michelot2021}. A solution to \eqref{3.sdebasic1} often results in parametric functions for $\mu$ and $\sigma$. 
+
+A more recent approach by \citet{Michelot2021} provides more flexibility within the structure of the basic SDE shown in \eqref{3.sdebasic1} and allows for broad time-varying dynamics. In particular, $\mu$ and $\sigma$ can be specified as basic penalty smoothing splines. Splines have already been discussed in Section \ref{GAMMz}. In principle, the approach by \citet{Michelot2021} allows the integration of linear and nonlinear effects in covariates and random effects in SDEs. Unlike HMMs, where the estimated parameters of the assumed distributions are piece-wise constant (for each state), this approach allows smooth, time-varying parameters \citep{Michelot2021}.
+\subsection*{Model Formulation}
+
+In this setting, a stochastic process $Y_t$ is defined by 
+\begin{align}\label{3.sdebasic2}
+    dY_t = \mu(Y_t, \bm{\theta}_t)dt + \sigma(Y_t, \bm{\theta}_t)dW_t,\thickspace\thickspace\thickspace\thickspace Y_0 = y_0.
+\end{align}
+In contrast to \eqref{3.sdebasic1}, Equation \eqref{3.sdebasic2} describes a dependency of $\mu$ and $\sigma$ from a time-varying parameter vector $\bm{\theta}_t$, whereas $\mu$ and $\sigma$ themselves determine the type of SDE (e.g., (geometric) Brownian Motion, Ornstein-Uhlenbeck process, CTCRW, etc.).
+
+The parameter vector $\bm{\theta}_t$ itself depends on $J$ covariates $x_{1t},\mathellipsis, x_{Jt}$ and consists of components
+\begin{align}\label{3.sdebasic3}
+    h(\theta_t) = \beta_0 + g_1(x_{1t}) + \cdots, + g_J(x_{Jt}),
+\end{align}
+with a link function $h$ and $\beta_0$ as an intercept parameter. The functions $g_j(\cdot)$ are not further specified as they could be linear or nonlinear effects of a covariate as well as random effects or smooth functions \citep{Michelot2021}. If the functions $g_j(\cdot)$ are smoothing functions, the definition of smoothing functions in \eqref{3.gam2} can be applied. Equations \eqref{3.sdebasic2}, \eqref{3.sdebasic3}, in combination with \eqref{3.gam2}, form a model called varying-coefficient stochastic differential equation, which is based on varying-coefficient models described by \citet{hastie1993} in the context of GAMs.
+\subsection*{Likelihood}
+
+To fit this model formulation to data, the likelihood must be computed. In particular, the aim is to estimate the relationship between the time-varying parameter vector $\bm{\theta}_t$, which determines the drift $\mu$, and the diffusion $\sigma$ of the stochastic process $Y_t$, as can be seen in Equation \eqref{3.sdebasic2}.
+
+Given a sequence of $n$ consecutive observations (with potentially irregular spaced observation times) $y_1,\mathellipsis, y_n$ from the process $Y_t$ with times $t_1,\mathellipsis, t_n$ the goal is to maximise the likelihood $L$, given the data with parameter vector $\bm{\theta}_t$:
+\begin{align}\label{3.sdebasic5}
+    L(\bm{\xi}, \bm{\beta} \mid  y_1,\mathellipsis, y_n) = p(Y_{t_1} = y_1)\prod_{i = 1}^{n-1}p(Y_{t_{i+1}} = y_{i+1} \mid Y_{t_i} = y_i).
+\end{align}
+There are some aspects to note in Equation \eqref{3.sdebasic5}. First, stochastic processes are Markovian, leading to the same dependency structure imposed by Equation \eqref{3.0mc}. The dependency structure implies that the likelihood of $n$ consecutive observations can be obtained as the product of the likelihoods of the individual transitions \citep{Michelot2021}. Vector $\bm{\beta}$ contains all coefficients of Equation \eqref{3.gam2} (e.g., the parameters for the smooth or random effects functions $g_j(x)$) and the vector $\bm{\xi}$ respectively, contains all other coefficients of the model (that is, $\bm{\xi}$ contains the parameters for linear covariate effects) with $p(\cdot)$ as the probability density function (PDF). 
+
+For evaluating the likelihood, it is assumed that $y_1$ is deterministic, i.e. $p(Y_{t_1} = y_1) = 1$. It follows that only the conditional densities $p(Y_{t_{i+1}} \mid Y_{t_i})$ need to be evaluated. In this thesis, two processes are used; namely, Brownian motion and Ornstein-Uhlenbeck processes (and CTCRW, as it is based on Ornstein-Uhlenbeck processes). There are closed-form expressions for the densities of these two processes. However, for the general case, the PDF $p(\cdot)$ can be approximated by a PDF of a normal distribution using the Euler-Maruyama discretisation.
+
+As mentioned before, $\mu$ and $\sigma$ determine which type of SDE is considered. For time-varying Brownian motion and time-varying Ornstein-Uhlenbeck processes, $\mu$ and $\sigma$ depend only on one time-varying parameter, leading to $\bm{\theta}_t = (\theta_t^{(1)}, \theta_t^{(2)})$ \citep{Michelot2021}. In the following, $\theta_t^{(1)} = r_t$ and $\theta_t^{(2)} = s_t$ will be used for simplicity.
+
+In fact, defining Equation \eqref{3.sdebasic2} as a time-varying version of Brownian motion can be achieved by setting $\mu(Y_t, \bm{\theta}_t) = r_t$ and $\sigma(Y_t, \bm{\theta}_t) = s_t$ which yields
+\begin{align}\label{3.bm1}
+    dY_t = r_tdt + s_tdW_t,\thickspace\thickspace\thickspace\thickspace Y_0 = y_0.
+\end{align}
+In particular, using the Euler-Maruyama discretisation for time-varying Brownian motion processes, one can obtain the approximated density
+\begin{align}\label{3.euler-maruyama1}
+    p(Y_{t + \Delta} = y_{t + \Delta} \mid Y_t = y_t) = \phi(y_{t+\Delta};\thickspace y_t + r_t\Delta, s_t^2\Delta),
+\end{align}
+with $\phi(y; \thickspace b, k)$ being the PDF of a normal distribution with mean $b$ and variance $k$. The approximated density described in Equation \eqref{3.euler-maruyama1} can now be substituted into Equation \eqref{3.sdebasic5} yielding the approximate likelihood for the time-varying Brownian motion process. 
+
+The same is true for Ornstein-Uhlenbeck processes. For this particular process, let $\theta_t^{(1)} = \rho_t$ and $\theta_t^{(2)} = s_t$. To obtain a time-varying version of the Ornstein-Uhlenbeck process, Equation \eqref{3.sdebasic2} must be modified by setting $\mu(Y_t, \bm{\theta}_t) = \rho_t(\omega - Y_t)$ and $\sigma(Y_t, \bm{\theta}_t) = s_t$. This modification leads to 
+\begin{align}\label{3.ou1}
+    dY_t = \rho_t(\omega - Y_t)dt + s_tdW_t,\thickspace\thickspace\thickspace\thickspace Y_0 = y_0.
+\end{align}
+In Equation \eqref{3.ou1}, $\omega$ can be viewed as a mean-reverting parameter.\footnote{And in fact, to be consistent with Section \ref{CTCRW_SEC}, $\omega$, again, is a mean velocity, meaning that the defined process tends to revert to this centre of attraction.} Again, using the Euler-Maruyama discretisation for the time-varying Ornstein-Uhlenbeck process yields an approximate density
+\begin{align}\label{3.euler-maruyama2}
+    p(Y_{t + \Delta} = y_{t + \Delta} \mid Y_t = y_t) = \phi(y_{t+\Delta};\thickspace \omega + e^{-\rho_t\Delta}(y_t - \omega), \frac{s_t^2}{2\rho_t}(1-e^{-2\rho_t\Delta}),
+\end{align}
+which can then again be substituted into Equation \eqref{3.sdebasic5} in order to get the approximate likelihood for the time-varying Ornstein-Uhlenbeck process \citep{Michelot2021}. Additionally, one can note the exact analogy to Equations \eqref{3.0ctcrw2} and \eqref{3.0ctcrw3}, which define an Ornstein-Uhlenbeck velocity process, meaning that Equation \eqref{3.euler-maruyama2} is a time-varying version of a CTCRW. As mentioned earlier, the time-varying Ornstein-Uhlenbeck process can be used to model the velocity of an animal, when fixing $\omega$ to zero. Fixing $\omega$ to zero is intended to avoid any systematic bias in the velocity.
+
+Turning back to the general likelihood as given in Equation \eqref{3.sdebasic5}, penalising the smoothing terms leads to the penalised log-likelihood 
+\begin{align}\label{3.sdebasic6p}
+    l_p(\bm{\xi}, \bm{\beta}, \bm{\lambda} \mid  y_1,\mathellipsis, y_n) = \text{log}(L(\bm{\xi}, \bm{\beta} \mid  y_1,\mathellipsis, y_n)) - \sum_{j=1}^J\lambda_j\bm{\beta}_j^T\bm{S}_j\bm{\beta}_j.
+\end{align}
+As seen in Section \ref{GAMz_theory}, the last term $\sum_{j=1}^J\lambda_j\bm{\beta}_j^T\bm{S}_j\bm{\beta}_j$ in Equation \eqref{3.sdebasic6p} is the penalisation of the smoothing splines to account for the bias-variance trade-off in the relationship between the parameter vector $\bm{\theta}_t$ and the covariates in the model. In particular, $\lambda_j$ is a penalisation parameter for the $j$-th smooth term in $\bm{\theta}_t$. The matrix $\bm{S}_j$ is one of known covariates in the model, and $\bm{\beta}_j$ is the vector of the basis coefficients as stated in Equation \eqref{3.gam2}. Thus, $\bm{\beta}_j^T\bm{S}_j\bm{\beta}_j$ is a measure for the roughness (wiggliness) of the $j$-th smoothing term. When the likelihood given in Equation \eqref{3.sdebasic6p} has been maximised\footnote{The likelihood itself is implemented using a Kalman filter with time-varying parameters, which is basically the same procedure as described in Section \ref{CTCRW_SEC}.}, the fitted model must be checked and validated in order to select the best model among several potential candidates \citep{Michelot2021}. Figure \ref{CTCRW_RHO_SIGMA} provides an example of parameter estimation of a time-varying
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=14cm]{BETA_SIGMA_EST.pdf}
+\caption[Estimated parameters for time-varying CTCRW]{Estimated parameters for time-varying CTCRW.\\
+Source: own representation.}
+\label{CTCRW_RHO_SIGMA}
+\end{center}
+\end{figure}
+\noindent CTCRW, where $\rho$ and $s$ have been estimated. Both parameters depend on the covariate 'temp'. The red lines indicate 100 posterior draws, following \citeauthor{nychka1988bayesian}'s idea (\citeyear{nychka1988bayesian}), to generate confidence intervals. 
+
+At this point, all basics for the further procedure in this work have been introduced. In the following, the methods described above will be used to model the tracking data and gain more insights.
+\clearpage
+% % % % % % % % % % % % % % % % % % % % % % % %
+% % % Results % % % % % % % %
+% % % % % % % % % % % % % % % % % % % % % % % %
+
+\chapter{Results}\label{results}
+This chapter provides the results of the analysis using the methods described in chapter \ref{methods}. The results are divided into three logical blocks, as in the previous chapter. The results of the GAMMs are presented first, followed by those of the HMMs and finally, the outcome of the SDEs. All computations were performed on a 4.9 GHz Intel Core i7 9700k and 16 GB DDR4 RAM using the statistical software R \citep{team2013r}. The focus in all three blocks is to model the relationship between animal movement characteristics, such as speed, step length, and turning angles, and environmental covariates like temperature and time of day.
+
+% % % % % % % % % % % % % % % % % % % % % % % %
+% % % GAMMs % % % % % % % % % % % % % % % % % %
+% % % % % % % % % % % % % % % % % % % % % % % %
+
+\section{Generalised Additive Mixed Models}\label{GAMMz}
+The first method applied to the data is a GAMM to be directly compared to the GAMM fitted by \citet{thaker2019}. The GAMM original output by \cite{thaker2019} and its model formulation can be seen in Appendix \ref{AnhangA}. In the first place, the GAMM in this work models the relationship between speed of movement (in km/h) and collar temperature, and hence, mimics the GAMM fitted by \cite{thaker2019} as a reference measure. Speed of movement corresponds to the variable 'speed', whereas the collar temperature corresponds to the covariate 'temperature' (or 'temp', respectively). Additionally, 'season' was included as a categorical fixed effect as well as the animal ID and hour (time of day) as random effects. The season is divided into two categories: dry season (May to October) and wet season (November to April). Autocorrelation in the response variable is modeled via an AR(1) process, because consecutive observations of the movement path are correlated. In contrast to the GAMM by \cite{thaker2019}, woody density was not included because this information was not available. Apart from using an imputed dataset and including autocorrelation, this is the only difference in the model formulation. Thus, the first GAMM in this work can be compared to the GAMM by \citet{thaker2019} to determine the impact of an imputed dataset and incorporating autocorrelation.
+
+Since this is a comparison of basically the same model, the choice of the best model candidate was limited to the choice of the spline basis parameter $k$, which equals the number of basis functions for a certain smoothing function $g$. If the number of basis functions is too small, the model will most likely oversmooth and tend not to capture any patterns in the data. Table \ref{tab:choiceofk} shows several possible choices for $k$. According to AIC and the adjusted $R^2$, a choice of $k = 10$ leads to the best model and thus, is sufficient. However, a choice of $k = 15$ is not performing any worse.\footnote{As an alternative to specifying multiple GAMM candidate models and evaluating an appropriate choice of $k$ by AIC, in Appendix \ref{AnhangC}, a more sophisticated method is shown.} The model itself was built using the function $\mathtt{bam}$ from the package $\mathtt{mgcv}$ \citep{wood2015package}. The GAMM was fitted using PIRLS, whereas the smoothing parameter estimation was done via REML. Furthermore, AIC was calculated using the conditional likelihood of the model (consequently, AIC is the conditional AIC) and the correction to the EDF proposed by \citet{wood2016smoothing} was taken into account.
+
+\begin{table}[htb]
+\setlength{\tabcolsep}{36pt}
+  \centering
+  \caption[Model selection - choice of k]{Model selection - choice of k.}
+    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}
+                   lll
+                            }
+    \toprule
+    Choice of $k$ & AIC & adj. $R^2$\\ 
+    \midrule
+ $k = 5$ & 1499149 & 0.0677 \\ 
+ \boldmath{$k = 10$} & \textbf{1499061} & \textbf{0.0687} \\
+ $k = 15$ & 1499064 & 0.0687 \\
+ \bottomrule
+    \end{tabular*}%
+  \label{tab:choiceofk}%
+  \begin{tablenotes}[flushleft]\small
+  \source   Own representation.
+  \end{tablenotes}
+\end{table}%
+
+Figure \ref{GAM_fitted} represents the fitted GAMM. The mean speed by temperature was calculated for each degree Celsius and classified by season, with triangles representing the wet season and circles for the dry season. The blue line represents a fitted temperature spline for the wet season, whereas the red dashed line represents a fitted spline for the dry season. It can be seen that elephants move faster when it gets hotter, while the increase per temperature decreases above 35° Celsius. Moreover, the individuals are faster in the wet season than in the dry season, which is consistent with the GAMM by \citet{thaker2019}. The output summary of the model can be found in Appendix \ref{AnhangA}.
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=1\textwidth]{GAMM_GUPTE_COMP.pdf}
+\caption[Fitted GAMM]{Fitted GAMM.\\ Source: own representation.}
+\label{GAM_fitted}
+\end{center}
+\end{figure}
+
+However, Figure \ref{GAM_fitted} indicates a more significant difference between the mean speed by season than indicated by the GAMM fitted by \citet{thaker2019} which can be seen from the vertical distance between the splines. Also, the confidence intervals of the mean speed by temperature for both seasons and for the smoothing splines by season are wider. In fact, there are three reasons for the differences: The imputed dataset, the autocorrelation that is taken into account, and the omission of the covariate 'woody density'. Considering the first reason, Table \ref{tab:diffgam} represents the difference in the mean speed by season. The calculation for the mean speed by season is independent of the GAMM fitted, and therefore, the difference can be related to the imputed dataset. While the mean movement speed in the wet season is faster, it is slower in the dry season compared to the mean speed computed by \citet{thaker2019}. The standard deviation of the mean speed in this work is about the same for the wet season and significantly lower in the dry season.
+
+\begin{table}[htb]
+  \centering
+  \caption[Mean speed by season - differences]{Mean speed by season - differences.}\label{tab:diffgam}
+  \setlength\tabcolsep{0pt}
+  \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}
+                        l
+                   *{3}{S[table-format= 3.3]}
+                   *{3}{S[table-format= 3.3]}
+                            }
+    \toprule
+    &   \multicolumn{3}{c}{Mean}   &   \multicolumn{3}{c}{Standard deviation}   \\
+    \cmidrule(r){2-4}
+    \cmidrule(l){5-7}
+    &   {\thead[b]{Wet}}
+        &   {\thead[b]{Dry}}
+        &   {\thead[b]{Difference}}
+                &   {\thead[b]{Wet}}
+                    &   {\thead[b]{Dry}}
+                    &   {\thead[b]{Difference}}\\
+    \midrule
+Mean speed Meyer    & 0.47    & 0.33 & 0.14 & 0.50 & 0.37 & 0.13           \\
+Mean speed \citet{thaker2019}
+        & 0.42  & 0.39 & 0.03 & 0.49 & 0.46 & 0.03           \\
+Difference & 0.05 & -0.06 & / & 0.01 & -0.09 & / \\
+    \bottomrule
+  \end{tabular*}
+  \begin{tablenotes}[flushleft]\small
+  \note   Wet and dry correspond to the possible categories of the covariate 'season'. Values are in km/h.
+  \source   Own representation.
+  \end{tablenotes}
+\end{table}
+
+The reason for the deviance is that \citet{thaker2019} neglected the irregularity when computing the mean speed. The imputed dataset in this work accounts for irregularity and hence shows a different mean speed because the calculated speed is less biased by the distance traveled. Additionally, the imputation also influences the confidence intervals in the mean speed by temperature, shown in Figure \ref{GAM_fitted}.
+
+Considering the GAMM splines in Figure \ref{GAM_fitted}, there are also wider confidence intervals than indicated in the model by \citet{thaker2019}. The reason (besides the mentioned speed differences in the datasets) is that autocorrelation is incorporated in the model of this work. If the observations are assumed to be uncorrelated when they are, in fact, correlated, the standard errors often are underestimated, and the confidence interval would be narrower (\citealt[chap.~3]{james2013introduction}; \citealt[chap.~5]{Wood2017}). 
+
+Autocorrelation itself is another aspect to note. Figure \ref{GAM_ACF} shows the autocorrelation function (ACF) of the residuals of the fitted GAMM. Because mean, variance, and covariance of the process are not constant over time, non-stationarity, and, in particular, a pattern that repeats itself every 24 hours can be seen. The pattern indicates that there still is an effect not covered in the GAMM. Since this seems to be a daily pattern, an AR(24) process could solve this issue. The function $\mathtt{bam}$ can model autocorrelation via an AR(1) process; however, it cannot model the general AR(p) case. 
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=1\textwidth]{GAMM_GUPTE_COMP_ACF.pdf}
+\caption[ACF-plot GAMM]{ACF-plot GAMM.\\ Source: own representation.}
+\label{GAM_ACF}
+\end{center}
+\end{figure}
+There are functions in R that are theoretically capable of modeling the AR(p) case\footnote{For example, the function $\mathtt{brm}$ from the package $\mathtt{brms}$ and the function $\mathtt{gamm}$ from the package $\mathtt{mgcv}$ are valuable alternatives.}, but AR(2) and AR(3) processes are already computationally very demanding to incorporate in GAMMs, and most computers do not have enough RAM to compute the autocorrelation matrices needed. Nevertheless, autocorrelation is a crucial aspect of movement data that \citet{thaker2019} ignored when modeling the relationship between movement speed and temperature. Concerning the 'woody density', the effect of omitting this covariate cannot be measured since the data are not publicly available. 
+
+Up to this point, the two GAMMs were compared to determine the effect of the imputed dataset and the impact of accounting for autocorrelation in the data. That said, as can be seen in the model formulation, \cite{thaker2019} included the covariate 'hour' as a random effect in the GAMM in order to model an hourly effect. Since there can still be seen a 24-hour cycle in the ACF-plot represented in Figure \ref{GAM_ACF}, it makes sense to reconsider the implementation of such a daily pattern. A cyclic cubic regression spline (or a cyclic penalised regression spline, respectively) to model the effect of a daily pattern might be advantageous in model fitting \citep[chap.~7]{Wood2017}, and will be used in the following. Another issue is the assumed distribution of the response variable. \citet{thaker2019} assumed that the response variable 'speed' is normally distributed. However, since the variable 'speed' does not take on negative values, a gamma distributed response is a conceptually more appealing choice. Besides, a gamma distribution is suited to deal with heteroskedasticity in non-negative data because the variance is proportional to the mean squared \citep{ng2017using}. Therefore, in the following, two GAMMs will be fitted to further investigate the interaction between individuals' speed and their environmental system. A Gaussian distribution is assumed in the first GAMM, whereas in the second GAMM, a gamma distributed response variable is assumed. Moreover, $h$ is a log link for the gamma GAMM, and an identity link function for the Gaussian GAMM.
+
+For model selection, Table \ref{tab:aicgam} shows multiple model variations of GAMMs, that assume a normally distributed response variable or a gamma distributed response variable, respectively. The first candidates both consist of covariates 'temperature' and 'hour', modelled as splines, while 'hour' is a cyclic cubic regression spline. Covariate 'season' is a categorical fixed effect, and 'ID' is a random effect. Additionally, the autocorrelation structure is, as before, incorporated in the models. The GAMM seen in Figure \ref{GAM_fitted} results in a conditional AIC of $1499061$, whereas the best candidates seen in Table \ref{tab:aicgam} yield a conditional AIC of $1494092$ and $1374824$, respectively, whereas both are lower than the first GAMM. That means, instead of formulating time of day as a random effect, it is advantageous to use a cyclic regression spline to represent a daily pattern in the speed distribution. Likewise, assuming a gamma distributed response variable reduces AIC further. Not including the covariates 'season', 'temperature', 'id' and 'hour' results in a higher AIC. Omitting either the AR(1) process or the covariate time of day has the greatest effect, as, without them, there are considerably higher AIC values.
+
+\begin{table}[htb]
+  \centering
+  \caption[GAMM (Gaussian) - model selection by AIC]{GAMM (Gaussian) - model selection by AIC.}\label{tab:aicgam}
+  \setlength\tabcolsep{0pt}
+  \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}
+                        l
+                   *{5}{S[table-format= 2.3]}
+                   *{2}{S[table-format= 5.3]}
+                            }
+    \toprule
+    &   \multicolumn{5}{c}{Covariates/Structure omitted}   &   \multicolumn{2}{c}{AIC}   \\
+    \cmidrule(r){2-6}
+    \cmidrule(l){7-8}
+&   {\thead[b]{Temperature}}
+        &   {\thead[b]{Season}}
+        &   {\thead[b]{ID}}
+                &   {\thead[b]{Time of day}}
+                    &   {\thead[b]{AR(1)}}
+                    &   {\thead[b]{Gaussian}}
+                    &   {\thead[b]{Gamma}}\\
+    \midrule
+\textbf{Candidate 1} &  &  &  &  &  & \textbf{1494092} & \textbf{1374824}          \\
+\text{Candidate 2} & \text{omitted}  &  &  &  &  &  \text{1494435} &  \text{1375054}        \\
+\text{Candidate 3} &  & \text{omitted} &  &  &  &  \text{1494792} &  \text{1375666}        \\
+\text{Candidate 4} &  &  & \text{omitted}  &  &  &  \text{1495114} &  \text{1376071}         \\
+\text{Candidate 5} &  &  &  & \text{omitted}&  &  \text{1499142} &  \text{1386532}         \\
+\text{Candidate 6} &  &  &  &  & \text{omitted}  &  \text{1500972} &  \text{1381317}         \\
+    \bottomrule
+  \end{tabular*}
+  \begin{tablenotes}[flushleft]\small
+  \note   For the calculation of the conditional AIC, the correction to the EDF proposed by \citet{wood2016smoothing} was taken into account.
+  \source   Own representation.
+  \end{tablenotes}
+\end{table}
+
+The resulting GAMMs are represented in Figure \ref{GAMMAS_COMPARED_TEMP}. The output summaries can be found in Appendix \ref{AnhangA}. Comparing both GAMMs to the GAMM by \cite{thaker2019}, the adjusted $R^2$ is significantly higher: 0.119 for the Gaussian, 0.125 for the gamma GAMM vs. 0.067 for the GAMM fitted by \citet{thaker2019}. According to the GAMM splines, the fit looks better than the previous GAMMs. Furthermore, the gamma distributed GAMM has slighty improved smoothing splines and the confidence intervals appear narrower in the dry season. The effect is mainly the same; when it gets hotter, the elephants tend to increase their movement speed up to 40° Celsius. However, at 40° Celsius and hotter, their movement speed stagnates in the wet season, whereas their speed increases in the dry season. The reason could be fewer water resources, which intuitively makes sense and has already been mentioned by \citet{thaker2019}. Moreover, there is a steeper increase in speed in the wet season when the temperature rises. The high
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=1\textwidth]{GAMMAS_COMPARED.pdf}
+\caption[GAMMs using cyclic cubic regression splines]{GAMMs using cyclic cubic regression splines.\\ Source: own representation.}
+\label{GAMMAS_COMPARED_TEMP}
+\end{center}
+\end{figure}
+\noindent velocity supports the thesis of \cite{thaker2019} that elephants move faster when they are near water sources due to predation risk.
+
+When considering the ACF-plots represented in Figure \ref{ACF_PLOTS_GAMMS_COMPARED}, there is a little less autocorrelation left in the residuals, indicating that the cyclic implementation of the covariate 'hour' better explains the cyclical pattern than 'hour' implemented as a random effect. Besides, the process is not stationary and there is still some autocorrelation left in the residuals.
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=1\textwidth]{GAMMAS_COMPARED_ACF.pdf}
+\caption[GAMMs using cyclic cubic regression splines - ACF-plots]{GAMMs using cyclic cubic regression splines - ACF-plots.\\ Source: own representation.}
+\label{ACF_PLOTS_GAMMS_COMPARED}
+\end{center}
+\end{figure}
+
+Another aspect that could help to further reduce the autocorrelation pattern still present in the ACFs would be to include the covariate 'temperature' in the CTCRW that is used to regularise the dataset. Nevertheless, the functions $\mathtt{crwFit}$ and $\mathtt{crwPredict}$ will not impute any missing covariate values. Hence, the correction must be done outside the package $\mathtt{crawl}$. However, this procedure is beyond the scope of this work, and it is questionable whether it makes sense to impute covariate data that are missing over several days, weeks, or even months. Additionally, most sophisticated methods for regularisation, for example random forests, as described in \citet{stekhoven2012missforest}, use other covariates in the data to impute missing values. Beside computational demanding calculations, the only variables remaining are coordinates. Using location data to impute a covariate that is, in turn, used to model coordinates, can be misleading (moreover, as mentioned, for 'temperature', there is also an errors-in-variables problem).
+
+Figure \ref{QQ_PLOT_COMPARISON} shows quantile-quantile-plots (QQ-plots) for the fitted GAMMs. The function for generating the QQ-plot is called $\mathtt{qq\_plot}$ from the package $\mathtt{gratia}$ \citep{simpson2018r}. The deviance residuals are standardised and sorted for the QQ-plot illustrated in Figure \ref{QQ_PLOT_COMPARISON}. If the residuals were standard normally distributed, they would form a straight line, interfered by some random noise \citep[chap.~7]{Wood2017}. The red line indicates this reference case. As can be seen from the deviance of the residuals, the overall fit of the GAMM is still not satisfying and improvable. However, there is a significant improvement when assuming a gamma distributed response variable.
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=1\textwidth]{GAMMS_COMP_QQ.pdf}
+\caption[GAMMs normal QQ-plots]{GAMMs normal QQ-plots. Gaussian GAMM left, gamma GAMM right.\\ Source: own representation.}
+\label{QQ_PLOT_COMPARISON}
+\end{center}
+\end{figure}
+Figure \ref{RES_COMPARISON_GAMM} represents another view of the deviance residuals. As can be seen from the abscissa, the residuals for the gamma distributed GAMM are much less skewed than the residuals for the normal distributed GAMM and, in fact, do not indicate a severely inadequate fit.
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=1\textwidth]{RES_GAMMs_COMPARED_UPDATED.pdf}
+\caption[GAMM - residuals]{GAMM - residuals.\\ Source: own representation.}
+\label{RES_COMPARISON_GAMM}
+\end{center}
+\end{figure}
+
+In summary, there are three aspects to note for the GAMM. The first aspect refers to the imputation of the dataset. Since there is a notable difference between the results of the GAMM fitted by \citet{thaker2019} and the first GAMM in this work, it remains unclear which of the two datasets leads to better results in the sense of the real data-generating process modeled via GAMMs. The imputed dataset improves some irregularities; nonetheless, when the temporal distance between two consecutive observations becomes too large, it fails to model an appropriate path for this particular time interval and biases the calculated speed. To overcome this issue, SDEs can be used as an alternative approach, to avoid the need to impute missing data.
+
+The second aspect concerns autocorrelation. ACF-plots might help to choose an appropriate correlation structure to be used in a GAMM. However, HMMs offer a more natural alternative to deal with autocorrelation due to their properties. Regarding the implementation of cyclic functions to model a daily pattern, this procedure seems to improve the model quality and could also be used in HMMs. 
+
+The last aspect relates to the overall model formulation. GAM(M)s are very flexible and powerful tools, as they are relatively simple to interpret, and the regularisation helps to avoid overfitting \citep{larsen2015gam}. Moreover, there is no need to specify any parametric distribution for the covariate effects, and in fact, movement processes are most often nonlinear \citep{patterson2017statistical}. In spite of that, this simultaneously implies that more caution is required when setting up a model. This includes choosing an appropriate distribution of the response variable, thoughtfully selecting splines (basis dimension, the correct choice of splines etc.) and checking for autocorrelation.
+
+% % % % % % % % % % % % % % % % % % % % % % % %
+% % % HMMs % % % % % % % % % % % % % % % % % %
+% % % % % % % % % % % % % % % % % % % % % % % %
+
+\section{Hidden Markov Models}\label{HMM_SEC}
+HMMs offer a more natural way to deal with autocorrelation since they constitute a flexible tool to handle time series data. A key issue concerning the GAMM formulation is that ecological systems are subject to specific changes among latent system states through time. The animals in ecological systems can be driven by these state dynamics and hence affect their behaviour, whereas state switching cannot be modelled using GAMMs. Using Markov chains, HMMs can accommodate complex structures that account for certain changes between latent system states and thus offer an appropriate choice for modeling animal tracking data (\citealt{mcclintock2020uncovering}; \citealt{ephraim2002hidden}; \citealt[chap.~1]{Zucchini2016}). Thus, the focus of this section is to gain further knowledge of the animals' interaction with their environment. In contrast to Section \ref{GAMMz}, the animals' step length and their turning angles are modeled by taking advantage of the properties of HMMs, which is to assume latent environmental states to drive the animals' behaviour. As already implied, the underlying assumptions for an HMM are regularly spaced observations in time, and negligible tracking error \citep{patterson2017statistical}. Both assumptions hold approximately true: The imputed dataset contains only equidistant observation times, and those are based on GPS technology, which is sufficiently accurate. 
+
+The fitted HMMs in this work are extensions of the basic HMM framework. Since the dataset contains step lengths (which can be considered a substitute for speed due to regular time intervals) and turning angles, the HMMs can be used to model multivariate time series that will be driven by the same underlying state process. The first component series, step lengths, are assumed to follow a gamma distribution with mean $\mu$ and variance $\sigma^2$ because this has proven to be advantageous in the GAMM modeling. Moreover, step lengths cannot take on negative values. The second series component turning angles, is assumed to follow a von Mises distribution with mean $\mu$ and concentration parameter $\varrho$. The model formulation thus is given by
+\begin{align}\label{4.2hmm1}
+Y_{t1} \mid C_t = & j \sim \Gamma(\mu_j^{\text{step}}, \sigma_j^{\text{step}}), \nonumber \\ & Y_{t2} \mid C_t = j \sim \text{von Mises}(\mu_j^{\text{turn}}, \varrho_j^{\text{turn}}),\thickspace\thickspace\thickspace\thickspace Y_{t1} \perp Y_{t2} \mid C_j.
+\end{align}
+Equation \eqref{4.2hmm1} describes a model that assumes contemporaneous conditional independence, meaning that the state-dependent distribution $p_j(y)$ is just the product of the corresponding marginal probabilities. However, the Markov chain still induces serial dependence and cross-dependence in the component series $Y_{t1}$ and $Y_{t2}$, meaning that contemporaneous conditional independence neither implies serial nor mutual independence in the component series \citep[chap.~9]{Zucchini2016}. Nonetheless, contemporaneous conditional independence makes it easier to find suitable distributions because one can select univariate distribution classes instead of finding multivariate distributions.
+
+Additionally, the HMMs are modeled containing covariates in the state process, meaning that the transition probabilities are expressed as a function of covariates. The rationale for this extension is that it is usually of interest to relate the state-switching process to environmental covariates, in order to draw conclusions about how animals interact with their environment \citep{patterson2017statistical}. Among all HMMs fitted in this work, the transition probabilities are affected by the covariates 'temperature', 'hour', their interaction term, and 'season', to examine how the animals respond to these environmental factors (i.e. how state switching depends on these external factors). As shown in Figure \ref{GAM_ACF}, there is a within-day variation. In the HMM framework, within-day variation can be well modelled using trigonometric functions instead of relying on cyclic regression splines. A particular type of a so-called cosinor function will be applied to implement this \citep{cornelissen2014cosinor}. The focus of the HMMs is to draw conclusions from latent state dynamics to refine the movement behaviour and reveal further insights into the shuttling behaviour of the individuals.
+
+The first question that arises with HMMs is how many states should be chosen, when it comes to model fitting. Two HMMs were fitted with two and three states. For each candidate, the transition probabilities are functions of the covariates 'temperature', $cosinor(\text{'hour'})$, their interaction term, and 'season'. All HMMs have been computed using the package $\mathtt{momentuHMM}$ \citep{mcclintock2018momentuhmm}. Table \ref{tab:choiceofstates} shows AIC and Bayesian information criterion (BIC) of the corresponding number of states chosen. As can be seen, both AIC and BIC tend to select the three-state HMM. Nevertheless, caution should be taken, as AIC generally tends to favour models with numbers of states that are undesirably large in situations where states shall be meaningful entities. Most likely, this will be the case for this situation, however, the computation time for fitting candidates exceeding three states renders infeasible to appropriately check for local maxima in this work. In most cases, selecting the number of states tends to be very challenging \citep{Pohle2017}. The choice of three states is in agreement with most biologists' opinion who suggest that there should be three states: 'resting', 'foraging' and 'traveling' \citep{langrock2014modelling, patterson2008state}. Nonetheless, the states should be considered cautiously, as they are rather proxies for animals' true state processes \citep{patterson2017statistical, buderman2021caution}.
+
+\begin{table}[htb]
+\setlength{\tabcolsep}{36pt}
+  \centering
+  \caption[Model selection - number of states]{Model selection - number of states.}
+    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}
+                   lll
+                            }
+    \toprule
+    Number of states & AIC & BIC \\ 
+    \midrule
+ $m = 2$ & 1654832 & 1654832 \\ 
+ \boldmath{$m = 3$} & \textbf{1639946} & \textbf{1639834} \\
+ \bottomrule
+    \end{tabular*}%
+  \label{tab:choiceofstates}%
+  \begin{tablenotes}[flushleft]\small
+  \source   Own representation.
+  \end{tablenotes}
+\end{table}%
+
+In addition, it is necessary to examine whether the transition probabilities should be affected by all available covariates or just a subset, including whether there should be any interaction term between temperature and time of day. In Table \ref{tab:choiceoftransition}, five three-state HMMs with different functions for the transition probabilities are shown. 
+\begin{table}[htb]
+\setlength{\tabcolsep}{18pt}
+  \centering
+  \caption[Model selection - covariates in transition probabilities]{Model selection - covariates in transition probabilities.}
+    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}
+                   llll
+                            }
+    \toprule
+    Covariates in transition probabilities & AIC & BIC \\ 
+    \midrule
+ $\text{cosinor}(\text{'hour'})$ & 1641452 & 1641757 \\
+ 'temp' & 1646528 & 1646775 \\
+ 'temp' + $\text{cosinor}(\text{'hour'})$ & 1643667 & 1644029 \\
+ 'temp' + $\text{cosinor}(\text{'hour'})$ + interaction & 1640022 & 1640498 \\
+ \textbf{'temp' + $\bm{\text{cosinor}(\text{'hour'})}$ + interaction + 'season'} & \textbf{1639946} & \textbf{1639834} \\
+ \bottomrule
+    \end{tabular*}%
+  \label{tab:choiceoftransition}%
+  \begin{tablenotes}[flushleft]\small
+  \source   Own representation.
+  \end{tablenotes}
+\end{table}%
+Although it is the most complex model, according to AIC and BIC, the model with three covariates, including an interaction term for temperature and time of day fits the data best. Time of day contributes the most to model fit, as AIC is significantly higher when the covariate 'hour' is omitted. Furthermore, it is worth noting that the candidate including the covariates 'temperature' and $cosinor(\text{'hour'})$, without any interaction term, fits worse than the candidate including $cosinor(\text{'hour'})$ only, as it seems to be overly complex.
+
+Turning to model checking, it must be evaluated how well the fitted HMM explains the data. Figure \ref{HMM_densities} represents the state-dependent gamma densities for the step lengths in metres for all individuals. The density displayed in orange corresponds to the 'resting' state and indicates that, given the animals are in the resting state, the expected step length per hour is about 82 metres. Likewise, the densities displayed in blue and green represent the 'foraging' and 'traveling' state. The density for the 'traveling' state is remarkably skewed due to possibly extensive step lengths. The expected step length per hour in the foraging state is 235 metres and 676 metres in the traveling state, respectively. The black dotted line shows the overall density. As the grey bars represent the observed step lengths of the animals, it can be seen that the total density fits the data quite well. The model output for the HMM can be seen in Appendix \ref{AnhangB}.
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=1\textwidth]{HMM_SEASON_STEP_DENSITIES.pdf} %HMM_SEASON_DENSITIES_STEP
+\caption[State-dependent densities for step lengths]{State-dependent densities for step lengths.\\ Source: own representation.}
+\label{HMM_densities}
+\end{center}
+\end{figure}
+
+Similarly, Figure \ref{HMM_densities_turning} represents the state-dependent densities for the turning angles. In the 'foraging' and 'traveling' states, the densities are concentrated around an angle of zero, whereas in the 'resting' state, the density rather tends to be uniformly distributed and less concentrated. Considering the relative size of the animals, it intuitively makes sense that the individuals tend not to turn that much when traveling more extensive distances but rather tend to turn more in the 'resting' state.
+
+Using the definition of the state distributions in Equation \eqref{3.stateprobs}, Figures \ref{HMM_state_transitions} and \ref{HMM_state_transitions2} show the stationary state probabilities by hour, separated by season. As described in Section \ref{HMM_BASICS}, the underlying state process can be assumed to be in its stationary distribution. Moreover, the state probabilities are functions of all 
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=1\textwidth]{HMM_SEASON_TURNING_DENSITIES.pdf}
+\caption[State-dependent densities for turning angles]{State-dependent densities for turning angles.\\ Source: own representation.}
+\label{HMM_densities_turning}
+\end{center}
+\end{figure}
+\noindent covariates, and thus, are multi-dimensional. However, the covariate 'temperature' is fixed to its mean value (27.48° Celsius), whereas the third dimension, 'season', separates the plots. Hence, Figure \ref{HMM_state_transitions} represents the state probabilities per hour in the wet season, for fixed temperatures. Likewise, Figure \ref{HMM_state_transitions2} shows the state probabilities per hour for the dry season. When considering the state 
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=13cm]{HMM_SEASON_STATIONARIES_WET_HOUR.pdf}
+\caption[Stationary state probabilities by hour in wet season]{Stationary state probabilities by hour in wet season.\\ Source: own representation.}
+\label{HMM_state_transitions}
+\end{center}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=13cm]{HMM_SEASON_STATIONARIES_DRY_HOUR.pdf}
+\caption[Stationary state probabilities by hour in dry season]{Stationary state probabilities by hour in dry season.\\ Source: own representation.}
+\label{HMM_state_transitions2}
+\end{center}
+\end{figure}
+ \noindent probabilities, a certain pattern emerges. The animals travel farther distances in the morning, forage in the evening and tend to rest at night, whereas in the wet season, the individuals are more likely to be in the 'traveling' state in the morning. As for the covariates 'temperature' and 'hour', they are most likely positively correlated to some extent. However, if collinearity was an aggravating issue, the transition probabilities would show wider confidence intervals as the standard errors grow. 
+
+As for the time of day, the state probabilities can also be shown by temperature, represented by Figures \ref{HMM_TEMP_STATE_PROBS} and \ref{HMM_TEMP_STATE_PROBS2}. This time, the dimension for the covariate 'hour' is held fixed. The plots show that the hotter it gets, the animals most likely occur to be either in the 'foraging' or 'traveling' state at noon and thus, travel farther distances. Moreover, in the wet season, the animals are even more likely to be in the 'traveling' state, the hotter it gets. In Appendix \ref{AnhangB}, a reference to an animated version of the stationary state probabilities can be found, allowing more profound insights into the state dynamics.
+
+Considering the implementation of the covariate 'season', for reasons of complexity it has been assumed, that the season does not interact with the other covariates 'temperature' and 'hour'. Nonetheless, from a biological point of view,
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=13cm]{HMM_SEASON_STATIONARIES_WET_TEMP.pdf}
+\caption[Stationary state probabilities by temperature in wet season]{Stationary state probabilities by temperature in wet season.\\ Source: own representation.}
+\label{HMM_TEMP_STATE_PROBS}
+\end{center}
+\end{figure}
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=13cm]{HMM_SEASON_STATIONARIES_DRY_TEMP.pdf}
+\caption[Stationary state probabilities by temperature in dry season]{Stationary state probabilities by temperature in dry season.\\ Source: own representation.}
+\label{HMM_TEMP_STATE_PROBS2}
+\end{center}
+\end{figure}
+
+\noindent it would certainly make sense to account for interactions with 'season', because otherwise it would suggest that the daily pattern and the effect of temperature do not change in both seasons. Additionally, instead of modeling 'season' as a dummy, it would be more appropriate to model it as a cyclical variable. This, however, would be beyond the scope of this work.
+
+For a further step in model checking, Figure \ref{HMM_qqacf} graphically demonstrates the corresponding QQ-plots and the ACF-plots for the step lengths and the turning angles, respectively. The first row represents the output for the step lengths and the second row shows the output for the turning angles. As can be seen from the QQ-plot, the pseudo-residuals tend to be standard normally distributed. There seems to be a minor lack of fit in the tails, but overall, it appears to be a good approximation. Moreover, a substantial improvement can be seen, when comparing the QQ-plot with the QQ-plot of the fitted GAMM in Figure \ref{QQ_PLOT_COMPARISON}. While the ACF-plot for the turning angles does not show any autocorrelation, there is still some pattern left in the ACF for the step lengths. Comparing the ACF for the best-fitted GAMMs seen in Figure \ref{ACF_PLOTS_GAMMS_COMPARED} and the step lengths ACF for the HMM, the HMM can handle the autocorrelation more suitably as there is less autocorrelation left in the residuals.
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=1\textwidth]{FINAL_HMM_ACF_QQ-komprimiert.pdf}
+\caption[QQ- and ACF-plots of step lengths and turning angles]{QQ- and ACF-plots of step lengths and turning angles.\\ Source: own representation.}
+\label{HMM_qqacf}
+\end{center}
+\end{figure}
+
+All in all, the fitted HMM offers a broad variety of output and could even be tuned further. For example, random effects for the animals could be implemented, and more covariates (if accessible) could be added to the transition probabilities function. The cyclical pattern has been better captured by the HMM than the GAMM. Although there is still some room for improvement, the general fit of the HMM is better than that of the GAMM. Nonetheless, both methods, HMMs and GAMMs, have in common that they heavily rely on equidistant observations. For HMMs, the discrete-time Markov chains are not interpretable without any constant sampling unit because, based on irregular sampling, there is no way to formulate an appropriate distribution for the response variable that takes time passed into account \citep{patterson2017statistical}. As mentioned in Section \ref{GAMMz}, there still is some chance for the CTCRW to not catch every trend in the original dataset and thus, might bias the imputed dataset. 
+% % % % % % % % % % % % % % % % % % % % % % % %
+% % % SDEs % % % % % % % % % % % % % % % % % %
+% % % % % % % % % % % % % % % % % % % % % % % %
+
+\section{Stochastic Differential Equations}
+To model the relationship between movement speed and environmental covariates, an approach that does not require the imputation of data is the time-varying SDE method. Thus, a potential bias due to imputation can be excluded. Like HMMs, time-varying SDEs are models that can be applied to analyse data collected over time. The key conceptual difference is that SDEs are formulated as operating in continuous time. As already mentioned, the parameters $\mu$ and $\sigma$ determine the type of SDE. The CTCRW is not only suitable for imputing movement paths, as has been seen in Section \ref{CTCRW_SEC}, but is also an option in this context because it takes certain inertia or autocorrelation between the increments into account. Thus, a CTCRW is used in the first place. 
+
+For the models shown in this chapter, $\mu$ and $\sigma$ each depend on a time-varying parameter, i.e. $\mu(Y_t, \bm{\theta}_t) = \mu(Y_t, \theta_t^{(1)})$ and $\sigma(Y_t, \bm{\theta}_t) = \sigma(Y_t, \theta_t^{(2)})$, where $\bm{\theta}_t = (\theta_t^{(1)}, \theta_t^{(2)})$ (see Equation \eqref{3.sdebasic2} for the general reference of a time-varying SDE formulation). To be consistent with the CTCRW in Section \ref{CTCRW_SEC}, let $\rho_t = \theta_t^{(1)}$ and $s_t = \theta_t^{(2)}$. Since the animals move through space, there are two dimensions (longitude and latitude), and hence, the time-varying velocity process is bivariate. However, there is no need to specify a two-dimensional parameter vector because the velocity process itself is isotropic and consequently can be considered driven by the same underlying parameters \citep{Michelot2021}. In the CTCRW case, the speed, denoted as $\nu$, can be calculated via $\nu_t = \sqrt{\pi}s_t/(2\sqrt{\rho_t})$ \citep{Michelot2021, gurarie2017correlated}.\footnote{For a detailed derivation of this claim, see \citet{gurarie2017correlated}.}
+
+As previous results show, the animals' movement paths are affected by temperature and time of day. Thus, in the first place, the parameters $\rho$ and $s$ both depend on the covariate 'temperature'. The relationship is modeled using thin-plate regression splines. All time-varying SDEs have been fitted using the $\mathtt{smoothSDE}$ package \citep{michelot2021package}. However, the negative log-likelihood was not finite. Consequently, it was not possible to fit a joint model for all individuals, meaning that the model failed to fit shared parameters $\rho$ and $s$ for the 14 individuals. Hence, adding the covariate 'hour' into the model to account for a cyclical pattern does not make sense. The failure could have several reasons. One reason might be that the elephants have too different movement patterns. Another related reason could be a too divergent reaction to temperature.
+
+When no model fits all individuals at once, it makes sense to fit one for every 14 animals separately. Nevertheless, it was again not possible to fit a model with the entire movement path of each elephant due to the negative log-likelihood not being finite. In particular, only piecewise sequences could be fitted using the covariate 'temperature'. For example, this is shown in the following for the individual 'AM254'. The sequence is limited from May 2008 up to October 2008 and thus corresponds to the dry season.
+
+Figure \ref{SDE Parameters for AM254} shows the fitted parameters $\rho$ and $s$. The red lines indicate 100 posterior samples. Following \citeauthor{nychka1988bayesian}'s (\citeyear{nychka1988bayesian}) idea, these posterior draws create a confidence interval for the fitted spline (black line). As can be seen, $\rho$ increases when temperature increases. The same holds true for $s$, whereas a steep decrease can be observed when the temperature exceeds 35° Celsius. The decrease could be due to the fact that it might be too hot for the individual to move fast. 
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=1\textwidth]{AM254_PARAMETERS_SDE.pdf}
+\caption[SDE parameters for AM254 by temperature]{SDE parameters for AM254 by temperature.\\ Source: own representation.}
+\label{SDE Parameters for AM254}
+\end{center}
+\end{figure}
+
+Moreover, Figure \ref{Fitted_SDE_AM254} represents the relationship between speed and temperature. The speed, $\nu_t$, can be seen at the ordinate, whereas the temperature is shown at the abscissa. Comparing the result of this SDE to the GAMM in Figure \ref{GAMMAS_COMPARED_TEMP}, the result is very similar. The hotter it gets, the faster the elephant moves. However, when it gets too hot, the elephant decreases its movement speed, as already observable in Figure \ref{SDE Parameters for AM254}. 
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=1\textwidth]{AM254_TEMP_SDE.pdf}
+\caption[Fitted SDE AM254 by temperature]{Fitted SDE AM254 by temperature.\\ Source: own representation.}
+\label{Fitted_SDE_AM254}
+\end{center}
+\end{figure}
+
+Nonetheless, the overall result is not satisfying because the model cannot explain the entire movement path of the animal using the covariate 'temperature'. Thus, as a next step, the covariate 'hour' is used to capture the daily pattern of the animals. The parameters $\rho$ and $s$ are modeled using the covariate 'hour' via a cyclic P-spline. Again, a model for all 14 elephants with two shared parameters could not be fitted due to optimisation problems (negative log-likelihood is not finite). However, using this model formulation, it was possible to fit a model for each animal without limiting the movement path to a certain sequence. For example, Figure \ref{AM239_AM253_text} shows the relation between speed and time of day for the animals 'AM239' and 'AM253'. The daily movement pattern is very similar to the movement pattern shown in the HMM, as can be seen in Figure \ref{HMM_state_transitions}. The animals tend to be faster (and hence travel more extensively) in the early morning and around noon. All 14 fitted models for the time-varying SDEs by time of day can be seen in Appendix \ref{AnhangD}.
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=1\textwidth]{SDE_AM239_AM253.pdf}
+\caption[AM239 and AM253 SDE output by time of day]{AM239 and AM253 SDE output by time of day.\\ Source: own representation.}
+\label{AM239_AM253_text}
+\end{center}
+\end{figure}
+
+Turning to model selection for the time-varying CTCRW, theoretically, there were three candidates: a time-varying SDE model with both parameters $\rho$ and $s$ depending on time of day and temperature, depending on temperature only, or on time of day only, respectively. Effectively, only one candidate remains, which is the parameters $\rho$ and $s$, to depend on time of day only because it is the only model that could be fitted (which actually is not even one single model either). Nonetheless, because the covariate is modeled via a cyclic P-spline, a basis parameter $k$ has to be chosen for each model. This can be achieved by formulating multiple time-varying SDEs with a varying number of basis dimensions for the P-spline. Consistent with the GAMM model selection, the conditional AIC will be used, following the correction by \citet{wood2016smoothing} in the EDF.
+
+Table \ref{tab:choiceofsdedimension} shows different parameter values of $k$ for individual 'AM239' as an example. As can be seen, according to the conditional AIC, $k = 10$ leads to the best fit. For $k = 15$, the negative log-likelihood is not finite, and thus, no parameter estimation took place. 
+\begin{table}[htb]
+\setlength{\tabcolsep}{32pt}
+  \centering
+  \caption[SDE model selection - basis functions]{SDE model selection - basis functions.}
+    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}
+                   lll
+                            }
+    \toprule
+    Parameter value $k$ & AIC \\ 
+    \midrule
+ $k = 5$ & -108340.0 \\
+ $\bm{k = 10}$ & -109908.9 \\
+ $k = 15$ & \textit{NA} \\
+ \bottomrule
+    \end{tabular*}%
+  \label{tab:choiceofsdedimension}%
+  \begin{tablenotes}[flushleft]\small
+  \source   Own representation.
+  \end{tablenotes}
+\end{table}%
+
+Considering the results up to this point, due to correlated increments, a CTCRW offers the best characteristics for animal movement. However, the fitting is very problematic. An alternative would be to specify a time-varying Brownian motion to fit a model that combines all 14 individuals, although the increments of Brownian motion processes are independent. Again, to be consistent with the Brownian motion formulation in Section \ref{SDE_SEC}, let $r_t = \theta_t^{(1)}$ and $s_t = \theta_t^{(2)}$. The parameter $r_t$ can often be fixed to zero, and $s$, the diffusion parameter, will be estimated as a smooth function of temperature or time of day, respectively. In this model, the distribution of $Y_{t+\Delta}$ is normal around $Y_t$, and $s^2$ is proportional to the variance of the distribution, as can been seen in Equation \eqref{3.euler-maruyama1}. Consequently, even though the interpretation is not as favourable as the CTCRW, $s$ can be interpreted as a measure of speed, and so the effects of temperature and time of day can be analysed. 
+
+In fact, when using Brownian motion, a model including all 14 animals could be fitted. Table \ref{tab:aicbm} basically shows the model selection for two approaches: one approach to model the relationship of speed using the covariate 'temperature' (again, via a thin-plate regression spline), the other approach using time of day (covariate 'hour', modeled using a cyclic regression spline). Using both covariates in one model did not work. According to the conditional AIC, using $k = 10$ basis functions and the covariate 'hour' turned out to be the best model fit. 
+
+\begin{table}[htb]
+  \centering
+  \caption[Brownian motion - model selection by AIC]{Brownian motion - model selection by AIC.}\label{tab:aicbm}
+  \setlength\tabcolsep{0pt}
+  \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}
+                    *{1}{S[table-format= 5.3]}
+                   *{2}{S[table-format= 2.3]}}
+    \toprule
+  \multicolumn{1}{c}{Number of basis functions} &  \multicolumn{2}{c}{Conditional AIC}   \\
+    \cmidrule(r){2-3}
+    \cmidrule(r){1-1}
+        {\thead[b]{Parameter $k$}}
+        &   {\thead[b]{Temperature}}
+        &   {\thead[b]{Time of day}}\\
+    \midrule
+\text{$k = 5$} & \text{-9231.2} & \text{-51536.5}          \\
+\textbf{$\bm{k = 10}$} & \textbf{-9307.1}  & \textbf{-59936.0}         \\
+\text{$k = 15$} &  \textit{NA} & \textit{NA}       \\
+    \bottomrule
+  \end{tabular*}
+  \begin{tablenotes}[flushleft]\small
+  \note   For the calculation of the conditional AIC, the correction to the EDF proposed by \citet{wood2016smoothing} was taken into account.
+  \source   Own representation.
+  \end{tablenotes}
+\end{table}
+
+Figure \ref{Fitted_SDE_BM_PAR} graphically represents the fitted time-varying Brownian motion model, where the parameters depend on time of day. 
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=13cm]{BM_SDE_PARS.pdf}
+\caption[Fitted time-varying Brownian motion by time of day]{Fitted time-varying Brownian motion by time of day.\\ Source: own representation.}
+\label{Fitted_SDE_BM_PAR}
+\end{center}
+\end{figure}
+\noindent As in Figure \ref{SDE Parameters for AM254}, the red lines indicate a confidence interval via 100 posterior draws. As already mentioned, $r$ does not have a significant influence, as it tends to be around zero, whereas $s$ can be interpreted as a measure of speed. The result is very similar to the CTCRW single fits, indicating that the elephants tend to move faster in the morning and at noon. However, Brownian motion will not capture as many realistic features of animal movement as the CTCRW: There is a trade-off between realism and flexibility on the one side, and computational stability and speed on the other side.
+
+For model validation, it still is an open question on finding suitable, general methods for model checking in this context. A simple diagnostic to investigate the goodness-of-fit in time-varying SDE models is based on the Euler-Maruyama discretisation to calculate the residuals:
+\begin{align}\label{4.3sdebm}
+\varepsilon_i =  \frac{y_{i+1}-(y_i+\mu(y_i, \hat{\theta}_{t_i})\Delta_i)}{\sigma(y_i, \hat{\theta}_{t_i})\sqrt{\Delta_i}},
+\end{align}
+with $i = 1, \mathellipsis n-1$ and $\hat{\theta}_{t_i}$ as an estimate of $\theta_{t}$ over $[t_i, t_{i+1})$. According to the model assumptions, the residuals should be independent and approximately follow a standard normal distribution \citep{Michelot2021}. Figure \ref{Fitted_SDE_BM_QQ} shows a QQ-plot of the residuals against the standard normal distribution. The residuals were calculated using the formula represented in Equation \eqref{4.3sdebm}. As can be seen, the residuals are severely skewed and hence, there is evidence that the fit is not sufficient.  
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=13cm]{SDE_QQ_PLOT.pdf}
+\caption[QQ-plot for fitted time-varying Brownian motion model]{QQ-plot for fitted time-varying Brownian motion model.\\ Source: own representation.}
+\label{Fitted_SDE_BM_QQ}
+\end{center}
+\end{figure}
+This can be confirmed when looking at the ACF of the residuals represented in Figure \ref{Fitted_SDE_BM_ACF}. The Figure illustrates positive autocorrelation in the residuals for several hours, turning into a cyclical pattern. The autocorrelation indicates the model did not capture some degree of inertia. As already mentioned, per definition, the increments of a Brownian motion are independent. Consequently, it would be adequate to use a CTCRW to account for correlation between the increments. However, a CTCRW could not be fitted containing all individuals in one model.
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=13cm]{SDE_PLOTS_HOUR_ACF_PLOT.pdf}
+\caption[ACF-plot for fitted time-varying Brownian motion model]{ACF-plot for fitted time-varying Brownian motion model.\\ Source: own representation.}
+\label{Fitted_SDE_BM_ACF}
+\end{center}
+\end{figure}
+
+Summarized, time-varying SDEs offer an intuitive way to analyse tracking data. In particular, a time-varying CTCRW has ideal characteristics for modeling animal movement. Moreover, time-varying SDEs do not depend on regular observation times, making them a natural choice for irregular tracking data while not being too simplistic, as ordinary SDEs are said to be \citep{Michelot2021, michelot2019state}. The option to implement splines and random effects in the parameters offers a compelling way to investigate the influence of certain covariates on the process. 
+
+\clearpage
+% % % % % % % % % % % % % % % % % % % % % % % %
+% % % SUMMARY & DISCUSSION % % % % % % % %
+% % % % % % % % % % % % % % % % % % % % % % % %
+
+\chapter{Summary and Discussion}\label{discussion}
+
+This work intended to empirically compare GAMMs, HMMs and time-varying SDEs in the context of analysing animal tracking data. In the previous chapter, the results of the analysis using the three methods were presented. In this chapter, a comparison of the methods will be given. To evaluate the methods, the comparison is based on specific criteria. For the purpose of an aggregated point of view, the main results of this work will briefly be summarized.
+
+As a preliminary step, in Section \ref{CTCRW_SEC}, the irregular dataset of 14 tracked elephants was imputed to get equidistant observation times. This is critical when using methods such as GAMMs and HMMs, which \citet{thaker2019} ignored when using GAMMs and LMMs. The GAMM fitted by \citet{thaker2019} was modified in Section \ref{GAMMz} as that the response variable (movement speed) is assumed to follow a gamma distribution instead of a Gaussian distribution, and time of day should preferably be modeled as a cyclical regression spline rather than a random effect, which significantly improves the model fit. Furthermore, autocorrelation was incorporated because movement patterns typically show strong evidence for autocorrelation \citep{patterson2017statistical}. 
+
+As a next step, in Section \ref{HMM_SEC}, HMMs were used as a more natural choice of incorporating autocorrelation in the model, as HMMs are flexible time series models. The HMMs modeled the step length and turning angles of the individuals depending on three ecological states (resting, foraging, and traveling), whereas the transition probabilities depend on the environmental factors, temperature and time of day. The HMM output revealed additional information on the behaviour of the individuals, such as a concentrated turning angle of zero degrees in the resting and foraging states indicating that the animals tend to move in straight directions, whereas, in the resting state, the individuals tend to have no attraction point in the sense of turning angles. Furthermore, the state dynamics depending on temperature and time of day reveal deep insights into the elephants' movement behaviour, such as traveling more extensive distances at night and early morning and around noon, foraging in the early evening and resting in the early night.
+
+As pointed out in Section \ref{HMM_SEC}, a drawback of the two previous methods is that both rely on equidistant observation times. Another tool that can be used to analyse data collected over time, and a natural choice for modeling irregular tracking data, are SDEs, which were used in Section \ref{SDE_SEC}. Because SDEs themselves are considered to be too simple to model environmental influences in movement behaviour, following the approach by \citet{Michelot2021} leads to an extension called time-varying SDEs. The most significant advantage of time-varying SDEs is that they do not need regular data and can handle irregularly spaced observations. Furthermore, the SDE parameters can depend on covariates and random effects, which are implemented using smoothing splines. Although the time-varying SDEs did not work quite as good as expected, they confirm the findings of the HMMs and GAMMs in a more mechanistic sense.
+
+Comparing the three different methods in a statistical sense can be very expansive. Thus, in the following, the three methods will be compared according to key criteria for animal tracking data: comprehensibility, computational efficiency and suitability. Afterwards, the main results of the applied methods will be discussed.
+
+Starting with GAMMs, this method is not a time series tool in the conventional sense. As has been pointed out, tracking data often include autocorrelation. As shown in Section \ref{GAMMz}, autocorrelation can be modeled using GAMMs; however, an explicit correlation structure must be provided because otherwise, the observations are assumed to be independent. Providing a correlation structure can be a challenging task. Regarding comprehensibility, GAMMs offer many options to model all kinds of characteristics and are very intuitive. In particular, a broad variety of different distribution assumptions for the response variable are available, covariate effects can be modeled via smoothing splines, and correlation structures can be used to investigate any patterns in the data.
+
+Turning to computational efficiency, basic GAMMs are not very demanding due to clever optimisation routines. However, when the dataset gets larger, and AR(1) processes are insufficient for modeling autocorrelation, computations can be very challenging and demanding. In this work, even AR(2) processes took several hours, whereas AR(3) processes were not feasible with 16GB DDR4 RAM because the correlation matrices calculations demanded too much RAM.
+
+Conclusively, in the sense of suitability, GAMMs are a very powerful tool but should be considered an additional, rather than a core tool for analysing tracking data. In the first place, correlation must be explicitly modeled and can be computationally very demanding. This is reflected in the model checking of the fitted GAMMs, as the ACF and QQ plots suggest a lack of fit for AR(1) processes.
+
+The second method, HMMs, can accommodate more complex structures in the data, such as latent system changes through time, which is achieved by Markov chains. The HMM framework offers lots of extensions to fit the data accurately. For instance, if the dwell time in the states might not appear geometrically distributed, semi-HMMs can be used to assume different dwell-time distributions, for example by assuming a shifted Poisson distribution. Moreover, random effects can be incorporated, and transition probabilities to be affected by covariates. The possibility to incorporate ecological states via Markov chains to analyse latent system changes, is the key advantage of HMMs. This feature adds further realism and is very intuitive, particularly when cooperating with biologists to study the movement behaviour of animals.
+
+Contrary to some statements in the literature, direct maximisation of the likelihood expressed in \eqref{3.lklhd} is indeed feasible, thanks to a recursive scheme using forward probabilities. Hence, there is need for complex estimation methods such as MCMC or EM-algorithms. Nonetheless, compared to GAMMs and SDEs, HMMs took the longest time to fit.
+
+When considering suitability, compared to the other approaches in this work, HMMs are most likely the best method to analyse movement data for two reasons. The first reason concerns incorporating latent states via Markov chains, and the second reason is the great variety of possibilities to analyse tracking data. Although the data must be regularly spaced and possible tracking errors negligible, HMMs offer a natural choice for ecological analyses of animal movement behaviour.
+
+The third method, time-varying SDEs, were recently described by \citet{Michelot2021} and can incorporate covariates and random effects to model SDE parameters via smoothing splines. In comparison to simply using GAMMs for modeling tracking data, the time-varying SDE approach is more mechanistic than the other methods, in the sense that it describes the mechanisms behind animal movement behaviour. Further, the variable of interest is modelled by the SDE, whereas splines and random effects model the parameters of the SDE. This is quite different from using GAMMs to model the variable of interest via splines and random effects directly, and thus, this is a more sophisticated method than simply using GAMMs. However, time-varying SDEs do not require equally spaced observation times, making them a reasonable choice for modeling irregular tracking data.
+
+Considering computational efficiency, model fitting for the time-varying SDEs only took a few minutes. However, as mentioned, there were difficulties in model fitting. Some model candidates, such as a temperature effect on the SDE parameters, could not be adequately fitted when using CTCRWs. Moreover, for CTCRWs, there is no model to include all 14 individuals in the dataset. Only Brownian motion leads to a model including all animals, whereas the increments of Brownian motion are not correlated, making this candidate too simplistic. 
+
+Concludingly, time-varying SDEs are suitable for animal tracking data with irregularly spaced observation times. Although they offer a more mechanistic way of investigating movement behaviour, there are still some open questions, such as finding a general method for model checking and validation, and computationally more stable estimation routines.
+
+In terms of the output, all methods basically show similar results. The covariates temperature and time of day significantly influence the movement pattern of the individuals. Comparing the GAMMs to the time-varying SDEs, the output indicates that there is a cyclical movement behaviour and an increase in speed when temperature rises. However, the time-varying SDEs reveal a considerable decrease in speed when it gets too hot. For the GAMMs, the speed rather slightly decreases. Although it would be quite unlikely, this might be a bias caused by imputing the dataset. In contrast to time-varying SDEs and GAMMs, the HMM reveals a deeper insight into this movement pattern. Ecological states can explain many behaviours in their movement, as the transition probabilities in Figures \ref{HMM_state_transitions}, \ref{HMM_state_transitions2}, \ref{HMM_TEMP_STATE_PROBS}, and \ref{HMM_TEMP_STATE_PROBS2}, and the distributions for the step lengths and turning angles in Figures \ref{HMM_densities} and \ref{HMM_densities_turning} illustrate. In particular, considering the transition probabilities in Figure \ref{HMM_state_transitions}, the covariate 'hour' shows, for a given temperature, how elephants switch their movement behaviour. In particular, the animals tend to travel farther distances in the morning, forage in the evening and rest at night. Figures \ref{HMM_state_transitions}, \ref{HMM_state_transitions2}, \ref{HMM_TEMP_STATE_PROBS}, and \ref{HMM_TEMP_STATE_PROBS2} additionally show that the animals are more likely to be in the 'traveling' state in the wet season, meaning that, on average, they travel farther distances in the morning and around noon. This proposition supports the findings of the gamma distributed GAMM in Figure \ref{GAMMAS_COMPARED_TEMP} and the thesis of \cite{thaker2019}. The reason is that there are more water sources in the wet season and elephants increase their speed when they are near water sources due to predation risk. Moreover, the turning angles reveal that the elephants tend to have a relatively concentrated movement direction when they are in the 'foraging' and 'traveling' state. Comparing the QQ-plots of the methods, according to Figures \ref{QQ_PLOT_COMPARISON}, \ref{HMM_qqacf}, and \ref{Fitted_SDE_BM_QQ}, the HMM has the best fit of the three methods. Furthermore, the animated state probabilities in Appendix \ref{AnhangB} show the dynamics of this shuttling behaviour.
+
+% % % % % % % % % % % % % % % % % % % % % % % %
+% % % % ENDE % % % % % % % % % % % % % % % % %
+% % % % % % % % % % % % % % % % % % % % % % % %
+\clearpage
+
+\chapter{Conclusion}
+
+To sum up, all three methods are valuable tools and can offer deep insights into tracking data. However, GAMMs are rather an additional method because they are no time series tool in the conventional sense and it is challenging to adequately account for autocorrelation, whereas HMMs lie at the heart of analysing tracking data. Further, time-varying SDEs revealed a more mechanistic pattern in the way the animals responded to environmental factors. In contrast, due to latent state changes, HMMs offered the most valuable output in this analysis and revealed major dynamics and dependencies in the movement behaviour of the tracked 14 individuals. This makes HMMs a favourable choice to investigate the movement pattern of animals using tracking data.
+
+The analysis results show that elephants are strongly affected by temperature and time of day. As the GAMMs have shown, there are seasonable differences in speed distribution. Moreover, the fitted HMM offers a detailed insight into the state dynamics affected by temperature, hour, and season. The HMM reveals more profound insights into the shuttling behaviour of savanna elephants due to state transition dynamics induced by Markov chains. Conclusively, further statements about the elephants' habitat use and movement behaviour in Kruger National Park can be made. In particular, the park management can derive possible adjustments such as the need for water sources in a sufficient number for these animals. Individual-level effects of environmental factors can be further investigated by specifying random effects in the HMMs. However, this will most likely turn the HMM more complex for minor improvements only.
+
+Furthermore, this work also opens up to discuss certain topics. Regarding the imputed dataset, the selected time interval was one hour. Based on the Nyquist-Shannon sampling theorem, a resolution of $\delta t$ is adequate to model behaviour and interactions that last $2\delta t$ or longer \citep{shannon1949communication, nathan2022big}. Although the frequency is sufficient to capture temperature effects and the described latent state dynamics, it could be investigated whether a finer resolution (e.g. 30 min intervals) would lead to new insights. According to \citet{nathan2022big}, potential dynamics and interactions with the environment can be found with finer resolution which could not be captured using a wider range of time intervals.
+
+Considering time-varying SDEs, they are a recent and promising approach that needs some more discussion and attention. A general approach to validate the models needs to be implemented when it comes to model checking. This, in turn, allows for more in-depth comparisons of time-varying SDE methods. Nevertheless, the maximisation of the log-likelihood of the SDEs turned out to be quite unstable in certain circumstances, whereas the exact reasons need to be analysed before model checking in the conventional sense can take place. Another aspect concerns the combination of time-varying SDE methods and Hidden Markov models. A mixture of a more mechanistic approach on the one hand and, the possibility to incorporate state dynamics on the other hand, might be a reasonable model approach to advance the exciting topic of movement ecology further and to reveal new findings.
+
+\clearpage
+
+\begingroup
+\fancyhead[R]{\slshape Bibliography}
+\bibliography{library.bib} \addcontentsline{toc}{chapter}{Bibliography}
+\fancyhead[R]{\slshape Bibliography}
+\clearpage
+\endgroup
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\thispagestyle{fancy}
+\chapter*{Appendix} \addcontentsline{toc}{chapter}{Appendix}
+
+{\let\clearpage\relax\appendix \renewcommand{\thechapter}{A\arabic{chapter}} \chapter{R-Output - Generalised Additive Models}\label{AnhangA}}
+\renewcommand{\thechapter}{A\arabic{chapter}}
+\makeatletter
+\patchcmd{\verbatim@input}{\@verbatim}{\scriptsize\@verbatim}{}{}
+GAMM (Family = gaussian) Output by \cite{thaker2019}:
+\verbatiminput{Thaker_Output_GAMM.txt}
+\clearpage
+\noindent GAMM (Family = gaussian) Output (Meyer), hour modeled as random effect:
+\verbatiminput{Meyer_Output_GAMM_1.txt}
+\clearpage
+\noindent GAMM (Family = gaussian) Output (Meyer), hour modeled as a cyclic effect:
+\verbatiminput{Meyer_Output_GAMM_2.txt}
+\clearpage
+\noindent GAMM (Family = gamma) Output (Meyer), hour modeled as a cyclic effect:
+\verbatiminput{Meyer_OUTPUT_GAMM_GAMMA.txt}
+
+\clearpage
+
+\chapter{Dimension checking for generalised additive models}\label{AnhangC}
+
+As can be seen in the output files of the GAMMs in Appendix \ref{AnhangA}, the basis dimension $(k)$ can be checked in a more sophisticated way than described in Section \ref{GAMMz}. An estimate of the residual variance based on differencing residuals is calculated to check whether $k$ is appropriate. The residuals are (near) neighbours according to the (numeric) covariates of the smooth \citep[chap.~5]{Wood2017}. When the calculated estimate of the residual variance is divided by the residual variance, one obtains the $k$-index as another measure. The more the $k$-index is below 1, the more likely the smoothing function has not captured some pattern in the data. This can be further quantified using a corresponding p-value. If the p-value indicates significance, $k$ is most likely too low. However, the reference criterion for basis dimension checking is the EDF, a summary statistic that reflects the degree of non-linearity of a curve \citep[chap.~6]{Wood2017}. In particular, the EDF should not be close to the basis dimensions. 
+
+For example, below is the output of the gamma GAMM fitted in Section \ref{GAMMz}. The $k$-index is less than 1, indicating that the smoothing function has not accurately captured some pattern. However, neither is the EDF close to $k$ nor does the p-value indicate a significant underfit. Hence, the basis dimensions are appropriately chosen.
+
+\verbatiminput{Basis_check.txt}
+
+
+\clearpage
+
+\chapter{R-Output - Hidden Markov Models and animated state probabilities}\label{AnhangB}
+\makeatletter
+\patchcmd{\verbatim@input}{\@verbatim}{\scriptsize\@verbatim}{}{}
+\makeatother
+\subsection*{HMM Output}
+\verbatiminput{HMM_SEASON_OUTPUT.txt} 
+$\text{ }$ \\
+\subsection*{Animated Versions of the Stationary State Probabilities}
+$\text{ }$ \\
+Stationary state probabilities by hour: \\
+\url{https://timom2110.github.io/Elephants-Moving-Data/stationary_state_probabilities_both_seasons_hour.html} \\
+\\
+Stationary state probabilities by temperature: \\
+\url{https://timom2110.github.io/Elephants-Moving-Data/stationary_state_probabilities_both_seasons_temperature.html}
+
+
+\clearpage
+
+\chapter{R-Output - Stochastic Differential Equations}\label{AnhangD}
+All time-varying SDE models. Parameters $\rho$ and $\sigma$ depending on covariate 'hour', fitted as a cyclic spline.
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=14cm]{SDE_AM105_AM107.pdf}
+\caption*{AM105 and AM107 SDE output by 'hour'\\ Source: own representation.}
+\label{AM105_AM107}
+\end{center}
+\end{figure}
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=14cm]{SDE_AM108_AM110.pdf}
+\caption*{AM108 and AM110 SDE output by 'hour'\\ Source: own representation.}
+\label{AM108_AM110}
+\end{center}
+\end{figure}
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=14cm]{SDE_AM239_AM253.pdf}
+\caption*{AM239 and AM253 SDE output by 'hour'\\ Source: own representation.}
+\label{AM239_AM253}
+\end{center}
+\end{figure}
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=14cm]{SDE_AM254_AM255.pdf}
+\caption*{AM254 and AM255 SDE output by 'hour'\\ Source: own representation.}
+\label{AM254_AM255}
+\end{center}
+\end{figure}
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=14cm]{SDE_AM306_AM307.pdf}
+\caption*{AM306 and AM307 SDE output by 'hour'\\ Source: own representation.}
+\label{AM306_AM307}
+\end{center}
+\end{figure}
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=14cm]{SDE_AM308_AM91.pdf}
+\caption*{AM308 and AM91 SDE output by 'hour'\\ Source: own representation.}
+\label{AM308_AM91}
+\end{center}
+\end{figure}
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=14cm]{SDE_AM93_AM99.pdf}
+\caption*{AM93 and AM99 SDE output by 'hour'\\ Source: own representation.}
+\label{AM93_AM99}
+\end{center}
+\end{figure}
+% % % % % % % % % % % % % % % % % % % % % % % % 
+
+\clearpage
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % 
+
+\chapter*{Versicherung} 
+%\addcontentsline{toc}{section}{Versicherung}
+\pagenumbering{gobble}
+\textbf{Name: }  Meyer
+
+\vspace{.5cm}
+
+\noindent \textbf{Vorname: } Timo 
+
+\vspace{2cm}
+
+\noindent
+Ich versichere, dass ich diese Masterarbeit selbst\"andig verfasst und keine anderen als die angegebenen Quellen benutzt habe. \\
+Die den benutzten Quellen w\"ortlich oder inhaltlich entnommenen Stellen habe ich als solche kenntlich gemacht. \\
+Diese Versicherung gilt auch f\"ur alle gelieferten Datens\"atze, Zeichnungen, Skizzen oder grafischen Darstellungen.\\
+Des Weiteren versichere ich, dass ich das Merkblatt zum Umgang mit Plagiaten (\href{http://phoenix.wiwi.uni-bielefeld.de/organisation/pamt/uploads/PlagiatInfo-BlattStudenten.pdf}{http://phoenix.wiwi.uni-bielefeld.de/organisation/pamt/uploads/PlagiatInfo-BlattStudenten.pdf})
+gelesen habe.
+
+\vspace{2cm} 
+
+
+\begin{tabular}{lp{2em}l} 
+Bielefeld, den \myformat\today    && \hspace{4cm} \\\cline{1-1}\cline{3-3} 
+   && Unterschrift 
+\end{tabular}  
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % 
+
+
+\end{document}
